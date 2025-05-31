@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from './ui/Card';
 import type { Contact } from '@prisma/client';
 
-export default function MessageForm({ contact }: { contact: Contact }) {
+export default function ContactMessageForm({ contact }: { contact: Contact }) {
   const [message, setMessage] = useState('');
 
   return (

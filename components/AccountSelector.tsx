@@ -2,7 +2,6 @@
 
 import React, { use } from 'react';
 import { setCurrentAccount } from '@/data/actions/account';
-
 import AsyncSelect from './ui/AsyncSelect';
 import type { Account } from '@prisma/client';
 

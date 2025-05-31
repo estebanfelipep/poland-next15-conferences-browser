@@ -23,12 +23,13 @@ export default function Contacts({ contactsPromise }: Props) {
     <div className="space-y-4">
       <Activity mode={selectedContact?.id ? 'hidden' : 'visible'}>
         <div className="mb-6">
-          <label htmlFor="contact-search" className="mb-2 block text-sm font-bold uppercase">
+          <label htmlFor="contact-search" className="mb-2 block font-bold uppercase">
             Search Contacts
           </label>
           <input
             id="contact-search"
             type="search"
+            name="contact-search"
             placeholder="Search by name..."
             value={search}
             onChange={e => {
