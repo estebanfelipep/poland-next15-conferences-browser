@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-gray: #9ca3af;
+  --color-divider-dark: #374151;
+  --color-divider: #e5e7eb;
+  --color-card-dark: #131313;
+  --color-card: #e5e7eb;
+  --color-section: #2a2929;
+
+  --color-primary: #2457fa;
+  --color-primary-dark: #1d47cf;
+  --color-primary-darker: #142f8b;
+
+  --color-primary-variant-1: #95ade9;
+  --color-primary-variant-2: #7a90c6;
+  --color-primary-variant-3: #273e76;
+
+  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans);
+}
+
+@layer base {
+  body {
+    @apply bg-white font-sans text-black dark:bg-black dark:text-white;
+  }
+
+  h1 {
+    @apply font-sans text-4xl;
+  }
+
+  h2 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h3 {
+    @apply text-lg md:text-xl;
+  }
+}
+
+.skeleton-animation {
+  background: rgba(200, 200, 200, 0.2);
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(8%, rgba(180, 180, 180, 0.2)),
+    color-stop(18%, rgba(200, 200, 200, 0.3)),
+    color-stop(33%, rgba(200, 200, 200, 0.2))
+  );
+  background: linear-gradient(
+    to right,
+    rgba(180, 180, 180, 0.2) 8%,
+    rgba(200, 200, 200, 0.3) 18%,
+    rgba(200, 200, 200, 0.2) 33%
+  );
+  background-size: 800px 100px;
+  animation: wave-lines 2s infinite ease-out;
+}
+
+@keyframes wave-lines {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+@keyframes wave-squares {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
