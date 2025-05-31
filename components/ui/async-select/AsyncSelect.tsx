@@ -7,7 +7,6 @@ import SelectButton from './SelectButton';
 
 type SelectItem = {
   value: string;
-  disabled?: boolean;
   text: string;
 };
 
@@ -42,7 +41,6 @@ export default function AsyncSelect({ options, label, selectedItem, selectAction
               <Ariakit.SelectItem
                 className="data-active-item:bg-card aria-disabled:text-gray dark:data-active-item:bg-card-dark data-focus-visible:bg-primary dark:data-focus-visible:bg-primary mx-2 flex items-center justify-between gap-4 rounded-md p-2 data-focus-visible:text-white"
                 key={option.text}
-                disabled={option.disabled}
                 value={option.text}
                 onClick={() => {
                   startTransition(async () => {

@@ -36,23 +36,31 @@
   h3 {
     @apply text-lg md:text-xl;
   }
+
+  input {
+    @apply w-full rounded-md border border-divider dark:border-divider-dark bg-white dark:bg-black px-4 py-2 text-black dark:text-white placeholder:text-gray dark:placeholder:text-gray focus-visible:outline-primary focus-visible:outline-2 -outline-offset-1 transition-colors;
+  }
+
+  textarea {
+    @apply w-full rounded-md border border-divider dark:border-divider-dark bg-white dark:bg-black px-4 py-3 text-black dark:text-white placeholder:text-gray dark:placeholder:text-gray focus-visible:outline-primary focus-visible:outline-2 -outline-offset-1 transition-colors resize-y;
+  }
 }
 
 .skeleton-animation {
-  background: rgba(200, 200, 200, 0.2);
+  background: rgba(150, 150, 150, 0.2);
   background: -webkit-gradient(
     linear,
     left top,
     right top,
-    color-stop(8%, rgba(180, 180, 180, 0.2)),
-    color-stop(18%, rgba(200, 200, 200, 0.3)),
-    color-stop(33%, rgba(200, 200, 200, 0.2))
+    color-stop(8%, rgba(130, 130, 130, 0.2)),
+    color-stop(18%, rgba(170, 170, 170, 0.3)),
+    color-stop(33%, rgba(150, 150, 150, 0.2))
   );
   background: linear-gradient(
     to right,
-    rgba(180, 180, 180, 0.2) 8%,
-    rgba(200, 200, 200, 0.3) 18%,
-    rgba(200, 200, 200, 0.2) 33%
+    rgba(130, 130, 130, 0.2) 8%,
+    rgba(170, 170, 170, 0.3) 18%,
+    rgba(150, 150, 150, 0.2) 33%
   );
   background-size: 800px 100px;
   animation: wave-lines 2s infinite ease-out;
@@ -74,3 +82,4 @@
     background-position: 468px 0;
   }
 }
+

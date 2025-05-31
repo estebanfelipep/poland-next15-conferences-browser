@@ -9,11 +9,7 @@ import { slow } from '@/utils/slow';
 export async function getAccounts() {
   await slow(2000);
 
-  const accounts = await prisma.account.findMany({
-    orderBy: {
-      inactive: 'asc',
-    },
-  });
+  const accounts = await prisma.account.findMany();
 
   if (accounts.length === 0) {
     throw new Error('No accounts found, run seed script');

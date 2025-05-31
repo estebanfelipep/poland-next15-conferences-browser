@@ -18,17 +18,20 @@ export default function AccountSelector({ accountsPromise, currentAccountPromise
   return (
     <AsyncSelect
       selectAction={async item => {
+        if (item.value === currentAccount.id) {
+          return;
+        }
         await setCurrentAccount(item.value);
       }}
       label="Account"
       options={accounts.map(account => {
         return {
-          text: account.name,
+          text: account.email,
           value: account.id,
         };
       })}
       selectedItem={{
-        text: currentAccount.name,
+        text: currentAccount.email,
         value: currentAccount.id,
       }}
     />

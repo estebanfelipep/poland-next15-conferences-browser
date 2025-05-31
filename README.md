@@ -1,6 +1,6 @@
-# Next.js 15 Account Selector
+# Next.js 15 Contact List
 
-An interactive, accessible, responsive, account selector built with Next.js 15, React 19 features, Ariakit, Sonner, Tailwind CSS v4 and Prisma. It's been purposely slowed down to showcase the handling of loading state.
+An interactive, accessible contact list built with Next.js 15, React 19 features, Ariakit, Tailwind CSS v4 and Prisma. It's also using new React features like ViewTransition and Activity.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
