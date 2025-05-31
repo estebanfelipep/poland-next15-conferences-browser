@@ -8,12 +8,12 @@ export default function ContactMessageForm({ contact }: { contact: Contact }) {
   return (
     <Card>
       <div className="space-y-4">
-        <div className="border-divider dark:border-divider-dark border-b pb-4">
-          <h3 className="text-lg font-semibold text-black dark:text-white">Send message to {contact.name}</h3>
+        <div>
+          <div className="text-lg font-semibold">Send message to {contact.name}</div>
           {contact.email && <p className="mt-1 text-sm text-gray-500">{contact.email}</p>}
         </div>
         <div>
-          <label htmlFor="message" className="mb-2 block text-sm font-bold text-black uppercase dark:text-white">
+          <label htmlFor="message" className="mb-2 block text-sm font-bold uppercase">
             Message
           </label>
           <textarea

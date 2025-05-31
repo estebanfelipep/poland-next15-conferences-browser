@@ -38,11 +38,11 @@
   }
 
   input {
-    @apply w-full rounded-md border border-divider dark:border-divider-dark bg-white dark:bg-black px-4 py-2 text-black dark:text-white placeholder:text-gray dark:placeholder:text-gray focus-visible:outline-primary focus-visible:outline-2 -outline-offset-1 transition-colors;
+    @apply w-full rounded-md border border-divider dark:border-divider-dark px-4 py-2 bg-white dark:bg-black placeholder:text-gray  focus:outline-primary focus:outline-2 -outline-offset-1 ;
   }
 
   textarea {
-    @apply w-full rounded-md border border-divider dark:border-divider-dark bg-white dark:bg-black px-4 py-3 text-black dark:text-white placeholder:text-gray dark:placeholder:text-gray focus-visible:outline-primary focus-visible:outline-2 -outline-offset-1 transition-colors resize-y;
+    @apply w-full rounded-md border border-divider dark:border-divider-dark px-4 py-3 bg-white dark:bg-black placeholder:text-gray  focus:outline-primary focus:outline-2 -outline-offset-1 resize-y;
   }
 }
 
