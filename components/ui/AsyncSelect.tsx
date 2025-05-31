@@ -2,8 +2,8 @@
 
 import * as Ariakit from '@ariakit/react';
 import React, { useOptimistic, useTransition } from 'react';
-import Spinner from '../Spinner';
 import SelectButton from './SelectButton';
+import Spinner from './Spinner';
 
 type SelectItem = {
   value: string;
@@ -41,7 +41,7 @@ export default function AsyncSelect({ options, label, selectedItem, selectAction
               <Ariakit.SelectItem
                 className="data-active-item:bg-card aria-disabled:text-gray dark:data-active-item:bg-card-dark data-focus-visible:bg-primary dark:data-focus-visible:bg-primary mx-2 flex items-center justify-between gap-4 rounded-md p-2 data-focus-visible:text-white"
                 key={option.text}
-                value={option.text}
+                value={option.value}
                 onClick={() => {
                   startTransition(async () => {
                     setOptimisticItem(option);
