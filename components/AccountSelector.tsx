@@ -2,7 +2,7 @@
 
 import React, { use } from 'react';
 import { setCurrentAccount } from '@/data/actions/account';
-import AsyncSelect from './ui/AsyncSelect';
+import CustomSelect from './ui/CustomSelect';
 import type { Account } from '@prisma/client';
 
 type Props = {
@@ -15,7 +15,7 @@ export default function AccountSelector({ accountsPromise, currentAccountPromise
   const currentAccount = use(currentAccountPromise);
 
   return (
-    <AsyncSelect
+    <CustomSelect
       selectAction={async item => {
         if (item.value === currentAccount.id) {
           return;

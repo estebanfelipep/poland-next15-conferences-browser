@@ -14,10 +14,11 @@ type Props = {
   options: SelectItem[];
   selectedItem: SelectItem;
   label: string;
-  selectAction: (item: SelectItem) => Promise<void>;
+  selectAction?: (item: SelectItem) => Promise<void>;
+  onSelect?: (item: SelectItem) => void;
 };
 
-export default function AsyncSelect({ options, label, selectedItem, selectAction }: Props) {
+export default function CustomSelect({ options, label, selectedItem, selectAction, onSelect }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(selectedItem);
   const [isPending, startTransition] = useTransition();
 
@@ -43,9 +44,10 @@ export default function AsyncSelect({ options, label, selectedItem, selectAction
                 key={option.text}
                 value={option.value}
                 onClick={() => {
+                  onSelect?.(option);
                   startTransition(async () => {
                     setOptimisticItem(option);
-                    await selectAction(option);
+                    await selectAction?.(option);
                   });
                 }}
               >
