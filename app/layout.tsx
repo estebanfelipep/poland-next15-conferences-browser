@@ -1,9 +1,6 @@
 import './globals.css';
 
 import { Geist } from 'next/font/google';
-import SubmitButton from '@/components/ui/SubmitButton';
-import { logIn } from '@/data/actions/auth';
-import { isAuthenticated } from '@/data/services/auth';
 import { cn } from '@/utils/cn';
 import type { Metadata } from 'next';
 
@@ -15,22 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const isAuth = await isAuthenticated();
-
   return (
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
-        <main>
-          {isAuth ? (
-            children
-          ) : (
-            <div className="flex flex-col items-center justify-center pt-20">
-              <form action={logIn.bind(null, 'jane.smith@personal.com')}>
-                <SubmitButton>Log in as Jane Smith</SubmitButton>
-              </form>
-            </div>
-          )}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
