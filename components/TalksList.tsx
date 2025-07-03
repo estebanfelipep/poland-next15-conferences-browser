@@ -1,17 +1,14 @@
-import { Mail } from 'lucide-react';
-import React, { startTransition, use, unstable_ViewTransition as ViewTransition } from 'react';
-import Card from './ui/Card';
+import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
+import Badge from './ui/Badge';
 import Skeleton from './ui/Skeleton';
 import type { Talk } from '@prisma/client';
 
 type Props = {
   talksPromise: Promise<Talk[]>;
   deferredSearch: string;
-  selectedTalk: Talk | null;
-  setSelectedTalk: (talk: Talk | null) => void;
 };
 
-export default function ContactList({ talksPromise, deferredSearch, setSelectedTalk }: Props) {
+export default function TalksList({ talksPromise, deferredSearch }: Props) {
   const talks = use(talksPromise);
   const filteredTalks = talks.filter(talk => {
     return (
@@ -24,27 +21,20 @@ export default function ContactList({ talksPromise, deferredSearch, setSelectedT
 
   return (
     <>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTalks.map(talk => {
           return (
             <ViewTransition key={talk.id}>
-              <Card>
-                <TalkDetails
-                  talk={talk}
-                  onMessage={() => {
-                    startTransition(() => {
-                      setSelectedTalk(talk);
-                    });
-                  }}
-                />
-              </Card>
+              <TalkItem talk={talk} />
             </ViewTransition>
           );
         })}
       </div>
       {filteredTalks.length === 0 && (
-        <div className="text-gray dark:text-gray py-8 text-center">
-          No talks found matching &quot;{deferredSearch}&quot;
+        <div className="py-16 text-center text-gray-500 dark:text-gray-400">
+          <div className="mb-3 text-5xl">🔍</div>
+          <p className="mb-2 text-xl">No talks found</p>
+          <p className="text-sm">Try adjusting your filters or search terms</p>
         </div>
       )}
     </>
@@ -53,7 +43,7 @@ export default function ContactList({ talksPromise, deferredSearch, setSelectedT
 
 export function TalksListSkeleton() {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <Skeleton />
       <Skeleton />
       <Skeleton />
@@ -61,36 +51,35 @@ export function TalksListSkeleton() {
   );
 }
 
-function TalkDetails({ talk, onMessage }: { talk: Talk; onMessage: () => void }) {
+function TalkItem({ talk }: { talk: Talk }) {
   return (
-    <div className="relative">
-      <button
-        onClick={onMessage}
-        className="hover:bg-gray absolute top-0 right-0 cursor-pointer gap-2 rounded-full bg-black p-2 text-white dark:bg-white dark:text-black"
-      >
-        <span className="sr-only">Send message</span>
-        <Mail aria-hidden="true" width={16} height={16} />
-      </button>
-      <h3 className="mb-4 pr-12 text-lg font-semibold">{talk.title}</h3>
-      <p className="mb-1 text-sm text-gray-500">
-        <span className="font-medium">SPEAKER:</span> {talk.speaker}
-      </p>
-      <p className="mb-1 text-sm text-gray-500">
-        <span className="font-medium">CONFERENCE:</span> {talk.conference}
-      </p>
-      <p className="mb-1 text-sm text-gray-500">
-        <span className="font-medium">YEAR:</span> {talk.year}
-      </p>
-      {talk.tag && (
-        <p className="mb-1 text-sm text-gray-500">
-          <span className="font-medium">TAG:</span> {talk.tag}
-        </p>
-      )}
-      {talk.duration && (
-        <p className="text-sm text-gray-500">
-          <span className="font-medium">DURATION:</span> {talk.duration} minutes
-        </p>
-      )}
+    <div className="hover:border-accent/40 dark:hover:border-accent/40 relative z-0 rounded-xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900">
+      <div>
+        <h3 className="mb-4 text-lg leading-tight font-semibold text-gray-900 dark:text-white">{talk.title}</h3>
+        <div className="mb-4 space-y-2 text-sm">
+          <TalkDetail label="Speaker">{talk.speaker}</TalkDetail>
+          <TalkDetail label="Conference">{talk.conference}</TalkDetail>
+          <TalkDetail label="Year">{talk.year}</TalkDetail>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {talk.tag && <Badge variant="primary">🏷️ {talk.tag}</Badge>}
+          {talk.duration && <Badge variant="secondary">⏱️ {talk.duration}m</Badge>}
+          {talk.videoUrl && <Badge variant="accent">🎥 Video</Badge>}
+          {talk.slides && <Badge variant="accent">📊 Slides</Badge>}
+        </div>
+        {talk.description && (
+          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            {talk.description}
+          </p>
+        )}
+      </div>
     </div>
+  );
+}
+function TalkDetail({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <p className="text-gray-700 dark:text-gray-300">
+      <span className="text-gray-900 dark:text-gray-100">{label}:</span> {children}
+    </p>
   );
 }

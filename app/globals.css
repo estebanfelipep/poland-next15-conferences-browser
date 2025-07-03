@@ -8,9 +8,13 @@
   --color-card: #e5e7eb;
   --color-section: #2a2929;
 
-  --color-primary: #2457fa;
-  --color-primary-dark: #1d47cf;
-  --color-primary-darker: #142f8b;
+  --color-primary: #8132fe;
+  --color-primary-dark: #6b21ff;
+  --color-primary-darker: #5b1ddb;
+
+  --color-accent: #3352b3;
+  --color-accent-dark: #2a4292;
+  --color-accent-light: #4563c7;
 
   --color-primary-variant-1: #95ade9;
   --color-primary-variant-2: #7a90c6;

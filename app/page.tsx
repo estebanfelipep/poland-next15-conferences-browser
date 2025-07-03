@@ -1,15 +1,11 @@
 import React from 'react';
+import Filter from '@/components/Filter';
 import Talks from '@/components/Talks';
-import RouterSelect from '@/components/ui/RouterSelect';
 import { getTalks, getTalkFilterOptions } from '@/data/services/talk';
+import type { FilterType } from '@/types/filters';
 
 type PageProps = {
-  searchParams: Promise<{
-    tag?: string;
-    year?: string;
-    conference?: string;
-    speaker?: string;
-  }>;
+  searchParams: Promise<FilterType>;
 };
 
 export default async function RootPage({ searchParams }: PageProps) {
@@ -19,35 +15,8 @@ export default async function RootPage({ searchParams }: PageProps) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <RouterSelect
-            name="year"
-            label="Year"
-            value={{ id: year || '', text: year || 'All Years' }}
-            options={[{ id: '', text: 'All Years' }, ...filterOptions.years]}
-          />
-          <RouterSelect
-            name="tag"
-            label="Tag"
-            value={{ id: tag || '', text: tag || 'All Tags' }}
-            options={[{ id: '', text: 'All Tags' }, ...filterOptions.tags]}
-          />
-          <RouterSelect
-            name="conference"
-            label="Conference"
-            value={{ id: conference || '', text: conference || 'All Conferences' }}
-            options={[{ id: '', text: 'All Conferences' }, ...filterOptions.conferences]}
-          />
-          <RouterSelect
-            name="speaker"
-            label="Speaker"
-            value={{ id: speaker || '', text: speaker || 'All Speakers' }}
-            options={[{ id: '', text: 'All Speakers' }, ...filterOptions.speakers]}
-          />
-        </div>
-        <Talks talksPromise={talks} />
-      </div>
+      <Filter filterOptions={filterOptions} filters={{ conference, speaker, tag, year }} />
+      <Talks talksPromise={talks} activeFilters={{ conference, speaker, tag, year }} />
     </div>
   );
 }

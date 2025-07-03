@@ -4,7 +4,6 @@ import * as Ariakit from '@ariakit/react';
 import { useRouter } from 'next/navigation';
 import React, { useOptimistic, useTransition } from 'react';
 import SelectButton from './SelectButton';
-import Spinner from './Spinner';
 
 type SelectItem = {
   id: string;
@@ -34,11 +33,10 @@ export default function RouterSelect({ name, options, label, value, selectAction
             {optimisticItem.text}
             <Ariakit.SelectArrow className="transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
-          {isPending && <Spinner />}
         </div>
         <Ariakit.SelectPopover
           gutter={8}
-          className="border-divider focus-visible:outline-primary dark:border-divider-dark flex flex-col gap-2 rounded-sm border bg-white py-2 shadow-lg -outline-offset-1 focus-visible:outline-2 dark:bg-black"
+          className="border-divider focus-visible:outline-primary dark:border-divider-dark z-50 flex max-h-60 flex-col gap-2 overflow-y-auto rounded-sm border bg-white py-2 shadow-lg -outline-offset-1 focus-visible:outline-2 dark:bg-black"
         >
           {options.map(option => {
             return (

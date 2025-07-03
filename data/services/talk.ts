@@ -1,17 +1,10 @@
 import 'server-only';
 
 import { prisma } from '@/db';
+import type { FilterOptions, FilterType } from '@/types/filters';
 import { slow } from '@/utils/slow';
 
-export type TalkFilters = {
-  title?: string;
-  speaker?: string;
-  year?: string | number;
-  tag?: string;
-  conference?: string;
-};
-
-export async function getTalks(filters: TalkFilters = {}) {
+export async function getTalks(filters: FilterType = {}) {
   await slow(1500);
 
   return prisma.talk.findMany({
@@ -26,9 +19,7 @@ export async function getTalks(filters: TalkFilters = {}) {
   });
 }
 
-export async function getTalkFilterOptions() {
-  await slow(300);
-
+export async function getTalkFilterOptions(): Promise<FilterOptions> {
   const [years, tags, conferences, speakers] = await Promise.all([
     prisma.talk.findMany({
       distinct: ['year'],

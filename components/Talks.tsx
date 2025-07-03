@@ -1,45 +1,44 @@
 'use client';
 
 import React, { Suspense, useDeferredValue, useState, unstable_ViewTransition as ViewTransition } from 'react';
+import type { FilterType } from '@/types/filters';
+import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
+import Spinner from './ui/Spinner';
+
 import type { Talk } from '@prisma/client';
 
 type Props = {
   talksPromise: Promise<Talk[]>;
+  activeFilters?: FilterType;
 };
 
 export default function Talks({ talksPromise }: Props) {
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
-  const [selectedTalk, setSelectedTalk] = useState<Talk | null>(null);
+  const isSearching = search !== deferredSearch;
 
   return (
-    <div className="space-y-4">
-      <div className="mb-6">
-        <label htmlFor="contact-search" className="mb-2 block font-bold uppercase">
-          Search Contacts
-        </label>
+    <>
+      <div className="flex items-center justify-between gap-4">
         <input
-          id="contact-search"
+          id="talk-search"
           type="search"
-          name="contact-search"
-          placeholder="Search by name..."
+          name="talk-search"
+          placeholder="Search by title, speaker, conference, or tag..."
           value={search}
           onChange={e => {
             setSearch(e.target.value);
           }}
         />
+        {isSearching && <Spinner />}
       </div>
+      <ActiveFilters />
       <Suspense fallback={<TalksListSkeleton />}>
         <ViewTransition>
-          <TalksList
-            setSelectedTalk={setSelectedTalk}
-            selectedTalk={selectedTalk}
-            talksPromise={talksPromise}
-            deferredSearch={deferredSearch}
-          />
+          <TalksList talksPromise={talksPromise} deferredSearch={deferredSearch} />
         </ViewTransition>
       </Suspense>
-    </div>
+    </>
   );
 }
