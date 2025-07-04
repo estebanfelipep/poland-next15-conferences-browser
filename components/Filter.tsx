@@ -5,9 +5,9 @@ import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast, { Toaster } from 'react-hot-toast';
 import Sparkle from 'react-sparkle';
 import LoadingBar from 'react-top-loading-bar';
+import { someRandomServerFunction } from '@/data/actions/cookie';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import RouterSelect from './RouterSelect';
-import EasterEgg, { shouldShowEasterEgg } from './ui/EasterEgg';
 
 type Props = {
   filterOptions: FilterOptions;
@@ -18,12 +18,10 @@ export default function Filter({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
-  const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [sparkle, setSparkle] = useState(false);
 
   useEffect(() => {
     setProgress(0);
-    setShowEasterEgg(shouldShowEasterEgg(conference, year));
     if (tag !== 'React') {
       setSparkle(false);
     }
@@ -31,7 +29,6 @@ export default function Filter({ filterOptions, filters }: Props) {
 
   return (
     <div className="flex items-center justify-between gap-4">
-      {showEasterEgg && <EasterEgg />}
       {isExploding && <ConfettiExplosion />}
       <Toaster position="top-right" />
       <LoadingBar
@@ -94,8 +91,8 @@ export default function Filter({ filterOptions, filters }: Props) {
         <RouterSelect
           name="conference"
           label="Conference"
-          selectAction={item => {
-            setShowEasterEgg(shouldShowEasterEgg(item.value, year));
+          selectAction={async item => {
+            await someRandomServerFunction(item.value, year);
           }}
           selected={{ label: conference || 'All Conferences', value: conference || '' }}
           options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}

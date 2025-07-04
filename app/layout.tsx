@@ -1,6 +1,7 @@
 import './globals.css';
 
 import { Geist } from 'next/font/google';
+import EasterEgg from '@/components/ui/EasterEgg';
 import { cn } from '@/utils/cn';
 import type { Metadata } from 'next';
 
@@ -15,7 +16,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
-        <main>{children}</main>
+        <EasterEgg>
+          <main>{children}</main>
+        </EasterEgg>
       </body>
     </html>
   );
