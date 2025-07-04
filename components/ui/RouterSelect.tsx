@@ -65,12 +65,13 @@ export default function RouterSelect({
                 value={option.id}
                 onClick={() => {
                   if (option.id === optimisticItem.id) return;
+                  const url = new URL(window.location.href);
+                  url.searchParams.set(name, option.id);
+
                   onSelect?.(option);
                   startTransition(async () => {
                     setOptimisticItem(option);
                     await selectAction?.(option);
-                    const url = new URL(window.location.href);
-                    url.searchParams.set(name, option.id);
                     router.push(url.href, { scroll: false });
                   });
                 }}
