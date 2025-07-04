@@ -41,7 +41,6 @@ export default function Talks({ talksPromise }: Props) {
               router.push('?search=' + e.target.value);
             });
           }}
-          className="border-divider focus:ring-accent dark:border-divider-dark w-full rounded-lg border bg-white px-4 py-2 pr-10 text-sm focus:ring-2 focus:outline-none dark:bg-black"
         />
         {isSearching && (
           <div className="absolute top-1/2 right-3 -translate-y-1/2">

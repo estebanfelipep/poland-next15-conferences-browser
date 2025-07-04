@@ -26,7 +26,7 @@ export default function ActiveFilters() {
             );
           })}
         </div>
-        <Link href="/?" className="text-sm">
+        <Link tabIndex={-1} href="/?" className="text-sm">
           <StatusButton variant="secondary" type="button">
             <div className="flex items-center gap-2">
               <X width={16} height={16} aria-hidden="true" />

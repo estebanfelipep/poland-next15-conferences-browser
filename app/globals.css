@@ -42,7 +42,7 @@
   }
 
   input {
-    @apply w-full rounded-md border border-divider dark:border-divider-dark px-4 py-2 bg-white dark:bg-black placeholder:text-gray  focus:outline-primary focus:outline-2 -outline-offset-1 ;
+    @apply w-full rounded-md border border-divider dark:border-divider-dark px-4 py-2 bg-white dark:bg-black placeholder:text-gray  focus:outline-primary focus:outline-2 -outline-offset-1 text-sm;
   }
 
   textarea {

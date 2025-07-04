@@ -34,12 +34,18 @@ export default function RouterSelect({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
+  const hasActiveFilter = options.length > 0 && optimisticItem.id !== options[0].id;
+
   return (
     <div>
       <Ariakit.SelectProvider value={optimisticItem.id}>
         <Ariakit.SelectLabel className="mb-2 font-bold uppercase">{label}</Ariakit.SelectLabel>
         <div className="flex items-center gap-4">
-          <Ariakit.Select aria-busy={isPending} className="group flex items-center gap-2" render={<SelectButton />}>
+          <Ariakit.Select
+            aria-busy={isPending}
+            className="group flex items-center gap-2"
+            render={<SelectButton variant={hasActiveFilter ? 'primary' : 'secondary'} />}
+          >
             {optimisticItem.text}
             <Ariakit.SelectArrow className="transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
@@ -56,6 +62,7 @@ export default function RouterSelect({
                 key={option.text}
                 value={option.id}
                 onClick={() => {
+                  if (option.id === optimisticItem.id) return;
                   onSelect?.(option);
                   startTransition(async () => {
                     setOptimisticItem(option);

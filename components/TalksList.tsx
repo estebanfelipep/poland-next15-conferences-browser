@@ -1,5 +1,6 @@
 import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
 import Badge from './ui/Badge';
+import Card from './ui/Card';
 import Skeleton from './ui/Skeleton';
 import type { Talk } from '@prisma/client';
 
@@ -54,7 +55,7 @@ export function TalksListSkeleton() {
 
 function TalkItem({ talk }: { talk: Talk }) {
   return (
-    <div className="hover:border-accent/40 dark:hover:border-accent/40 rounded-xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900">
+    <Card>
       <div>
         <h3 className="mb-4 text-lg leading-tight font-semibold text-gray-900 dark:text-white">{talk.title}</h3>
         <div className="mb-4 space-y-2 text-sm">
@@ -74,7 +75,7 @@ function TalkItem({ talk }: { talk: Talk }) {
           </p>
         )}
       </div>
-    </div>
+    </Card>
   );
 }
 function TalkDetail({ label, children }: { label: string; children: React.ReactNode }) {
