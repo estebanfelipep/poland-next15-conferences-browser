@@ -8,7 +8,7 @@ export async function getTalks(filters: FilterType = {}) {
   await slow(1500);
 
   return prisma.talk.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { title: 'asc' },
     where: {
       ...(filters.title && { title: { contains: filters.title } }),
       ...(filters.speaker && { speaker: { contains: filters.speaker } }),
@@ -55,18 +55,18 @@ export async function getTalkFilterOptions(): Promise<FilterOptions> {
 
   return {
     conferences: conferences.map(item => {
-      return item.conference;
+      return { label: item.conference, value: item.conference };
     }),
     speakers: speakers.map(item => {
-      return item.speaker;
+      return { label: item.speaker, value: item.speaker };
     }),
     tags: tags
       .map(item => {
-        return item.tag!;
+        return { label: item.tag!, value: item.tag! };
       })
       .filter(Boolean),
     years: years.map(item => {
-      return item.year.toString();
+      return { label: item.year.toString(), value: item.year.toString() };
     }),
   };
 }

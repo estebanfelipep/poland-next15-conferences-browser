@@ -577,6 +577,16 @@ const TALKS = [
     videoUrl: 'https://youtu.be/rGpVxi6oS68?si=8BhgFqy-d0jsO5Fy',
     year: 2024,
   },
+  {
+    conference: 'React Universe Conf',
+    description:
+      'Learn how modern React patterns, Actions, and View Transitions enable smooth, reliable async UI in Next.js App Router.',
+    duration: 20,
+    speaker: 'Aurora Scharff',
+    tag: 'React',
+    title: 'Modern React Patterns: Concurrent Rendering, Actions & Whats Next',
+    year: 2025,
+  },
 ];
 
 async function seed() {
