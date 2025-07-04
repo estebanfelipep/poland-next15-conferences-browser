@@ -16,11 +16,20 @@ type Props = {
   options: SelectItem[];
   value: SelectItem;
   label: string;
+  showSpinner?: boolean;
   selectAction?: (item: SelectItem) => void | Promise<void>;
   onSelect?: (item: SelectItem) => void;
 };
 
-export default function RouterSelect({ name, options, label, value, selectAction, onSelect }: Props) {
+export default function RouterSelect({
+  name,
+  options,
+  label,
+  value,
+  showSpinner = true,
+  selectAction,
+  onSelect,
+}: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(value);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -34,7 +43,7 @@ export default function RouterSelect({ name, options, label, value, selectAction
             {optimisticItem.text}
             <Ariakit.SelectArrow className="transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
-          {isPending && <Spinner />}
+          {isPending && showSpinner && <Spinner />}
         </div>
         <Ariakit.SelectPopover
           gutter={8}
