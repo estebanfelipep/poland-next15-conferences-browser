@@ -41,6 +41,7 @@ export default function Talks({ talksPromise }: Props) {
               router.push('?search=' + e.target.value);
             });
           }}
+          className="pr-10"
         />
         {isSearching && (
           <div className="absolute top-1/2 right-3 -translate-y-1/2">

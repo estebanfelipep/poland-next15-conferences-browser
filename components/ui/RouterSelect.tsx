@@ -39,7 +39,9 @@ export default function RouterSelect({
   return (
     <div>
       <Ariakit.SelectProvider value={optimisticItem.id}>
-        <Ariakit.SelectLabel className="mb-2 font-bold uppercase">{label}</Ariakit.SelectLabel>
+        <Ariakit.SelectLabel className="mb-1 text-sm font-bold uppercase sm:mb-2 sm:text-base">
+          {label}
+        </Ariakit.SelectLabel>
         <div className="flex items-center gap-4">
           <Ariakit.Select
             aria-busy={isPending}

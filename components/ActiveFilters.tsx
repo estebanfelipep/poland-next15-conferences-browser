@@ -13,15 +13,15 @@ export default function ActiveFilters() {
 
   return (
     activeFilters.length > 0 && (
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
           {activeFilters.map(([key, value]) => {
             return (
               <span
                 key={key}
-                className="bg-primary/20 text-primary inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
+                className="bg-primary/20 text-primary inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium"
               >
-                <span className="capitalize">{key}: </span> {value}
+                <span className="capitalize">{key}: </span> <span>{value}</span>
               </span>
             );
           })}
