@@ -1,13 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, {
-  startTransition,
-  Suspense,
-  useDeferredValue,
-  useOptimistic,
-  unstable_ViewTransition as ViewTransition,
-} from 'react';
+import React, { Suspense, useDeferredValue, useState, unstable_ViewTransition as ViewTransition } from 'react';
 import type { FilterType } from '@/types/filters';
 import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
@@ -22,7 +16,7 @@ type Props = {
 export default function Talks({ talksPromise }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [search, setSearch] = useOptimistic(searchParams.get('search') || '');
+  const [search, setSearch] = useState(searchParams.get('search') || '');
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
 
@@ -33,10 +27,8 @@ export default function Talks({ talksPromise }: Props) {
           placeholder="Search by title, description, speaker, conference, or tag..."
           value={search}
           onChange={e => {
-            startTransition(() => {
-              setSearch(e.target.value);
-              router.push('?search=' + e.target.value);
-            });
+            setSearch(e.target.value);
+            router.push('?search=' + e.target.value);
           }}
           className="pr-10"
         />
