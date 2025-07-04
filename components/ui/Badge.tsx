@@ -14,9 +14,9 @@ type Props = {
 export default function Badge({ children, variant = 'secondary', className }: Props) {
   const variantStyles = {
     accent:
-      'bg-accent/20 text-accent hover:bg-accent/40 hover:text-white dark:bg-accent/20 dark:text-accent dark:hover:bg-accent/60 dark:hover:text-white',
+      'bg-accent/20 text-accent hover:bg-accent/40 hover:text-white dark:bg-accent/20 dark:text-white dark:hover:bg-accent/60 dark:hover:text-white',
     primary:
-      'bg-primary/20 text-primary hover:bg-primary/40 hover:text-white dark:bg-primary/20 dark:text-primary dark:hover:bg-primary/60 dark:hover:text-white',
+      'bg-primary/20 text-primary hover:bg-primary/40 hover:text-white dark:bg-primary/20 dark:text-white dark:hover:bg-primary/60 dark:hover:text-white',
     secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
   };
 
