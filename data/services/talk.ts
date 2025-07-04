@@ -55,18 +55,18 @@ export async function getTalkFilterOptions(): Promise<FilterOptions> {
 
   return {
     conferences: conferences.map(item => {
-      return { id: item.conference, text: item.conference };
+      return item.conference;
     }),
     speakers: speakers.map(item => {
-      return { id: item.speaker, text: item.speaker };
+      return item.speaker;
     }),
     tags: tags
       .map(item => {
-        return { id: item.tag!, text: item.tag! };
+        return item.tag!;
       })
       .filter(Boolean),
     years: years.map(item => {
-      return { id: item.year.toString(), text: item.year.toString() };
+      return item.year.toString();
     }),
   };
 }

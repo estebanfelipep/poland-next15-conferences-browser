@@ -7,15 +7,10 @@ export type FilterType = {
   conference?: string;
 };
 
-export type FilterOption = {
-  id: string;
-  text: string;
-};
-
 export type FilterOptions = {
-  conferences: FilterOption[];
-  speakers: FilterOption[];
-  tags: FilterOption[];
-  years: FilterOption[];
-  search?: FilterOption[];
+  conferences: string[];
+  speakers: string[];
+  tags: string[];
+  years: string[];
+  search?: string[];
 };

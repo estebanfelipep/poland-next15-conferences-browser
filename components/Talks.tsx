@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { Suspense, useDeferredValue, useState } from 'react';
+import React, { Suspense, useDeferredValue, useEffect, useState } from 'react';
 import type { FilterType } from '@/types/filters';
 import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
@@ -19,6 +19,11 @@ export default function Talks({ talksPromise }: Props) {
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
+
+  useEffect(() => {
+    const urlSearch = searchParams.get('search') || '';
+    setSearch(urlSearch);
+  }, [searchParams]);
 
   return (
     <>

@@ -1,32 +1,39 @@
 'use client';
 
 import * as Ariakit from '@ariakit/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useOptimistic, useTransition } from 'react';
 import SelectButton from './SelectButton';
 import Spinner from './Spinner';
 
-export type SelectItem = {
-  id: string;
-  text: string;
-};
-
 type Props = {
-  value: SelectItem;
+  name: string;
+  value: string;
   label: string;
-  options: SelectItem[];
-  showSpinner?: boolean;
-  selectAction?: (item: SelectItem) => void | Promise<void>;
-  onSelect?: (item: SelectItem) => void;
+  options: string[];
+  hideSpinner?: boolean;
+  selectAction?: (item: string) => void | Promise<void>;
+  onSelect?: (item: string) => void;
 };
 
-export default function AsyncSelect({ options, label, value, showSpinner = true, selectAction, onSelect }: Props) {
+export default function RouterSelect({
+  name,
+  options,
+  label,
+  value,
+  hideSpinner = false,
+  selectAction,
+  onSelect,
+}: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(value);
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const hasActiveFilter = options.length > 0 && optimisticItem.id !== options[0].id;
+  const hasActiveFilter = options.length > 0 && optimisticItem !== options[0];
 
   return (
     <div>
-      <Ariakit.SelectProvider value={optimisticItem.id}>
+      <Ariakit.SelectProvider value={optimisticItem}>
         <Ariakit.SelectLabel className="mb-1 text-sm font-bold uppercase sm:mb-2 sm:text-base">
           {label}
         </Ariakit.SelectLabel>
@@ -36,10 +43,10 @@ export default function AsyncSelect({ options, label, value, showSpinner = true,
             className="group flex items-center gap-2"
             render={<SelectButton variant={hasActiveFilter ? 'primary' : 'secondary'} />}
           >
-            {optimisticItem.text}
+            {optimisticItem}
             <Ariakit.SelectArrow className="transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
-          {isPending && showSpinner && <Spinner />}
+          {isPending && !hideSpinner && <Spinner />}
         </div>
         <Ariakit.SelectPopover
           gutter={8}
@@ -49,19 +56,22 @@ export default function AsyncSelect({ options, label, value, showSpinner = true,
             return (
               <Ariakit.SelectItem
                 className="data-active-item:bg-card aria-disabled:text-gray dark:data-active-item:bg-card-dark data-focus-visible:bg-primary dark:data-focus-visible:bg-primary mx-2 flex items-center justify-between gap-4 rounded-md p-2 data-focus-visible:text-white"
-                key={option.id}
-                value={option.id}
+                key={option}
+                value={option}
                 onClick={() => {
-                  if (option.id === optimisticItem.id) return;
+                  if (option === optimisticItem) return;
 
                   onSelect?.(option);
                   startTransition(async () => {
                     setOptimisticItem(option);
+                    const newSearchParams = new URLSearchParams(searchParams.toString());
+                    newSearchParams.set(name, option);
+                    router.push('?' + newSearchParams.toString(), { scroll: false });
                     await selectAction?.(option);
                   });
                 }}
               >
-                {option.text}
+                {option}
                 <Ariakit.SelectItemCheck />
               </Ariakit.SelectItem>
             );
