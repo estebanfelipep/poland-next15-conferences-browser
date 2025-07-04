@@ -1,4 +1,3 @@
-import React from 'react';
 import Filter from '@/components/Filter';
 import Talks from '@/components/Talks';
 import { getTalks, getTalkFilterOptions } from '@/data/services/talk';
@@ -9,14 +8,14 @@ type PageProps = {
 };
 
 export default async function RootPage({ searchParams }: PageProps) {
-  const { tag, year, conference, speaker } = await searchParams;
+  const activeFilters = await searchParams;
   const filterOptions = await getTalkFilterOptions();
-  const talks = getTalks({ conference, speaker, tag, year });
+  const talks = getTalks(activeFilters);
 
   return (
     <div className="flex flex-col gap-8">
-      <Filter filterOptions={filterOptions} filters={{ conference, speaker, tag, year }} />
-      <Talks talksPromise={talks} activeFilters={{ conference, speaker, tag, year }} />
+      <Filter filterOptions={filterOptions} filters={activeFilters} />
+      <Talks talksPromise={talks} activeFilters={activeFilters} />
     </div>
   );
 }

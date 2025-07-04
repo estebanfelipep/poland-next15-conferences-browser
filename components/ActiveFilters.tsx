@@ -6,20 +6,22 @@ import { useSearchParams } from 'next/navigation';
 import StatusButton from './ui/StatusButton';
 
 export default function ActiveFilters() {
-  const searchParams = useSearchParams();
-  const hasActiveFilters = searchParams.size > 0;
+  const searchParams = useSearchParams().entries();
+  const activeFilters = Array.from(searchParams).filter(([, value]) => {
+    return value.trim() !== '';
+  });
 
   return (
-    hasActiveFilters && (
+    activeFilters.length > 0 && (
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap gap-2">
-          {Array.from(searchParams.entries()).map(([key, value]) => {
+          {activeFilters.map(([key, value]) => {
             return (
               <span
                 key={key}
                 className="bg-primary/20 text-primary inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
               >
-                <span className="capitalize">{key}:</span> {value}
+                <span className="capitalize">{key}: </span> {value}
               </span>
             );
           })}

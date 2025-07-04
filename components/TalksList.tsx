@@ -53,7 +53,7 @@ export function TalksListSkeleton() {
 
 function TalkItem({ talk }: { talk: Talk }) {
   return (
-    <div className="hover:border-accent/40 dark:hover:border-accent/40 relative z-0 rounded-xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900">
+    <div className="hover:border-accent/40 dark:hover:border-accent/40 rounded-xl border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900">
       <div>
         <h3 className="mb-4 text-lg leading-tight font-semibold text-gray-900 dark:text-white">{talk.title}</h3>
         <div className="mb-4 space-y-2 text-sm">

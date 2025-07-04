@@ -15,6 +15,15 @@ export async function getTalks(filters: FilterType = {}) {
       ...(filters.year && { year: typeof filters.year === 'string' ? parseInt(filters.year) : filters.year }),
       ...(filters.tag && { tag: { contains: filters.tag } }),
       ...(filters.conference && { conference: { contains: filters.conference } }),
+      ...(filters.search && {
+        OR: [
+          { title: { contains: filters.search } },
+          { speaker: { contains: filters.search } },
+          { conference: { contains: filters.search } },
+          { tag: { contains: filters.search } },
+          { description: { contains: filters.search } },
+        ],
+      }),
     },
   });
 }
