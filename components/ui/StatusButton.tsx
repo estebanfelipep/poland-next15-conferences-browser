@@ -32,7 +32,7 @@ export default function StatusButton({
       disabled={isSubmitting || disabled}
       type={type}
       className={cn(
-        'focus:outline-primary rounded-md border px-4 py-2 -outline-offset-1 focus:outline-2',
+        'focus-visible:outline-primary rounded-md border px-4 py-2 -outline-offset-1 focus-visible:outline-2',
         variant === 'primary'
           ? 'bg-primary border-primary hover:bg-primary-dark disabled:bg-primary-darker text-white'
           : 'border-divider disabled:bg-divider bg-white text-black hover:bg-gray-100',
