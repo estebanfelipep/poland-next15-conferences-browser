@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
 import Badge from './ui/Badge';
 import Card from './ui/Card';
@@ -56,8 +57,16 @@ function TalkItem({ talk }: { talk: Talk }) {
         <div className="flex flex-wrap gap-2">
           {talk.tag && <Badge variant="primary">🏷️ {talk.tag}</Badge>}
           {talk.duration && <Badge variant="secondary">⏱️ {talk.duration}m</Badge>}
-          {talk.videoUrl && <Badge variant="accent">🎥 Video</Badge>}
-          {talk.slides && <Badge variant="accent">📊 Slides</Badge>}
+          {talk.videoUrl && (
+            <Link href={talk.videoUrl} target="_blank" rel="noopener noreferrer">
+              <Badge variant="accent">🎥 Video</Badge>
+            </Link>
+          )}
+          {talk.slides && (
+            <Link href={talk.slides} target="_blank" rel="noopener noreferrer">
+              <Badge variant="accent">📊 Slides</Badge>
+            </Link>
+          )}
         </div>
         {talk.description && (
           <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
