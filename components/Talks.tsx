@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { Suspense, useDeferredValue, useState, unstable_ViewTransition as ViewTransition } from 'react';
+import React, { Suspense, useDeferredValue, useState } from 'react';
 import type { FilterType } from '@/types/filters';
 import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
@@ -40,9 +40,7 @@ export default function Talks({ talksPromise }: Props) {
       </div>
       <ActiveFilters />
       <Suspense fallback={<TalksListSkeleton />}>
-        <ViewTransition>
-          <TalksList talksPromise={talksPromise} search={deferredSearch} />
-        </ViewTransition>
+        <TalksList talksPromise={talksPromise} search={deferredSearch} />
       </Suspense>
     </>
   );

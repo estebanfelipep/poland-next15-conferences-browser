@@ -1,39 +1,27 @@
 'use client';
 
 import * as Ariakit from '@ariakit/react';
-import { useRouter } from 'next/navigation';
 import React, { useOptimistic, useTransition } from 'react';
 import SelectButton from './SelectButton';
 import Spinner from './Spinner';
 
-type SelectItem = {
+export type SelectItem = {
   id: string;
   text: string;
 };
 
 type Props = {
-  name: string;
-  options: SelectItem[];
   value: SelectItem;
   label: string;
+  options: SelectItem[];
   showSpinner?: boolean;
   selectAction?: (item: SelectItem) => void | Promise<void>;
   onSelect?: (item: SelectItem) => void;
 };
 
-export default function RouterSelect({
-  name,
-  options,
-  label,
-  value,
-  showSpinner = true,
-  selectAction,
-  onSelect,
-}: Props) {
+export default function AsyncSelect({ options, label, value, showSpinner = true, selectAction, onSelect }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(value);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-
   const hasActiveFilter = options.length > 0 && optimisticItem.id !== options[0].id;
 
   return (
@@ -61,18 +49,15 @@ export default function RouterSelect({
             return (
               <Ariakit.SelectItem
                 className="data-active-item:bg-card aria-disabled:text-gray dark:data-active-item:bg-card-dark data-focus-visible:bg-primary dark:data-focus-visible:bg-primary mx-2 flex items-center justify-between gap-4 rounded-md p-2 data-focus-visible:text-white"
-                key={option.text}
+                key={option.id}
                 value={option.id}
                 onClick={() => {
                   if (option.id === optimisticItem.id) return;
-                  const url = new URL(window.location.href);
-                  url.searchParams.set(name, option.id);
 
                   onSelect?.(option);
                   startTransition(async () => {
                     setOptimisticItem(option);
                     await selectAction?.(option);
-                    router.push(url.href, { scroll: false });
                   });
                 }}
               >

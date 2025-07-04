@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
 import Badge from './ui/Badge';
