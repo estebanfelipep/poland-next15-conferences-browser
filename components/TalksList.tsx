@@ -43,16 +43,6 @@ export default function TalksList({ talksPromise, search }: Props) {
   );
 }
 
-export function TalksListSkeleton() {
-  return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-    </div>
-  );
-}
-
 function TalkItem({ talk }: { talk: Talk }) {
   return (
     <Card>
@@ -83,5 +73,15 @@ function TalkDetail({ label, children }: { label: string; children: React.ReactN
     <p className="text-gray-700 dark:text-gray-300">
       <span className="text-gray-900 dark:text-gray-100">{label}:</span> {children}
     </p>
+  );
+}
+
+export function TalksListSkeleton() {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </div>
   );
 }

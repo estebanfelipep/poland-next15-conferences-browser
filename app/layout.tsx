@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 const GeistSans = Geist({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  description: 'Next.js 15 Conference Talk Explorer using React 19, Ariakit and Prisma',
+  description: 'Next.js 15 Conference Talk Explorer using React 19, View Transitions and Prisma',
   title: 'Conference Talk Explorer',
 };
 
