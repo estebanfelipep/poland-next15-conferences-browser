@@ -7,8 +7,8 @@ import type { Metadata } from 'next';
 const GeistSans = Geist({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  description: 'Next.js 15 Conference Talk Explorer using React 19, View Transitions and Prisma',
-  title: 'Conference Talk Explorer',
+  description: 'Next.js 15 Conference Explorer using React 19, View Transitions and Prisma',
+  title: 'Conference Explorer',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
