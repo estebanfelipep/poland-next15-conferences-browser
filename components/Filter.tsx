@@ -69,8 +69,8 @@ export default function Filter({ filterOptions, filters }: Props) {
               }
             }}
             // This executes at the end of the transition
-            selectAction={value => {
-              toast.success('Applied tag filter: ' + value, { duration: 5000 });
+            selectAction={item => {
+              toast.success('Applied tag filter: ' + item.value, { duration: 5000 });
             }}
             name="tag"
             label="Tag"
