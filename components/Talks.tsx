@@ -30,9 +30,6 @@ export default function Talks({ talksPromise }: Props) {
     <>
       <div className="relative">
         <input
-          id="talk-search"
-          type="search"
-          name="talk-search"
           placeholder="Search by title, description, speaker, conference, or tag..."
           value={search}
           onChange={e => {
