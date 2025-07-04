@@ -52,7 +52,7 @@ export default function Talks({ talksPromise }: Props) {
       <ActiveFilters />
       <Suspense fallback={<TalksListSkeleton />}>
         <ViewTransition>
-          <TalksList talksPromise={talksPromise} deferredSearch={deferredSearch} />
+          <TalksList talksPromise={talksPromise} search={deferredSearch} />
         </ViewTransition>
       </Suspense>
     </>

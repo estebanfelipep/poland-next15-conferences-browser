@@ -5,17 +5,18 @@ import type { Talk } from '@prisma/client';
 
 type Props = {
   talksPromise: Promise<Talk[]>;
-  deferredSearch: string;
+  search: string;
 };
 
-export default function TalksList({ talksPromise, deferredSearch }: Props) {
+export default function TalksList({ talksPromise, search }: Props) {
   const talks = use(talksPromise);
+  const normalizedSearch = search.trim().toLowerCase();
   const filteredTalks = talks.filter(talk => {
     return (
-      talk.title.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-      talk.speaker.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-      talk.conference.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-      (talk.tag && talk.tag.toLowerCase().includes(deferredSearch.toLowerCase()))
+      talk.title.toLowerCase().includes(normalizedSearch) ||
+      talk.speaker.toLowerCase().includes(normalizedSearch) ||
+      talk.conference.toLowerCase().includes(normalizedSearch) ||
+      (talk.tag && talk.tag.toLowerCase().includes(normalizedSearch))
     );
   });
 
