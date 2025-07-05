@@ -2,10 +2,15 @@ import 'server-only';
 
 import { prisma } from '@/db';
 import type { FilterOptions, FilterType } from '@/types/filters';
+import type { TalksResult } from '@/types/talk';
 import { slow } from '@/utils/slow';
 import type { Prisma } from '@prisma/client';
 
-export async function getTalks(filters: FilterType = {}) {
+export async function getTalks(
+  filters: FilterType = {},
+  page: number = 1,
+  pageSize: number = 30,
+): Promise<TalksResult> {
   await slow(1500);
 
   const where: Prisma.TalkWhereInput = {};
@@ -22,11 +27,17 @@ export async function getTalks(filters: FilterType = {}) {
     where.conference = { contains: filters.conference.trim(), mode: 'insensitive' };
   }
 
-  return prisma.talk.findMany({
-    orderBy: { title: 'asc' },
-    take: 50,
-    where,
-  });
+  const [talks, total] = await Promise.all([
+    prisma.talk.findMany({
+      orderBy: { title: 'asc' },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      where,
+    }),
+    prisma.talk.count({ where }),
+  ]);
+  const totalPages = Math.ceil(total / pageSize);
+  return { talks, totalPages };
 }
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {

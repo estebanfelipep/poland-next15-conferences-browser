@@ -16,7 +16,7 @@ export default async function RootPage({ searchParams }: PageProps) {
   return (
     <div className="flex flex-col gap-8">
       <Filters filterOptions={filterOptions} filters={activeFilters} />
-      <Talks talksPromise={talks} activeFilters={activeFilters}>
+      <Talks talksPromise={talks}>
         <ActiveFilters activeFilters={activeFilters} />
       </Talks>
     </div>

@@ -2,14 +2,12 @@
 
 import { parseAsString, useQueryState } from 'nuqs';
 import React, { Suspense, useDeferredValue } from 'react';
-import type { FilterType } from '@/types/filters';
+import type { TalksResult } from '@/types/talk';
 import TalksList, { TalksListSkeleton } from './TalksList';
 import SearchField from './ui/SearchField';
-import type { Talk } from '@prisma/client';
 
 type Props = {
-  talksPromise: Promise<Talk[]>;
-  activeFilters?: FilterType;
+  talksPromise: Promise<TalksResult>;
   children?: React.ReactNode;
 };
 
