@@ -5,12 +5,12 @@ import React from 'react';
 import Spinner from '../Spinner';
 import SelectButton from './SelectButton';
 
-type SelectItem = {
+export type SelectItem = {
   value: string;
   label: string;
 };
 
-type Props = {
+export type SelectProps = {
   name: string;
   selected: SelectItem;
   label: string;
@@ -21,7 +21,7 @@ type Props = {
   onSelect?: (item: SelectItem) => void;
 };
 
-export default function Select({ options, label, selected, hideSpinner = false, isPending, onSelect }: Props) {
+export default function Select({ options, label, selected, hideSpinner = false, isPending, onSelect }: SelectProps) {
   const hasActiveFilter = options.length > 0 && selected.value !== options[0].value;
 
   return (

@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
-
 import type { TalksResult } from '@/types/talk';
 import Badge from './ui/Badge';
 import Card from './ui/Card';

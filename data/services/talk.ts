@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { prisma } from '@/db';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import type { TalksResult } from '@/types/talk';
@@ -41,6 +42,9 @@ export async function getTalks(
 }
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {
+  'use cache';
+  cacheLife('days');
+
   const [years, tags, conferences, speakers] = await Promise.all([
     prisma.talk.findMany({
       distinct: ['year'],

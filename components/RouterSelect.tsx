@@ -3,33 +3,25 @@
 import { useQueryState } from 'nuqs';
 import React, { useOptimistic, useTransition } from 'react';
 import Select from './ui/select/Select';
-
-type SelectItem = {
-  value: string;
-  label: string;
-};
+import type { SelectItem, SelectProps } from './ui/select/Select';
 
 type Props = {
-  name: string;
   selected: SelectItem;
-  label: string;
-  options: SelectItem[];
   hideSpinner?: boolean;
+  options: SelectItem[];
   selectAction?: (item: SelectItem) => void | Promise<void>;
   onSelect?: (item: SelectItem) => void;
-};
+} & SelectProps;
 
-export default function RouterSelect({ name, options, label, selected, hideSpinner, selectAction, onSelect }: Props) {
+export default function RouterSelect({ name, selected, selectAction, onSelect, ...otherProps }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(selected);
-  const [, setQueryParam] = useQueryState(name);
   const [isPending, startTransition] = useTransition();
+  const [, setQueryParam] = useQueryState(name);
 
   return (
     <Select
+      {...otherProps}
       name={name}
-      label={label}
-      options={options}
-      hideSpinner={hideSpinner}
       isPending={isPending}
       selected={optimisticItem}
       onSelect={item => {

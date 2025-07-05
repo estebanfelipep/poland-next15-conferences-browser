@@ -1,7 +1,6 @@
 'use client';
 
-import { parseAsString, useQueryState } from 'nuqs';
-import React, { Suspense, useDeferredValue } from 'react';
+import React, { Suspense, useDeferredValue, useState } from 'react';
 import type { TalksResult } from '@/types/talk';
 import TalksList, { TalksListSkeleton } from './TalksList';
 import SearchField from './ui/SearchField';
@@ -12,7 +11,7 @@ type Props = {
 };
 
 export default function Talks({ talksPromise, children }: Props) {
-  const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''));
+  const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
 
