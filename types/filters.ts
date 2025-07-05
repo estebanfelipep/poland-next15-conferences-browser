@@ -1,10 +1,9 @@
 export type FilterType = {
-  title?: string;
-  speaker?: string;
-  year?: string;
-  search?: string;
-  tag?: string;
   conference?: string;
+  search?: string;
+  speaker?: string;
+  tag?: string;
+  year?: string;
 };
 
 export type FilterOption = {

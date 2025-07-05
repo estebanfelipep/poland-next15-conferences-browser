@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryState } from 'nuqs';
 import React, { useOptimistic, useTransition } from 'react';
 import Select from './ui/select/Select';
 
@@ -21,8 +21,7 @@ type Props = {
 
 export default function RouterSelect({ name, options, label, selected, hideSpinner, selectAction, onSelect }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(selected);
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [, setParam] = useQueryState(name);
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -39,10 +38,7 @@ export default function RouterSelect({ name, options, label, selected, hideSpinn
         startTransition(async () => {
           setOptimisticItem(item);
           await selectAction?.(item);
-
-          const newSearchParams = new URLSearchParams(searchParams.toString());
-          newSearchParams.set(name, item.value);
-          router.push('?' + newSearchParams.toString(), { scroll: false });
+          setParam(item.value, { shallow: false });
         });
       }}
     />

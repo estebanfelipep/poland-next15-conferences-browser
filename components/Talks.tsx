@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { Suspense, useDeferredValue, useEffect, useState } from 'react';
+import { parseAsString, useQueryState } from 'nuqs';
+import React, { Suspense, useDeferredValue } from 'react';
 import type { FilterType } from '@/types/filters';
 import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
@@ -14,26 +14,18 @@ type Props = {
 };
 
 export default function Talks({ talksPromise }: Props) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''));
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
-
-  useEffect(() => {
-    const urlSearch = searchParams.get('search') || '';
-    setSearch(urlSearch);
-  }, [searchParams]);
 
   return (
     <>
       <div className="relative">
         <input
-          placeholder="Search by title, description, speaker, conference, or tag..."
           value={search}
+          placeholder="Search by title, description, speaker, conference, or tag..."
           onChange={e => {
-            setSearch(e.target.value);
-            router.push('?search=' + e.target.value);
+            setSearch(e.target.value, { shallow: false });
           }}
           className="pr-10"
         />

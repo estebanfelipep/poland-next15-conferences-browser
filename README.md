@@ -1,6 +1,6 @@
 # Next.js 15 Conference App
 
-An interactive conference explorer app built with Next.js 15, React 19 features, View Transitions, Ariakit, Tailwind CSS v4 and Prisma.
+An interactive conference explorer app built with Next.js 15, React 19 features, View Transitions, Ariakit, nuqs, Tailwind CSS v4 and Prisma.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

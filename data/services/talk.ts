@@ -10,7 +10,6 @@ export async function getTalks(filters: FilterType = {}) {
   return prisma.talk.findMany({
     orderBy: { title: 'asc' },
     where: {
-      ...(filters.title && { title: { contains: filters.title } }),
       ...(filters.speaker && { speaker: { contains: filters.speaker } }),
       ...(filters.year && { year: typeof filters.year === 'string' ? parseInt(filters.year) : filters.year }),
       ...(filters.tag && { tag: { contains: filters.tag } }),
