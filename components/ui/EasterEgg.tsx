@@ -31,7 +31,7 @@ export default async function EasterEgg({ children }: Props) {
             </div>
             <div className="my-4 flex flex-col items-center">
               <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-2 flex h-36 w-36 items-center justify-center rounded-xl border-4 shadow-lg">
-                <Image src={'/qr-code.png'} alt="QR Code" width={144} height={144} className="rounded-lg" />
+                <Image priority src={'/qr-code.png'} alt="QR Code" width={144} height={144} className="rounded-lg" />
               </div>
               <div className="text-accent-dark dark:text-accent-light text-lg font-medium">@aurorascharff</div>
             </div>
