@@ -21,7 +21,7 @@ type Props = {
 
 export default function RouterSelect({ name, options, label, selected, hideSpinner, selectAction, onSelect }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(selected);
-  const [, setParam] = useQueryState(name);
+  const [, setQueryParam] = useQueryState(name);
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -38,10 +38,10 @@ export default function RouterSelect({ name, options, label, selected, hideSpinn
 
         startTransition(async () => {
           setOptimisticItem(item);
-          setParam(item.value, {
+          await selectAction?.(item);
+          setQueryParam(item.value, {
             shallow: false,
           });
-          await selectAction?.(item);
         });
       }}
     />
