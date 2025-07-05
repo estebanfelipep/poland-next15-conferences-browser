@@ -14,7 +14,7 @@ type Props = {
   filters: FilterType;
 };
 
-export default function Filter({ filterOptions, filters }: Props) {
+export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
