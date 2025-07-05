@@ -1,7 +1,6 @@
 'use client';
 
 import { useQueryState } from 'nuqs';
-
 import React, { useOptimistic, useTransition } from 'react';
 import Select from './ui/select/Select';
 
