@@ -9,7 +9,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, install the dependencies (with `--force` due to old packages):
 
 ```bash
-npm install --roce
+npm install --force
 ```
 
 Then, run the development server:

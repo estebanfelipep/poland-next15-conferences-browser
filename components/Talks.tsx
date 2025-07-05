@@ -1,6 +1,7 @@
 'use client';
 
 import { parseAsString, useQueryState } from 'nuqs';
+// import { debounce } from 'nuqs/server';
 import React, { Suspense, useDeferredValue } from 'react';
 import type { FilterType } from '@/types/filters';
 import ActiveFilters from './ActiveFilters';
@@ -25,7 +26,10 @@ export default function Talks({ talksPromise }: Props) {
           value={search}
           placeholder="Search by title, description, speaker, conference, or tag..."
           onChange={e => {
-            setSearch(e.target.value, { shallow: false });
+            setSearch(e.target.value, {
+              // limitUrlUpdates: e.target.value === '' ? undefined : debounce(500),
+              shallow: false,
+            });
           }}
           className="pr-10"
         />

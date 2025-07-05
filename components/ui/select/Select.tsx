@@ -42,6 +42,7 @@ export default function Select({ options, label, selected, hideSpinner = false, 
           {isPending && !hideSpinner && <Spinner />}
         </div>
         <Ariakit.SelectPopover
+          style={{ viewTransitionName: 'anything' }}
           gutter={8}
           className="border-divider focus-visible:outline-primary dark:border-divider-dark z-50 flex max-h-60 flex-col gap-2 overflow-y-auto rounded-sm border bg-white py-2 shadow-lg -outline-offset-1 focus-visible:outline-2 dark:bg-black"
         >

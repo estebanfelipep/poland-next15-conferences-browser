@@ -95,3 +95,7 @@
   }
 }
 
+
+::view-transition-group(anything) {
+  z-index: 100;
+  }
