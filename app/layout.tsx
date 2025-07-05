@@ -2,6 +2,7 @@ import './globals.css';
 
 import { Geist } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Toaster } from 'react-hot-toast';
 import EasterEgg from '@/components/ui/EasterEgg';
 import { cn } from '@/utils/cn';
 import type { Metadata } from 'next';
@@ -18,6 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
         <NuqsAdapter>
+          <Toaster position="top-right" />
           <EasterEgg>
             <main>{children}</main>
           </EasterEgg>

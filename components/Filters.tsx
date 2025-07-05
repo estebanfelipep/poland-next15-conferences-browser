@@ -2,7 +2,7 @@
 
 import React, { useOptimistic, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Sparkle from 'react-sparkle';
 import LoadingBar from 'react-top-loading-bar';
 import { someRandomServerFunction } from '@/data/actions/cookie';
@@ -23,7 +23,6 @@ export default function Filters({ filterOptions, filters }: Props) {
   return (
     <div className="flex items-center justify-between gap-4">
       {isExploding && <ConfettiExplosion />}
-      <Toaster position="top-right" />
       <LoadingBar
         color="#8132fe"
         height={5}
@@ -85,6 +84,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           name="conference"
           label="Conference"
           selectAction={async item => {
+            // This also executes when the transition is complete
             await someRandomServerFunction(item.value, year);
           }}
           selected={{ label: conference || 'All Conferences', value: conference || '' }}
