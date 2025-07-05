@@ -1,7 +1,6 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { slow } from '@/utils/slow';
 
 export async function someRandomServerFunction(conference?: string, year?: string) {
@@ -12,7 +11,6 @@ export async function someRandomServerFunction(conference?: string, year?: strin
     return;
   }
   (await cookies()).set('easterEgg', 'true');
-  redirect('/');
 }
 
 export async function resetEasterEgg() {
