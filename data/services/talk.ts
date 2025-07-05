@@ -7,9 +7,6 @@ import { slow } from '@/utils/slow';
 import type { Prisma } from '@prisma/client';
 
 export async function getTalks(filters: FilterType = {}) {
-  'use cache';
-  cacheLife('hours');
-
   await slow(1500);
 
   const where: Prisma.TalkWhereInput = {};
