@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     staleTimes: {
       dynamic: 30,
     },
+    useCache: true,
     viewTransition: true,
   },
 };

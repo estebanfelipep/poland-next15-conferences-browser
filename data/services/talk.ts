@@ -6,10 +6,11 @@ import { slow } from '@/utils/slow';
 import type { Prisma } from '@prisma/client';
 
 export async function getTalks(filters: FilterType = {}) {
+  'use cache';
+
   await slow(1500);
 
   const where: Prisma.TalkWhereInput = {};
-
   if (filters.speaker?.trim()) {
     where.speaker = { contains: filters.speaker.trim(), mode: 'insensitive' };
   }
@@ -40,6 +41,8 @@ export async function getTalks(filters: FilterType = {}) {
 }
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {
+  'use cache';
+
   const [years, tags, conferences, speakers] = await Promise.all([
     prisma.talk.findMany({
       distinct: ['year'],
