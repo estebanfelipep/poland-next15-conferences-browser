@@ -35,12 +35,13 @@ export default function RouterSelect({ name, options, label, selected, hideSpinn
       onSelect={item => {
         if (item.value === optimisticItem.value) return;
         onSelect?.(item);
+
         startTransition(async () => {
           setOptimisticItem(item);
-          await selectAction?.(item);
           setParam(item.value, {
             shallow: false,
           });
+          await selectAction?.(item);
         });
       }}
     />
