@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { cacheLife } from 'next/dist/server/use-cache/cache-life';
 import { prisma } from '@/db';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import { slow } from '@/utils/slow';
@@ -22,27 +21,15 @@ export async function getTalks(filters: FilterType = {}) {
   if (filters.conference?.trim()) {
     where.conference = { contains: filters.conference.trim(), mode: 'insensitive' };
   }
-  if (filters.search?.trim()) {
-    const search = filters.search.trim();
-    where.OR = [
-      { title: { contains: search, mode: 'insensitive' } },
-      { speaker: { contains: search, mode: 'insensitive' } },
-      { conference: { contains: search, mode: 'insensitive' } },
-      { tag: { contains: search, mode: 'insensitive' } },
-      { description: { contains: search, mode: 'insensitive' } },
-    ];
-  }
 
   return prisma.talk.findMany({
     orderBy: { title: 'asc' },
+    take: 50,
     where,
   });
 }
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {
-  'use cache';
-  cacheLife('hours');
-
   const [years, tags, conferences, speakers] = await Promise.all([
     prisma.talk.findMany({
       distinct: ['year'],

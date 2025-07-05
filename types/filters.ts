@@ -1,6 +1,5 @@
 export type FilterType = {
   conference?: string;
-  search?: string;
   speaker?: string;
   tag?: string;
   year?: string;
@@ -16,5 +15,4 @@ export type FilterOptions = {
   speakers: FilterOption[];
   tags: FilterOption[];
   years: FilterOption[];
-  search?: FilterOption[];
 };

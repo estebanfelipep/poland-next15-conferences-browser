@@ -26,9 +26,7 @@ export default function Talks({ talksPromise, children }: Props) {
         isSearching={isSearching}
         placeholder="Search by title, description, speaker, conference, or tag..."
         onChange={e => {
-          setSearch(e.currentTarget.value, {
-            shallow: false,
-          });
+          setSearch(e.currentTarget.value);
         }}
       />
       {children}
