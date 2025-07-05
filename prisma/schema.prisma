@@ -6,10 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-  // url      = env("DATABASE_URL") // Change to "file:./dev.db" with sqlite
-  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // For sqlserver, remove with sqlite and postgres
+  provider = "postgresql"
+  // url      = "file:./dev.db"
+  url      = env("DATABASE_URL") // Change to "file:./dev.db" with sqlite
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // For sqlserver, remove with sqlite and postgresql
 }
 
 model Talk {
