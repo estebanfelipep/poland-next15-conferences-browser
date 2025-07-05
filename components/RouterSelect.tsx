@@ -19,7 +19,7 @@ type Props = {
   onSelect?: (item: SelectItem) => void;
 };
 
-export default function RouterSelect({ name, options, label, selected, selectAction, onSelect }: Props) {
+export default function RouterSelect({ name, options, label, selected, hideSpinner, selectAction, onSelect }: Props) {
   const [optimisticItem, setOptimisticItem] = useOptimistic(selected);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -30,6 +30,7 @@ export default function RouterSelect({ name, options, label, selected, selectAct
       name={name}
       label={label}
       options={options}
+      hideSpinner={hideSpinner}
       isPending={isPending}
       selected={optimisticItem}
       onSelect={item => {
