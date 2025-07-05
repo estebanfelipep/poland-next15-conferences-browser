@@ -1,3 +1,4 @@
+import ActiveFilters from '@/components/ActiveFilters';
 import Filter from '@/components/Filter';
 import Talks from '@/components/Talks';
 import { getTalks, getTalkFilterOptions } from '@/data/services/talk';
@@ -15,7 +16,9 @@ export default async function RootPage({ searchParams }: PageProps) {
   return (
     <div className="flex flex-col gap-8">
       <Filter filterOptions={filterOptions} filters={activeFilters} />
-      <Talks talksPromise={talks} activeFilters={activeFilters} />
+      <Talks talksPromise={talks} activeFilters={activeFilters}>
+        <ActiveFilters activeFilters={activeFilters} />
+      </Talks>
     </div>
   );
 }

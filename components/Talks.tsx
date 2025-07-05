@@ -4,7 +4,6 @@ import { parseAsString, useQueryState } from 'nuqs';
 // import { debounce } from 'nuqs/server';
 import React, { Suspense, useDeferredValue } from 'react';
 import type { FilterType } from '@/types/filters';
-import ActiveFilters from './ActiveFilters';
 import TalksList, { TalksListSkeleton } from './TalksList';
 import Spinner from './ui/Spinner';
 import type { Talk } from '@prisma/client';
@@ -12,9 +11,10 @@ import type { Talk } from '@prisma/client';
 type Props = {
   talksPromise: Promise<Talk[]>;
   activeFilters?: FilterType;
+  children?: React.ReactNode;
 };
 
-export default function Talks({ talksPromise }: Props) {
+export default function Talks({ talksPromise, children }: Props) {
   const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''));
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
@@ -39,7 +39,7 @@ export default function Talks({ talksPromise }: Props) {
           </div>
         )}
       </div>
-      <ActiveFilters />
+      {children}
       <Suspense fallback={<TalksListSkeleton />}>
         <TalksList talksPromise={talksPromise} search={deferredSearch} />
       </Suspense>

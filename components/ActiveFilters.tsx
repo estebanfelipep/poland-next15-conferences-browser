@@ -1,21 +1,24 @@
-'use client';
-
 import { X } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import type { FilterType } from '@/types/filters';
 import StatusButton from './ui/StatusButton';
 
-export default function ActiveFilters() {
-  const searchParams = useSearchParams().entries();
-  const activeFilters = Array.from(searchParams).filter(([, value]) => {
-    return value.trim() !== '';
-  });
+type Props = {
+  activeFilters?: FilterType;
+};
+
+export default function ActiveFilters({ activeFilters }: Props) {
+  const entries = activeFilters
+    ? Object.entries(activeFilters).filter(([, value]) => {
+        return value && value.trim() !== '';
+      })
+    : [];
 
   return (
-    activeFilters.length > 0 && (
+    entries.length > 0 && (
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
-          {activeFilters.map(([key, value]) => {
+          {entries.map(([key, value]) => {
             return (
               <span
                 key={key}
