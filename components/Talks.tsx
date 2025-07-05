@@ -1,11 +1,10 @@
 'use client';
 
 import { parseAsString, useQueryState } from 'nuqs';
-// import { debounce } from 'nuqs/server';
 import React, { Suspense, useDeferredValue } from 'react';
 import type { FilterType } from '@/types/filters';
 import TalksList, { TalksListSkeleton } from './TalksList';
-import Spinner from './ui/Spinner';
+import SearchField from './ui/SearchField';
 import type { Talk } from '@prisma/client';
 
 type Props = {
@@ -21,24 +20,17 @@ export default function Talks({ talksPromise, children }: Props) {
 
   return (
     <>
-      <div className="relative">
-        <input
-          value={search}
-          placeholder="Search by title, description, speaker, conference, or tag..."
-          onChange={e => {
-            setSearch(e.target.value, {
-              // limitUrlUpdates: e.target.value === '' ? undefined : debounce(500),
-              shallow: false,
-            });
-          }}
-          className="pr-10"
-        />
-        {isSearching && (
-          <div className="absolute top-1/2 right-3 -translate-y-1/2">
-            <Spinner />
-          </div>
-        )}
-      </div>
+      <SearchField
+        value={search}
+        name="search"
+        isSearching={isSearching}
+        placeholder="Search by title, description, speaker, conference, or tag..."
+        onChange={e => {
+          setSearch(e.currentTarget.value, {
+            shallow: false,
+          });
+        }}
+      />
       {children}
       <Suspense fallback={<TalksListSkeleton />}>
         <TalksList talksPromise={talksPromise} search={deferredSearch} />

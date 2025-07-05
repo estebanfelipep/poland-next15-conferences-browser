@@ -9,7 +9,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export default async function EasterEgg({ children }: Props) {
+export default async function Wrapper({ children }: Props) {
   const shouldShowEasterEgg = (await cookies()).get('easterEgg')?.value === 'true';
 
   return (

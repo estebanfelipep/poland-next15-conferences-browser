@@ -3,27 +3,39 @@ import 'server-only';
 import { prisma } from '@/db';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import { slow } from '@/utils/slow';
+import type { Prisma } from '@prisma/client';
 
 export async function getTalks(filters: FilterType = {}) {
   await slow(1500);
 
+  const where: Prisma.TalkWhereInput = {};
+
+  if (filters.speaker?.trim()) {
+    where.speaker = { contains: filters.speaker.trim(), mode: 'insensitive' };
+  }
+  if (filters.year?.toString().trim()) {
+    where.year = typeof filters.year === 'string' ? parseInt(filters.year.trim()) : filters.year;
+  }
+  if (filters.tag?.trim()) {
+    where.tag = { contains: filters.tag.trim(), mode: 'insensitive' };
+  }
+  if (filters.conference?.trim()) {
+    where.conference = { contains: filters.conference.trim(), mode: 'insensitive' };
+  }
+  if (filters.search?.trim()) {
+    const search = filters.search.trim();
+    where.OR = [
+      { title: { contains: search, mode: 'insensitive' } },
+      { speaker: { contains: search, mode: 'insensitive' } },
+      { conference: { contains: search, mode: 'insensitive' } },
+      { tag: { contains: search, mode: 'insensitive' } },
+      { description: { contains: search, mode: 'insensitive' } },
+    ];
+  }
+
   return prisma.talk.findMany({
     orderBy: { title: 'asc' },
-    where: {
-      ...(filters.speaker && { speaker: { contains: filters.speaker } }),
-      ...(filters.year && { year: typeof filters.year === 'string' ? parseInt(filters.year) : filters.year }),
-      ...(filters.tag && { tag: { contains: filters.tag } }),
-      ...(filters.conference && { conference: { contains: filters.conference } }),
-      ...(filters.search && {
-        OR: [
-          { title: { contains: filters.search } },
-          { speaker: { contains: filters.search } },
-          { conference: { contains: filters.search } },
-          { tag: { contains: filters.search } },
-          { description: { contains: filters.search } },
-        ],
-      }),
-    },
+    where,
   });
 }
 

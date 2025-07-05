@@ -1,6 +1,7 @@
 'use client';
 
 import { useQueryState } from 'nuqs';
+
 import React, { useOptimistic, useTransition } from 'react';
 import Select from './ui/select/Select';
 
@@ -38,7 +39,9 @@ export default function RouterSelect({ name, options, label, selected, hideSpinn
         startTransition(async () => {
           setOptimisticItem(item);
           await selectAction?.(item);
-          setParam(item.value, { shallow: false });
+          setParam(item.value, {
+            shallow: false,
+          });
         });
       }}
     />
