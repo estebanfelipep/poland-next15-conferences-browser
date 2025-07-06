@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useOptimistic, useState } from 'react';
+import React, { useEffect, useOptimistic, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast from 'react-hot-toast';
 import Sparkle from 'react-sparkle';
@@ -19,6 +19,12 @@ export default function Filters({ filterOptions, filters }: Props) {
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
   const [sparkle, setSparkle] = useState(false);
+
+  useEffect(() => {
+    if (tag !== 'React') {
+      setSparkle(false);
+    }
+  }, [tag]);
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -66,7 +72,7 @@ export default function Filters({ filterOptions, filters }: Props) {
             selected={{ label: tag || 'All Tags', value: tag || '' }}
             options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
           />
-          {sparkle && <Sparkle key={tag} />}
+          {sparkle && <Sparkle />}
         </div>
         <RouterSelect
           name="speaker"
