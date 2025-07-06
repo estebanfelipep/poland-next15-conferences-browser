@@ -27,6 +27,7 @@ export default function TalksList({ talksPromise, search }: Props) {
     data: talks,
     ref,
     pageNumber,
+    loading,
   } = useInfiniteScroll<Talk>(
     initialTalks,
     async () => {
@@ -63,11 +64,9 @@ export default function TalksList({ talksPromise, search }: Props) {
           <p className="text-sm">Try adjusting your filters or search terms</p>
         </div>
       )}
-      {pageNumber < totalPages && (
-        <div className="flex justify-center pt-5" ref={ref}>
-          <Spinner />
-        </div>
-      )}
+      <div className="flex justify-center pt-5" ref={ref}>
+        {loading && <Spinner />}
+      </div>
     </>
   );
 }
