@@ -23,7 +23,9 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
   };
   return (
     <ViewTransition name={`talk-${talk.id}`}>
-      <Card className={`h-full ${isExpanded ? 'z-10 scale-110 shadow-2xl' : 'scale-100'}`}>
+      <Card
+        className={`h-full ${isExpanded ? 'border-pink-200/50 bg-pink-50/30 shadow-2xl hover:shadow-2xl dark:border-pink-800/50 dark:bg-pink-950/20' : ''}`}
+      >
         <div
           className="flex h-full w-full cursor-pointer flex-col p-0 text-left"
           onClick={onToggleExpand}
@@ -41,7 +43,9 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
               {talk.title}
             </h3>
 
-            <div className="mb-4 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+            <div
+              className={`mb-4 space-y-1 text-sm ${isExpanded ? 'text-black dark:text-white' : 'text-gray dark:text-gray'}`}
+            >
               <p>
                 <span className="font-medium">Speaker:</span> {talk.speaker}
               </p>
@@ -58,7 +62,9 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
               )}
             </div>
             {talk.description && (
-              <p className={`mb-4 text-sm text-gray-700 dark:text-gray-300 ${isExpanded ? '' : 'line-clamp-2'}`}>
+              <p
+                className={`mb-4 text-sm ${isExpanded ? 'text-black dark:text-white' : 'text-gray dark:text-gray line-clamp-2'}`}
+              >
                 {talk.description}
               </p>
             )}
