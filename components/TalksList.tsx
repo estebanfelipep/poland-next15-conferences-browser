@@ -54,15 +54,17 @@ export default function TalksList({ talksPromise, search }: Props) {
           const isExpanded = expandedTalkId === talk.id;
           return (
             <div key={talk.id} className={isExpanded ? 'sm:col-span-1 lg:col-span-2' : ''}>
-              <TalkItem
-                talk={talk}
-                isExpanded={isExpanded}
-                onToggleExpand={() => {
-                  startTransition(() => {
-                    setExpandedTalkId(isExpanded ? null : talk.id);
-                  });
-                }}
-              />
+              <ViewTransition name={`talk-${talk.id}`}>
+                <TalkItem
+                  talk={talk}
+                  isExpanded={isExpanded}
+                  onToggleExpand={() => {
+                    startTransition(() => {
+                      setExpandedTalkId(isExpanded ? null : talk.id);
+                    });
+                  }}
+                />
+              </ViewTransition>
             </div>
           );
         })}
