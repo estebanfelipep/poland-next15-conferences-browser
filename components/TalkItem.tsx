@@ -41,7 +41,7 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
               {talk.title}
             </h3>
 
-            <div className="text-gray dark:text-gray mb-4 space-y-1 text-sm">
+            <div className="mb-4 space-y-1 text-sm text-gray-700 dark:text-gray-300">
               <p>
                 <span className="font-medium">Speaker:</span> {talk.speaker}
               </p>
@@ -58,7 +58,7 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
               )}
             </div>
             {talk.description && (
-              <p className={`text-gray dark:text-gray mb-4 text-sm ${isExpanded ? '' : 'line-clamp-2'}`}>
+              <p className={`mb-4 text-sm text-gray-700 dark:text-gray-300 ${isExpanded ? '' : 'line-clamp-2'}`}>
                 {talk.description}
               </p>
             )}
