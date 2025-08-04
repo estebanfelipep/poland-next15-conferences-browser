@@ -1,13 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import React, { use, unstable_ViewTransition as ViewTransition } from 'react';
+import React, { startTransition, use, unstable_ViewTransition as ViewTransition } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
-import Badge from './ui/Badge';
-import Card from './ui/Card';
+import TalkItem from './TalkItem';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
 import type { Talk } from '@prisma/client';
@@ -22,6 +20,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   const activeFilters = Object.fromEntries(searchParams.entries());
   const { talks: initialTalks, totalPages } = use(talksPromise);
   const normalizedSearch = search.trim().toLowerCase();
+  const [expandedTalkId, setExpandedTalkId] = React.useState<string | null>(null);
 
   const {
     data: talks,
@@ -47,13 +46,21 @@ export default function TalksList({ talksPromise, search }: Props) {
   });
 
   return (
-    <>
+    <ViewTransition>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredTalks.map(talk => {
+          const isExpanded = expandedTalkId === talk.id;
           return (
-            <ViewTransition key={talk.id}>
-              <TalkItem talk={talk} />
-            </ViewTransition>
+            <TalkItem
+              key={talk.id}
+              talk={talk}
+              isExpanded={isExpanded}
+              onToggleExpand={() => {
+                startTransition(() => {
+                  setExpandedTalkId(isExpanded ? null : talk.id);
+                });
+              }}
+            />
           );
         })}
       </div>
@@ -67,49 +74,7 @@ export default function TalksList({ talksPromise, search }: Props) {
       <div className="flex h-5 justify-center pt-5" ref={ref}>
         {loading && <Spinner />}
       </div>
-    </>
-  );
-}
-
-function TalkItem({ talk }: { talk: Talk }) {
-  return (
-    <Card>
-      <div>
-        <h3 className="mb-4 text-lg leading-tight font-semibold text-gray-900 dark:text-white">{talk.title}</h3>
-        <div className="mb-4 space-y-2 text-sm">
-          <TalkDetail label="Speaker">{talk.speaker}</TalkDetail>
-          <TalkDetail label="Conference">{talk.conference}</TalkDetail>
-          <TalkDetail label="Year">{talk.year}</TalkDetail>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {talk.tag && <Badge variant="primary">🏷️ {talk.tag}</Badge>}
-          {talk.duration && <Badge variant="secondary">⏱️ {talk.duration}m</Badge>}
-          {talk.videoUrl && (
-            <Link href={talk.videoUrl} target="_blank" rel="noopener noreferrer">
-              <Badge variant="accent">🎥 Video</Badge>
-            </Link>
-          )}
-          {talk.slides && (
-            <Link href={talk.slides} target="_blank" rel="noopener noreferrer">
-              <Badge variant="accent">📊 Slides</Badge>
-            </Link>
-          )}
-        </div>
-        {talk.description && (
-          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            {talk.description}
-          </p>
-        )}
-      </div>
-    </Card>
-  );
-}
-
-function TalkDetail({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <p className="text-gray-700 dark:text-gray-300">
-      <span className="text-gray-900 dark:text-gray-100">{label}:</span> {children}
-    </p>
+    </ViewTransition>
   );
 }
 
