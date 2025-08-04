@@ -2,9 +2,8 @@ import './globals.css';
 
 import { Geist } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import React from 'react';
+import React, { unstable_ViewTransition as ViewTransition } from 'react';
 import { Toaster } from 'react-hot-toast';
-import ViewTransition from '@/components/ui/ViewTransition';
 import Wrapper from '@/components/ui/Wrapper';
 import { cn } from '@/utils/cn';
 import type { Metadata } from 'next';

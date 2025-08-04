@@ -1,8 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { startTransition, use } from 'react';
-import ViewTransition from '@/components/ui/ViewTransition';
+import React, { startTransition, use, unstable_ViewTransition as ViewTransition } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
