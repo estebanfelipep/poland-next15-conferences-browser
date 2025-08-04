@@ -1,4 +1,5 @@
-import { Link, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import Link from 'next/link';
 import Filters from '@/components/Filters';
 import Talks from '@/components/Talks';
 import StatusButton from '@/components/ui/StatusButton';
@@ -46,7 +47,7 @@ function ActiveFilters({ activeFilters }: { activeFilters?: FilterType }) {
             );
           })}
         </div>
-        <Link tabIndex={-1} href="/?" className="text-sm">
+        <Link href="/?" className="text-sm">
           <StatusButton variant="secondary" type="button">
             <div className="flex items-center gap-2">
               <X width={16} height={16} aria-hidden="true" />
