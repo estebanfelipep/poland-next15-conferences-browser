@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { startTransition, use } from 'react';
+import React, { use } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
@@ -58,9 +58,7 @@ export default function TalksList({ talksPromise, search }: Props) {
                 talk={talk}
                 isExpanded={isExpanded}
                 onToggleExpand={() => {
-                  startTransition(() => {
-                    setExpandedTalkId(isExpanded ? null : talk.id);
-                  });
+                  setExpandedTalkId(isExpanded ? null : talk.id);
                 }}
               />
             </div>
