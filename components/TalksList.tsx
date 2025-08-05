@@ -50,26 +50,24 @@ export default function TalksList({ talksPromise, search }: Props) {
       <div
         className={`grid gap-6 ${expandedTalkId ? 'sm:grid-cols-1 lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}
       >
-        <ViewTransition>
-          {filteredTalks.map(talk => {
-            const isExpanded = expandedTalkId === talk.id;
-            return (
-              <div key={talk.id} className={isExpanded ? 'sm:col-span-1 lg:col-span-2' : ''}>
-                <ViewTransition name={`talk-${talk.id}`}>
-                  <TalkItem
-                    talk={talk}
-                    isExpanded={isExpanded}
-                    onToggleExpand={() => {
-                      startTransition(() => {
-                        setExpandedTalkId(isExpanded ? null : talk.id);
-                      });
-                    }}
-                  />
-                </ViewTransition>
-              </div>
-            );
-          })}
-        </ViewTransition>
+        {filteredTalks.map(talk => {
+          const isExpanded = expandedTalkId === talk.id;
+          return (
+            <div key={talk.id} className={isExpanded ? 'sm:col-span-1 lg:col-span-2' : ''}>
+              <ViewTransition>
+                <TalkItem
+                  talk={talk}
+                  isExpanded={isExpanded}
+                  onToggleExpand={() => {
+                    startTransition(() => {
+                      setExpandedTalkId(isExpanded ? null : talk.id);
+                    });
+                  }}
+                />
+              </ViewTransition>
+            </div>
+          );
+        })}
       </div>
       {filteredTalks.length === 0 && (
         <div className="py-16 text-center text-gray-500 dark:text-gray-400">
