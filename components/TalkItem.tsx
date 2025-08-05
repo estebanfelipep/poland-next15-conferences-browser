@@ -23,7 +23,7 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
   };
 
   return (
-    <Card className={`h-full ${isExpanded ? 'shadow-primary/25 shadow-2xl' : ''}`}>
+    <Card className={`h-full ${isExpanded ? 'shadow-primary/25 p-10 shadow-2xl' : ''}`}>
       <div
         onClick={onToggleExpand}
         role="button"
@@ -36,7 +36,7 @@ export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} details for ${talk.title}`}
       >
         <h3
-          className={`mb-4 leading-tight font-semibold text-gray-900 dark:text-white ${isExpanded ? 'text-xl' : 'text-lg'}`}
+          className={`mb-4 leading-tight font-semibold text-gray-900 dark:text-white ${isExpanded ? 'text-2xl' : 'text-lg'}`}
         >
           {talk.title}
         </h3>
