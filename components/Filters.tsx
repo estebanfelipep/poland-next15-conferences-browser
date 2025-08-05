@@ -1,6 +1,6 @@
 import React from 'react';
 import type { FilterOptions, FilterType } from '@/types/filters';
-import RouterSelect from './RouterSelect';
+import AsyncSelect from './AsyncSelect';
 
 type Props = {
   filterOptions: FilterOptions;
@@ -13,7 +13,7 @@ export default function Filters({ filterOptions, filters }: Props) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
-        <RouterSelect
+        <AsyncSelect
           hideSpinner
           name="year"
           label="Year"
@@ -21,20 +21,20 @@ export default function Filters({ filterOptions, filters }: Props) {
           options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
         />
         <div className="relative">
-          <RouterSelect
+          <AsyncSelect
             name="tag"
             label="Tag"
             selected={{ label: tag || 'All Tags', value: tag || '' }}
             options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
           />
         </div>
-        <RouterSelect
+        <AsyncSelect
           name="speaker"
           label="Speaker"
           selected={{ label: speaker || 'All Speakers', value: speaker || '' }}
           options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
         />
-        <RouterSelect
+        <AsyncSelect
           name="conference"
           label="Conference"
           selected={{ label: conference || 'All Conferences', value: conference || '' }}

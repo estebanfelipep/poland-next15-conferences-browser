@@ -6,8 +6,7 @@
             "selectAction?: (item: SelectItem) => void | Promise<void>;"
         ],
         "description": "Type definition for selectAction callback"
-    }
-    ,
+    },
     "resetSparkleEffect": {
         "scope": "typescriptreact",
         "prefix": "resetSparkleEffect",
@@ -19,8 +18,7 @@
             "}, [tag]);"
         ],
         "description": "useEffect to disable sparkle when tag is not React"
-    }
-    ,
+    },
     "loadingBarComponent": {
         "scope": "typescriptreact",
         "prefix": "loadingBarComponent",
@@ -35,5 +33,20 @@
             "/>"
         ],
         "description": "LoadingBar component with custom color, height, and onLoaderFinished handler"
+    },
+    "duplicatedInitialTalks": {
+        "scope": "typescript",
+        "prefix": "duplicatedInitialTalks",
+        "body": [
+            "const duplicatedInitialTalks = Array.from({ length: 50 }, (_, i) => {",
+            "  return initialTalks.map(talk => {",
+            "    return {",
+            "      ...talk,",
+            "      id: `${talk.id}-dup${i}`,",
+            "    };",
+            "  });",
+            "}).flat();"
+        ],
+        "description": "Create 50 duplicates of initialTalks with unique ids"
     }
 }
