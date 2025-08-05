@@ -28,6 +28,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </ViewTransition>
         </NuqsAdapter>
       </body>
+      {/* 
+      React Scan automatically detects performance issues in your React app.
+      https://github.com/aidenybai/react-scan
+      Comment in the script below tob debug React re-renders in the browser
+      */}
+      <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
     </html>
   );
 }

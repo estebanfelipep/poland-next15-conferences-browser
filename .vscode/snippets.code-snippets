@@ -1,9 +1,52 @@
 {
-    "importAriakit": {
-        "scope": "typescriptreact",
-        "prefix": "importAriakit",
+    "selectActionType": {
+        "scope": "typescript",
+        "prefix": "selectActionType",
         "body": [
-            "import * as Ariakit from '@ariakit/react';"
+            "selectAction?: (item: SelectItem) => void | Promise<void>;"
         ],
+        "description": "Type definition for selectAction callback"
+    },
+    "resetSparkleEffect": {
+        "scope": "typescriptreact",
+        "prefix": "resetSparkleEffect",
+        "body": [
+            "useEffect(() => {",
+            "  if (tag !== 'React') {",
+            "    setSparkle(false);",
+            "  }",
+            "}, [tag]);"
+        ],
+        "description": "useEffect to disable sparkle when tag is not React"
+    },
+    "loadingBarComponent": {
+        "scope": "typescriptreact",
+        "prefix": "loadingBarComponent",
+        "body": [
+            "<LoadingBar",
+            "  color=\"#8132fe\"",
+            "  height={5}",
+            "  progress={0}",
+            "  onLoaderFinished={() => {",
+            "    console.log('Loading finished');",
+            "  }}",
+            "/>"
+        ],
+        "description": "LoadingBar component with custom color, height, and onLoaderFinished handler"
+    },
+    "duplicatedInitialTalks": {
+        "scope": "typescript",
+        "prefix": "duplicatedInitialTalks",
+        "body": [
+            "const duplicatedInitialTalks = Array.from({ length: 50 }, (_, i) => {",
+            "  return initialTalks.map(talk => {",
+            "    return {",
+            "      ...talk,",
+            "      id: `${talk.id}-dup${i}`,",
+            "    };",
+            "  });",
+            "}).flat();"
+        ],
+        "description": "Create 50 duplicates of initialTalks with unique ids"
     }
 }
