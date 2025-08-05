@@ -1,11 +1,4 @@
-'use client';
-
-import React, { useEffect, useOptimistic, useState } from 'react';
-import { ConfettiExplosion } from 'react-confetti-explosion';
-import toast from 'react-hot-toast';
-import Sparkle from 'react-sparkle';
-import LoadingBar from 'react-top-loading-bar';
-import { someRandomServerFunction } from '@/data/actions/cookie';
+import React from 'react';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import RouterSelect from './RouterSelect';
 
@@ -16,38 +9,12 @@ type Props = {
 
 export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
-  const [isExploding, setIsExploding] = useOptimistic(false);
-  const [progress, setProgress] = useState(0);
-  const [sparkle, setSparkle] = useState(false);
-
-  useEffect(() => {
-    if (tag !== 'React') {
-      setSparkle(false);
-    }
-  }, [tag]);
 
   return (
     <div className="flex items-center justify-between gap-4">
-      {isExploding && <ConfettiExplosion />}
-      <LoadingBar
-        color="#8132fe"
-        height={5}
-        progress={progress}
-        onLoaderFinished={() => {
-          setProgress(0);
-        }}
-      />
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
         <RouterSelect
           hideSpinner
-          // The onSelect is triggered when an item is selected
-          onSelect={() => {
-            setProgress(progress + 10);
-          }}
-          // With useState, we know that the selectAction will be called after the transition is complete
-          selectAction={() => {
-            setProgress(100);
-          }}
           name="year"
           label="Year"
           selected={{ label: year || 'All Years', value: year || '' }}
@@ -55,33 +22,14 @@ export default function Filters({ filterOptions, filters }: Props) {
         />
         <div className="relative">
           <RouterSelect
-            // This executes on selecting an item as a regular event
-            onSelect={item => {
-              if (item.value === 'React') {
-                setSparkle(true);
-              } else {
-                setSparkle(false);
-              }
-            }}
-            // This executes at the end of the transition
-            selectAction={item => {
-              toast.success('Applied tag filter: ' + item.value, { duration: 5000 });
-            }}
             name="tag"
             label="Tag"
             selected={{ label: tag || 'All Tags', value: tag || '' }}
             options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
           />
-          {sparkle && <Sparkle />}
         </div>
         <RouterSelect
           name="speaker"
-          // Using useOptimistic means it will automatically revert to false once the transition is complete
-          selectAction={item => {
-            if (item.value === 'Kent C. Dodds') {
-              setIsExploding(true);
-            }
-          }}
           label="Speaker"
           selected={{ label: speaker || 'All Speakers', value: speaker || '' }}
           options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
@@ -89,10 +37,6 @@ export default function Filters({ filterOptions, filters }: Props) {
         <RouterSelect
           name="conference"
           label="Conference"
-          selectAction={async item => {
-            // This also executes when the transition is complete
-            await someRandomServerFunction(item.value, year);
-          }}
           selected={{ label: conference || 'All Conferences', value: conference || '' }}
           options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}
         />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { startTransition, use, unstable_ViewTransition as ViewTransition } from 'react';
+import React, { startTransition, use } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
@@ -46,7 +46,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   });
 
   return (
-    <ViewTransition key={search}>
+    <>
       <div
         className={`grid gap-6 ${expandedTalkId ? 'sm:grid-cols-1 lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}
       >
@@ -54,17 +54,15 @@ export default function TalksList({ talksPromise, search }: Props) {
           const isExpanded = expandedTalkId === talk.id;
           return (
             <div key={talk.id} className={isExpanded ? 'sm:col-span-1 lg:col-span-2' : ''}>
-              <ViewTransition name={`talk-${talk.id}`}>
-                <TalkItem
-                  talk={talk}
-                  isExpanded={isExpanded}
-                  onToggleExpand={() => {
-                    startTransition(() => {
-                      setExpandedTalkId(isExpanded ? null : talk.id);
-                    });
-                  }}
-                />
-              </ViewTransition>
+              <TalkItem
+                talk={talk}
+                isExpanded={isExpanded}
+                onToggleExpand={() => {
+                  startTransition(() => {
+                    setExpandedTalkId(isExpanded ? null : talk.id);
+                  });
+                }}
+              />
             </div>
           );
         })}
@@ -79,7 +77,7 @@ export default function TalksList({ talksPromise, search }: Props) {
       <div className="flex h-5 justify-center pt-5" ref={ref}>
         {loading && <Spinner />}
       </div>
-    </ViewTransition>
+    </>
   );
 }
 
