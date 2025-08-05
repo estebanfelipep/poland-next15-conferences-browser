@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
@@ -20,7 +20,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   const activeFilters = Object.fromEntries(searchParams.entries());
   const { talks: initialTalks, totalPages } = use(talksPromise);
   const normalizedSearch = search.trim().toLowerCase();
-  const [expandedTalkId, setExpandedTalkId] = React.useState<string | null>(null);
+  const [expandedTalkId, setExpandedTalkId] = useState<string | null>(null);
 
   const {
     data: talks,
