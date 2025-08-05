@@ -22,6 +22,7 @@ export default function Talks({ talksPromise }: Props) {
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function Talks({ talksPromise }: Props) {
           </ViewTransition>
         }
       >
-        <ViewTransition enter="slide-up" exit="slide-down">
+        <ViewTransition key={searchParams.toString()} enter="slide-up" exit="slide-down">
           <TalksList talksPromise={talksPromise} search={deferredSearch} />
         </ViewTransition>
       </Suspense>
