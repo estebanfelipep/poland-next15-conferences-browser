@@ -13,6 +13,8 @@ export default function Skeleton({ className }: Props) {
       <div className="skeleton-animation mb-2 h-4 rounded-xs" />
       <div className="skeleton-animation mb-2 h-2 w-12 rounded-xs" />
       <div className="skeleton-animation mb-2 h-2 w-20 rounded-xs" />
+      <div className="skeleton-animation mb-2 h-4 rounded-xs" />
+      <div className="skeleton-animation mb-2 h-4 rounded-xs" />
     </div>
   );
 }
