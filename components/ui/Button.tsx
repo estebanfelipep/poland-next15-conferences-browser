@@ -14,7 +14,7 @@ type Props = {
   variant?: 'primary' | 'secondary';
 };
 
-export default function StatusButton({
+export default function Button({
   children,
   loading,
   type = 'submit',

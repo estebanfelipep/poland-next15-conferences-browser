@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import React from 'react';
 import { resetEasterEgg } from '@/data/actions/cookie';
-import StatusButton from './StatusButton';
+import StatusButton from './Button';
 import type { ReactNode } from 'react';
 
 interface Props {
