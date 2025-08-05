@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import React from 'react';
 import { resetEasterEgg } from '@/data/actions/cookie';
-import StatusButton from './Button';
+import Button from './Button';
 import type { ReactNode } from 'react';
 
 interface Props {
@@ -39,7 +39,7 @@ export default async function Wrapper({ children }: Props) {
               <span className="text-accent">Enjoy the party 🎉</span>
             </div>
             <form action={resetEasterEgg} className="mt-6">
-              <StatusButton>Return</StatusButton>
+              <Button>Return</Button>
             </form>
           </div>
         </div>
