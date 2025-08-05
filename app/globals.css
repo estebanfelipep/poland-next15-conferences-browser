@@ -97,7 +97,7 @@
 
 ::view-transition-group(anything) {
   z-index: 100;
-  }
+}
 
   /* Slide animations for Suspense the fallback down */
 ::view-transition-old(.slide-down) {
