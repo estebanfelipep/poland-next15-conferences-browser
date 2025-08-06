@@ -5,6 +5,7 @@ import React, { use, useState } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
+import { cn } from '@/utils/cn';
 import TalkItem from './TalkItem';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
@@ -47,14 +48,17 @@ export default function TalksList({ talksPromise, search }: Props) {
 
   return (
     <>
-      <div
-        suppressHydrationWarning
-        className={`grid gap-6 ${expandedTalkId ? 'sm:grid-cols-1 lg:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'}`}
-      >
+      <div suppressHydrationWarning className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {filteredTalks.map(talk => {
           const isExpanded = expandedTalkId === talk.id;
           return (
-            <div key={talk.id} className={isExpanded ? 'sm:col-span-1 lg:col-span-2' : ''}>
+            <div
+              key={talk.id}
+              className={cn(
+                'col-span-1',
+                isExpanded && 'z-10 col-span-2 bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
+              )}
+            >
               <TalkItem
                 talk={talk}
                 isExpanded={isExpanded}
