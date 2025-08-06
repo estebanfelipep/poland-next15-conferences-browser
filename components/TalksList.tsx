@@ -5,6 +5,7 @@ import React, { startTransition, use, useState, unstable_ViewTransition as ViewT
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
+import { cn } from '@/utils/cn';
 import TalkItem from './TalkItem';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
@@ -53,9 +54,10 @@ export default function TalksList({ talksPromise, search }: Props) {
           return (
             <div
               key={talk.id}
-              className={`col-span-1 ${
-                isExpanded ? 'z-10 col-span-2 bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl' : ''
-              }`}
+              className={cn(
+                'col-span-1',
+                isExpanded && 'z-10 col-span-2 bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
+              )}
             >
               <ViewTransition>
                 <TalkItem
