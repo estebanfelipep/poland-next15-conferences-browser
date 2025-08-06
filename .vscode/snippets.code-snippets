@@ -32,13 +32,13 @@
         ],
     },
     "duplicatedTalksArray": {
-        "scope": "typescript",
+        "scope": "typescriptreact",
         "prefix": "duplicatedTalksArray",
         "body": [
-            "const duplicatedTalks = Array(5)",
+            "const duplicatedTalks: Talk[] = Array(5)",
             "  .fill(null)",
             "  .flatMap((_, i) => {",
-            "    return talks.map((talk, j) => {",
+            "    return initialTalks.map((talk, j) => {",
             "      return {",
             "        ...talk,",
             "        id: talk.id + '-dup-' + i + '-' + j,",
