@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useOptimistic, useTransition } from 'react';
+import { createQueryString } from '@/utils/createQueryString';
 import Select from './ui/select/Select';
 import type { SelectItem, SelectProps } from './ui/select/Select';
 
@@ -19,12 +20,6 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const createQueryString = (name: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(name, value);
-    return params.toString();
-  };
-
   return (
     <Select
       {...otherProps}
@@ -38,7 +33,7 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
         startTransition(async () => {
           setOptimisticItem(item);
           await selectAction?.(item);
-          router.push(`?${createQueryString(name, item.value)}`);
+          router.push(`?${createQueryString(searchParams, { name, value: item.value })}`);
         });
       }}
     />
