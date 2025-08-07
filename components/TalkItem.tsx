@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { useQueryState } from 'nuqs';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useTransition } from 'react';
 import { cn } from '@/utils/cn';
+import { createQueryString } from '@/utils/createQueryString';
 import Badge from './ui/Badge';
 import Card from './ui/Card';
 import type { Talk } from '@prisma/client';
@@ -13,13 +14,14 @@ type Props = {
 };
 
 export default function TalkItem({ talk, isExpanded, onToggleExpand }: Props) {
-  const [, setTagQuery] = useQueryState('tag');
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleTagClick = (e: React.MouseEvent, tag: string) => {
     e.stopPropagation();
     startTransition(() => {
-      setTagQuery(tag, { shallow: false });
+      router.push(`?${createQueryString(searchParams, { name: 'tag', value: tag })}`);
     });
   };
 
