@@ -2,7 +2,7 @@
 
 import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useDeferredValue, useState } from 'react';
+import React, { useState } from 'react';
 import type { TalksResult } from '@/types/talk';
 import TalksList from './TalksList';
 import Button from './ui/Button';
@@ -14,22 +14,20 @@ type Props = {
 
 export default function Talks({ talksPromise }: Props) {
   const [search, setSearch] = useState('');
-  const deferredSearch = useDeferredValue(search);
-  const isSearching = search !== deferredSearch;
+  const searchParams = useSearchParams();
 
   return (
     <>
       <SearchField
         value={search}
         name="search"
-        isSearching={isSearching}
         placeholder="Search by title, description, speaker, conference, or tag..."
         onChange={e => {
           setSearch(e.currentTarget.value);
         }}
       />
       <ActiveFilters />
-      <TalksList talksPromise={talksPromise} search={deferredSearch} />
+      <TalksList key={searchParams.toString()} talksPromise={talksPromise} search={search} />
     </>
   );
 }

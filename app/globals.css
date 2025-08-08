@@ -95,12 +95,11 @@
   }
 }
 
-
 ::view-transition-group(anything) {
   z-index: 100;
 }
 
-/* Slide animations for Suspense the fallback down */
+  /* Slide animations for Suspense the fallback down */
 ::view-transition-old(.slide-down) {
   animation: 150ms ease-out both fade-out, 150ms ease-out both slide-down;
 }
@@ -137,5 +136,84 @@
 @keyframes fade-out {
   to {
     opacity: 0;
+  }
+}
+
+::view-transition-old(.slide-in) {
+  animation-name: slideOutRight;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-new(.slide-in) {
+  animation-name: slideInRight;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(.slide-out) {
+  animation-name: slideOutLeft;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-new(.slide-out) {
+  animation-name: slideInLeft;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

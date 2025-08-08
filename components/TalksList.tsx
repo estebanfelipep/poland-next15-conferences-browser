@@ -1,12 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { use, useState } from 'react';
+import React, { use, useRef, useState } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
 import { cn } from '@/utils/cn';
-import TalkItem from './TalkItem';
+import { ExpandedTalk, MinimizedTalk } from './TalkItem';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
 import type { Talk } from '@prisma/client';
@@ -22,6 +22,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   const { talks: initialTalks, totalPages } = use(talksPromise);
   const normalizedSearch = search.trim().toLowerCase();
   const [expandedTalkId, setExpandedTalkId] = useState<string | null>(null);
+  const scrollPositionRef = useRef<number>(0);
 
   const {
     data: talks,
@@ -46,7 +47,21 @@ export default function TalksList({ talksPromise, search }: Props) {
     );
   });
 
-  return (
+  return expandedTalkId ? (
+    <ExpandedTalk
+      talk={
+        filteredTalks.find(talk => {
+          return talk.id === expandedTalkId;
+        }) || null
+      }
+      onClose={() => {
+        setExpandedTalkId(null);
+        setTimeout(() => {
+          window.scrollTo({ top: scrollPositionRef.current });
+        }, 100);
+      }}
+    />
+  ) : (
     <>
       <div suppressHydrationWarning className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {filteredTalks.map(talk => {
@@ -59,12 +74,13 @@ export default function TalksList({ talksPromise, search }: Props) {
                 isExpanded && 'z-10 col-span-2 rounded-2xl bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
               )}
             >
-              <TalkItem
+              <MinimizedTalk
                 talk={talk}
-                isExpanded={isExpanded}
-                onToggleExpand={() => {
-                  setExpandedTalkId(isExpanded ? null : talk.id);
+                onSelect={() => {
+                  scrollPositionRef.current = window.scrollY;
+                  setExpandedTalkId(talk.id);
                 }}
+                isExpanded={isExpanded}
               />
             </div>
           );
