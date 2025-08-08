@@ -59,7 +59,7 @@ export default function TalksList({ talksPromise, search }: Props) {
           startTransition(() => {
             setExpandedTalkId(null);
             setTimeout(() => {
-              window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
+              window.scrollTo({ behavior: 'smooth', top: scrollPositionRef.current });
             }, 100);
           });
         }}
