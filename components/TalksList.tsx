@@ -57,7 +57,7 @@ export default function TalksList({ talksPromise, search }: Props) {
       onClose={() => {
         setExpandedTalkId(null);
         setTimeout(() => {
-          window.scrollTo({ top: scrollPositionRef.current });
+          window.scrollTo({ behavior: 'smooth', top: scrollPositionRef.current });
         }, 100);
       }}
     />
