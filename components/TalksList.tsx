@@ -1,12 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { startTransition, use, useState, unstable_ViewTransition as ViewTransition } from 'react';
+import React, { startTransition, use, useRef, useState, unstable_ViewTransition as ViewTransition } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
 import { cn } from '@/utils/cn';
-import TalkItem from './TalkItem';
+import { ExpandedTalk, MinimizedTalk } from './TalkItem';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
 import type { Talk } from '@prisma/client';
@@ -22,6 +22,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   const { talks: initialTalks, totalPages } = use(talksPromise);
   const normalizedSearch = search.trim().toLowerCase();
   const [expandedTalkId, setExpandedTalkId] = useState<string | null>(null);
+  const scrollPositionRef = useRef<number>(0);
 
   const {
     data: talks,
@@ -46,7 +47,25 @@ export default function TalksList({ talksPromise, search }: Props) {
     );
   });
 
-  return (
+  return expandedTalkId ? (
+    <ViewTransition enter="slide-in" name={`talk-${expandedTalkId}`}>
+      <ExpandedTalk
+        talk={
+          filteredTalks.find(talk => {
+            return talk.id === expandedTalkId;
+          }) || null
+        }
+        onClose={() => {
+          startTransition(() => {
+            setExpandedTalkId(null);
+            setTimeout(() => {
+              window.scrollTo({ top: scrollPositionRef.current });
+            }, 100);
+          });
+        }}
+      />
+    </ViewTransition>
+  ) : (
     <>
       <div suppressHydrationWarning className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {filteredTalks.map(talk => {
@@ -59,15 +78,17 @@ export default function TalksList({ talksPromise, search }: Props) {
                 isExpanded && 'z-10 col-span-2 rounded-2xl bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
               )}
             >
-              <ViewTransition>
-                <TalkItem
+              <ViewTransition name={`talk-${talk.id}`}>
+                <MinimizedTalk
                   talk={talk}
-                  isExpanded={isExpanded}
-                  onToggleExpand={() => {
+                  onSelect={() => {
+                    // Store current scroll position before expanding
+                    scrollPositionRef.current = window.scrollY;
                     startTransition(() => {
-                      setExpandedTalkId(isExpanded ? null : talk.id);
+                      setExpandedTalkId(talk.id);
                     });
                   }}
+                  isExpanded={isExpanded}
                 />
               </ViewTransition>
             </div>
