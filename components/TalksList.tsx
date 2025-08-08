@@ -82,7 +82,6 @@ export default function TalksList({ talksPromise, search }: Props) {
                 <MinimizedTalk
                   talk={talk}
                   onSelect={() => {
-                    // Store current scroll position before expanding
                     scrollPositionRef.current = window.scrollY;
                     startTransition(() => {
                       setExpandedTalkId(talk.id);

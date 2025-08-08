@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useOptimistic, useTransition } from 'react';
-
 import { createQueryString } from '@/utils/createQueryString';
 import Badge from './ui/Badge';
 import Button from './ui/Button';
