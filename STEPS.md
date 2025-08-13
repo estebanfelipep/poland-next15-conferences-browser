@@ -30,16 +30,44 @@
 - Then, we can read it with use() to suspend the component while it resolves.
 - Now we unblocked the page and we have a nice loading state. We'll come back and enhance this later.
 
-## RouterSelect with useTransition and useOptimistic
+## AsyncSelect with useTransition and useOptimistic
 
 - Let's move on to the filters, using this AsyncSelect.
+- Using ariakit under the hood here to create beautiful custom accessible interactive selects
+- Typical interaction! Setting some loading state, doing an async operation, doing a side effect and an error rollback.
+- This could be any promise, including the one we just created for the select component.
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. The toast fires before the page has updated, meaning we have this out of sync update. Add a single param string.
+- Let's replace the manual loading state with a transition here to simplify this pattern and fix the problem. React 19 transitions can be async. Creating a lower priority, deferred state update.
+- We can use useTransition and wrap the state update and the async call, creating an Action.
+- An action is a function called in a transition, meaning we have a specific term for this type of concurrent behavior.
+- All the updates execute once the entire transition is done, keeping them in sync.
+- Remove manual rollback. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
+- UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
+- Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
+
+## RouterSelect expose action
+
+- Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
+- Replace with better param string to maintain existing params.
+- To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop.
+- Any UI comp can do this! Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components!
+- Expose the hideSpinner to customize loading state.
+
+## Filters use the action prop
+
+- Now we can actually add our custom behavior in any way we want, and the naming will tell us what to expect.
+- I just have a bunch of random libraries I wanna try to demonstrate the possibilities. I had to force install some of these!
+- Customize loading bar:
 
 ## Active filters with useTransition
 
 - We can now upgrade the interaction of this clear button with another transition!
 - Add transition to router.push and get loading state.
+- Showcase state, normal react event handling!
 
 ## Talks list with useDeferredValue
+
+- 
 
 ## View transitions
 
@@ -68,4 +96,4 @@
 
 ## Conclusion
 
-That's it for this talk, the code is pinned on my GitHub and accessible through the QR code here, and follow me on my socials! Thanks for having me!
+That's it for this talk, the code is pinned on my GitHub and accessible through the QR code here, and follow me on my socials or reach out! Thanks for having me!
