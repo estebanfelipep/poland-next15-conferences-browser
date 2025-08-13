@@ -16,3 +16,7 @@ export async function someRandomServerFunction(conference?: string, year?: strin
 export async function resetEasterEgg() {
   (await cookies()).set('easterEgg', 'false');
 }
+
+export async function hideIntro() {
+  (await cookies()).set('hideIntro', 'true');
+}

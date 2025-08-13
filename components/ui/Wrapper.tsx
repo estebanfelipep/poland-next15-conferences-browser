@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import React from 'react';
-import { resetEasterEgg } from '@/data/actions/cookie';
+import { resetEasterEgg, hideIntro } from '@/data/actions/cookie';
 import Button from './Button';
 import type { ReactNode } from 'react';
 
@@ -9,12 +9,67 @@ interface Props {
   children?: ReactNode;
 }
 
+function FeatureItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-center">
+      <span className="text-primary mr-2">▶</span>
+      <code className="bg-primary/10 rounded px-2 py-1 text-sm">{children}</code>
+    </li>
+  );
+}
+
 export default async function Wrapper({ children }: Props) {
   const shouldShowEasterEgg = (await cookies()).get('easterEgg')?.value === 'true';
+  const showIntro = (await cookies()).get('hideIntro')?.value !== 'true';
 
   return (
     <>
       {children}
+      {showIntro && (
+        <div className="bg-card/95 dark:bg-card-dark/95 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+          <div className="dark:bg-card-dark border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-10 py-12 shadow-2xl">
+            <span className="text-accent absolute -top-8 left-1/2 -translate-x-1/2 animate-pulse text-5xl select-none">
+              ⚛️
+            </span>
+            <span className="text-primary-dark dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
+
+            <div className="text-primary-dark dark:text-primary mb-6 text-center text-3xl font-extrabold md:text-5xl">
+              Modern React Patterns
+              <br />
+              <span className="bg-primary dark:bg-primary-dark bg-clip-text text-2xl text-transparent md:text-4xl">
+                Concurrent Rendering, Actions &amp; What&apos;s Next
+              </span>
+            </div>
+
+            <div className="mb-8 grid grid-cols-1 items-start gap-8 md:grid-cols-2">
+              <div className="text-left">
+                <h3 className="text-accent-dark dark:text-accent-light mb-4 text-xl font-bold">
+                  🧭 What We&apos;ll Explore Today
+                </h3>
+                <ul className="text-accent-dark dark:text-accent-light space-y-2 text-lg">
+                  <FeatureItem>useTransition</FeatureItem>
+                  <FeatureItem>useOptimistic</FeatureItem>
+                  <FeatureItem>useDeferredValue</FeatureItem>
+                  <FeatureItem>View Transitions</FeatureItem>
+                </ul>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-3 flex h-32 w-32 items-center justify-center rounded-xl border-4 shadow-lg">
+                  <Image priority src={'/qr-code.png'} alt="QR Code" width={120} height={120} className="rounded-lg" />
+                </div>
+                <div className="text-accent-dark dark:text-accent-light text-lg font-medium">@aurorascharff</div>
+                <div className="text-accent mt-1 text-sm">Aurora Scharff</div>
+              </div>
+            </div>
+            <form action={hideIntro} className="mt-4">
+              <Button type="submit" className="px-8 py-3 text-lg">
+                Let&apos;s Begin! 🎯
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
       {shouldShowEasterEgg && (
         <div className="bg-card/90 dark:bg-card-dark/90 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
           <div className="dark:bg-card-dark border-primary relative flex flex-col items-center rounded-3xl border-4 bg-white px-8 py-10 shadow-2xl">
