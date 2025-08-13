@@ -1,7 +1,40 @@
 import { slow } from '@/utils/slow';
 import type { Talk } from '@prisma/client';
 
-// Simple client-side cache to demonstrate caching patterns and avoid server function calls during initial render
+// In-memory cache for search results to enable use() usage during demo
+const cache = new Map<string, Promise<{ talks: Talk[]; totalPages: number }>>();
+
+export function searchTalks(query: string): Promise<{ talks: Talk[]; totalPages: number }> {
+  // eslint-disable-next-line no-console
+  console.log('Client searchTalks called with query:', query);
+
+  const cacheKey = `/search?q=${query}`;
+  if (!cache.has(cacheKey)) {
+    cache.set(cacheKey, getSearchResults(query));
+  }
+  return cache.get(cacheKey)!;
+}
+
+async function getSearchResults(searchTerm: string): Promise<{ talks: Talk[]; totalPages: number }> {
+  await slow();
+
+  const allTalks = FAKE_TALKS;
+  const lowerQuery = searchTerm.trim().toLowerCase();
+  const filteredTalks = allTalks.filter(talk => {
+    return (
+      talk.title.toLowerCase().includes(lowerQuery) ||
+      talk.speaker.toLowerCase().includes(lowerQuery) ||
+      talk.conference.toLowerCase().includes(lowerQuery) ||
+      (talk.tag && talk.tag.toLowerCase().includes(lowerQuery))
+    );
+  });
+
+  return {
+    talks: filteredTalks,
+    totalPages: 1,
+  };
+}
+
 const FAKE_TALKS: Talk[] = [
   {
     conference: 'React Conf',
@@ -83,37 +116,3 @@ const FAKE_TALKS: Talk[] = [
     year: 2023,
   },
 ];
-
-// Simple in-memory cache to store search results
-const cache = new Map<string, Promise<{ talks: Talk[]; totalPages: number }>>();
-
-export function searchTalks(query: string): Promise<{ talks: Talk[]; totalPages: number }> {
-  // eslint-disable-next-line no-console
-  console.log('Client searchTalks called with query:', query);
-
-  const cacheKey = `/search?q=${query}`;
-  if (!cache.has(cacheKey)) {
-    cache.set(cacheKey, getSearchResults(query));
-  }
-  return cache.get(cacheKey)!;
-}
-
-async function getSearchResults(searchTerm: string): Promise<{ talks: Talk[]; totalPages: number }> {
-  await slow();
-
-  const allTalks = FAKE_TALKS;
-  const lowerQuery = searchTerm.trim().toLowerCase();
-  const filteredTalks = allTalks.filter(talk => {
-    return (
-      talk.title.toLowerCase().includes(lowerQuery) ||
-      talk.speaker.toLowerCase().includes(lowerQuery) ||
-      talk.conference.toLowerCase().includes(lowerQuery) ||
-      (talk.tag && talk.tag.toLowerCase().includes(lowerQuery))
-    );
-  });
-
-  return {
-    talks: filteredTalks,
-    totalPages: 1,
-  };
-}
