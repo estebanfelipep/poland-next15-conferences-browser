@@ -26,21 +26,23 @@ export default async function Wrapper({ children }: Props) {
     <>
       {showIntro ? (
         <div className="bg-card/95 dark:bg-card-dark/95 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-          <div className="dark:bg-card-dark border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-10 py-12 shadow-2xl">
-            <span className="text-accent absolute -top-8 left-1/2 -translate-x-1/2 animate-pulse text-5xl select-none">
-              ⚛️
-            </span>
+          <div className="dark:bg-card-dark border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12">
             <span className="text-primary-dark dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
-
-            <div className="text-primary-dark dark:text-primary mb-6 text-center text-3xl font-extrabold md:text-5xl">
+            <div className="text-primary-dark dark:text-primary mb-6 text-center text-2xl font-extrabold md:text-3xl lg:text-5xl">
               Modern React Patterns
               <br />
-              <span className="bg-primary dark:bg-primary-dark bg-clip-text text-2xl text-transparent md:text-4xl">
+              <span className="bg-primary dark:bg-primary-dark bg-clip-text text-xl text-transparent md:text-2xl lg:text-4xl">
                 Concurrent Rendering, Actions &amp; What&apos;s Next
               </span>
             </div>
-
-            <div className="mb-8 grid grid-cols-1 items-start gap-8 md:grid-cols-2">
+            <div className="mb-8 flex flex-col items-center md:hidden">
+              <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-3 flex h-24 w-24 items-center justify-center rounded-xl border-4 shadow-lg">
+                <Image priority src={'/qr-code.png'} alt="QR Code" width={80} height={80} className="rounded-lg" />
+              </div>
+              <div className="text-accent-dark dark:text-accent-light text-base font-medium">@aurorascharff</div>
+              <div className="text-accent mt-1 text-sm">Aurora Scharff</div>
+            </div>
+            <div className="mb-8 hidden grid-cols-1 items-start gap-8 md:grid md:grid-cols-2">
               <div className="text-left">
                 <h3 className="text-accent-dark dark:text-accent-light mb-4 text-xl font-bold">
                   🧭 What We&apos;ll Explore Today
@@ -52,7 +54,6 @@ export default async function Wrapper({ children }: Props) {
                   <FeatureItem>View Transitions</FeatureItem>
                 </ul>
               </div>
-
               <div className="flex flex-col items-center">
                 <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-3 flex h-32 w-32 items-center justify-center rounded-xl border-4 shadow-lg">
                   <Image priority src={'/qr-code.png'} alt="QR Code" width={120} height={120} className="rounded-lg" />
