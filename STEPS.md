@@ -79,7 +79,7 @@
 - Add hook: usedeferred value takes in a value and returns a deferred version of it. It signalizes to react that this is a lower priority update, and we want to defer updating the UI until the deferred value is ready.
 - Notice the suspense boundary is no longer flickering.
 - Add isStale indicator for the spinner!
-- We can build any sort of stable UI state, in this stale while revalidate pattern! I recently used it for a combobox.
+- We can build any sort of stable UI state, in this stale while revalidate pattern! I recently used it for a async combobox.
 - Put back the passed promise.
 - Comment out useDeferredValue, were gonna need this for our last part of the talk.
 
