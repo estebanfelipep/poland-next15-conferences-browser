@@ -49,15 +49,20 @@
 
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - Replace with better param string to maintain existing params.
-- To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop.
-- Any UI comp can do this! Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components!
+- To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.
+- We should await this so the parent can pass either sync or async here for max flexibility.
+- Any UI comp can do this! Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components! We can add either one or both if thats what we want!
 - Expose the hideSpinner to customize loading state.
 
 ## Filters use the action prop
 
 - Now we can actually add our custom behavior in any way we want, and the naming will tell us what to expect.
 - I just have a bunch of random libraries I wanna try to demonstrate the possibilities. I had to force install some of these!
-- Customize loading bar:
+- Customize loading bar: add loading bar, onSelect start progress, action end. We know that the onSelect is triggered right away, where the load complete is when the transition is complete.
+- Add sparkle right away, add toast inside the action after complete.
+- Optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! We can call it without another transition here bc of the naming, just like a form action.
+- OnSelect update document title, another regular example. We can also call async functions, like this select action random server function, that execute at the end. Maybe we can trigger this at some point.
+- Let's move on for now!
 
 ## Active filters with useTransition
 
