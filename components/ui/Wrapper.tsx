@@ -24,8 +24,7 @@ export default async function Wrapper({ children }: Props) {
 
   return (
     <>
-      {children}
-      {showIntro && (
+      {showIntro ? (
         <div className="bg-card/95 dark:bg-card-dark/95 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
           <div className="dark:bg-card-dark border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-10 py-12 shadow-2xl">
             <span className="text-accent absolute -top-8 left-1/2 -translate-x-1/2 animate-pulse text-5xl select-none">
@@ -69,8 +68,7 @@ export default async function Wrapper({ children }: Props) {
             </form>
           </div>
         </div>
-      )}
-      {shouldShowEasterEgg && (
+      ) : shouldShowEasterEgg ? (
         <div className="bg-card/90 dark:bg-card-dark/90 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
           <div className="dark:bg-card-dark border-primary relative flex flex-col items-center rounded-3xl border-4 bg-white px-8 py-10 shadow-2xl">
             <span className="animate-spin-slow text-accent absolute -top-8 left-1/2 -translate-x-1/2 text-5xl select-none">
@@ -98,6 +96,8 @@ export default async function Wrapper({ children }: Props) {
             </form>
           </div>
         </div>
+      ) : (
+        children
       )}
     </>
   );
