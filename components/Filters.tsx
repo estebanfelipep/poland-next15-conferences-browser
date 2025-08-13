@@ -89,6 +89,10 @@ export default function Filters({ filterOptions, filters }: Props) {
         <RouterSelect
           name="conference"
           label="Conference"
+          onSelect={item => {
+            // A regular event
+            document.title = `${item.value} - Conference Explorer`;
+          }}
           selectAction={async item => {
             // This also executes when the transition is complete
             await someRandomServerFunction(item.value, year);
