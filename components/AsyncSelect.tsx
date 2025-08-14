@@ -8,11 +8,12 @@ import type { SelectItem, SelectProps } from './ui/select/Select';
 type Props = {
   hideSpinner?: boolean;
   options: SelectItem[];
+  selected?: SelectItem;
   onSelect?: (item: SelectItem) => void;
 } & SelectProps;
 
-export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
-  const [selected, setSelected] = useState<SelectItem>({ label: 'All', value: '' });
+export default function AsyncSelect({ name, selected: initialSelected, onSelect, ...otherProps }: Props) {
+  const [selected, setSelected] = useState<SelectItem>(initialSelected);
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -42,9 +43,9 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
 }
 
 function setAsyncFilter(item: SelectItem): Promise<SelectItem> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // reject(new Error('An error occurred'));
+      reject(new Error('An error occurred'));
       resolve(item);
     }, 1000);
   });
