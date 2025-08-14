@@ -1,6 +1,6 @@
 import React from 'react';
 import Filters from '@/components/Filters';
-import Talks from '@/components/Talks';
+import TalksExplorer from '@/components/TalksExplorer';
 import { getTalks, getTalkFilterOptions } from '@/data/services/talk';
 import type { FilterType } from '@/types/filters';
 
@@ -16,7 +16,7 @@ export default async function RootPage({ searchParams }: PageProps) {
   return (
     <div className="flex flex-col gap-8">
       <Filters filterOptions={filterOptions} filters={activeFilters} />
-      <Talks talksPromise={talks} />
+      <TalksExplorer talksPromise={talks} />
     </div>
   );
 }

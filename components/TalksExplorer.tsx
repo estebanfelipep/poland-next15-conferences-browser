@@ -10,7 +10,7 @@ import React, {
   unstable_ViewTransition as ViewTransition,
 } from 'react';
 import type { TalksResult } from '@/types/talk';
-import TalksList, { TalksListSkeleton } from './TalksList';
+import TalksGrid, { TalksGridSkeleton } from './TalksGrid';
 import Button from './ui/Button';
 import SearchField from './ui/SearchField';
 
@@ -18,7 +18,7 @@ type Props = {
   talksPromise: Promise<TalksResult>;
 };
 
-export default function Talks({ talksPromise }: Props) {
+export default function TalksExplorer({ talksPromise }: Props) {
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const isSearching = search !== deferredSearch;
@@ -39,12 +39,12 @@ export default function Talks({ talksPromise }: Props) {
       <Suspense
         fallback={
           <ViewTransition exit="slide-down">
-            <TalksListSkeleton />
+            <TalksGridSkeleton />
           </ViewTransition>
         }
       >
         <ViewTransition enter="slide-up" exit="slide-down">
-          <TalksList key={searchParams.toString()} talksPromise={talksPromise} search={deferredSearch} />
+          <TalksGrid key={searchParams.toString()} talksPromise={talksPromise} search={deferredSearch} />
         </ViewTransition>
       </Suspense>
     </>

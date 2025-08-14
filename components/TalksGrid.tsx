@@ -5,8 +5,8 @@ import React, { startTransition, use, useRef, useState, unstable_ViewTransition 
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
-import { ExpandedTalk } from './talk-item/ExpandedTalk';
-import { MinimizedTalk } from './talk-item/MinimizedTalk';
+import { TalkCard } from './talk/TalkCard';
+import { TalkDetails } from './talk/TalkDetails';
 import Skeleton from './ui/Skeleton';
 import Spinner from './ui/Spinner';
 import type { Talk } from '@prisma/client';
@@ -16,7 +16,7 @@ type Props = {
   search: string;
 };
 
-export default function TalksList({ talksPromise, search }: Props) {
+export default function TalksGrid({ talksPromise, search }: Props) {
   const searchParams = useSearchParams();
   const activeFilters = Object.fromEntries(searchParams.entries());
   const { talks: initialTalks, totalPages } = use(talksPromise);
@@ -49,7 +49,7 @@ export default function TalksList({ talksPromise, search }: Props) {
 
   return expandedTalkId ? (
     <ViewTransition enter="slide-in" name={`talk-${expandedTalkId}`}>
-      <ExpandedTalk
+      <TalkDetails
         talk={
           filteredTalks.find(talk => {
             return talk.id === expandedTalkId;
@@ -69,7 +69,7 @@ export default function TalksList({ talksPromise, search }: Props) {
         {filteredTalks.map(talk => {
           return (
             <ViewTransition key={`talk-${talk.id}`} name={`talk-${talk.id}`}>
-              <MinimizedTalk
+              <TalkCard
                 talk={talk}
                 onSelect={() => {
                   scrollPositionRef.current = window.scrollY;
@@ -96,7 +96,7 @@ export default function TalksList({ talksPromise, search }: Props) {
   );
 }
 
-export function TalksListSkeleton() {
+export function TalksGridSkeleton() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <Skeleton />
