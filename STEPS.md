@@ -3,45 +3,39 @@
 ## Introduction
 
 - Aurora, web dev, norway, consultant at Crayon Consulting in oslo
-- Excited to speak here today, because i'll be teaching about modern react patterns: concurrent features, actions, and whats next.
-- Handling async operations in UI components can be tricky—flickering pending states, inefficient state updates, and unstable interfaces are common issues. Modern React patterns address these challenges through concurrent rendering and React 19 Actions, offering more predictable async workflows and reusable patterns.
-- With React 18 and concurrent mode we already got a lot of ways to improve the user experience and responsiveness of our apps. Now, coming in to 19, we have even more tools at our disposal, and new ways to combine them.
-- These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue . They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
+- Excited to speak here today, because i'll be teaching about modern react patterns: concurrent rendering, actions, and whats next.
+- Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and excess complexity.
+- With React 18 we already got a lot of features to allow us to improve the UX and responsiveness of our apps. Now, coming in to 19, we have even more tools at our disposal, and new ways to combine them.
+- These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue. They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
 - Who here has ever used useTransition?
 - Who here has ever used useOptimistic?
 - Who here has ever used useDeferredValue?
+- Who has tried the canary release of View Transitions in React?
 - Perfect! Let's begin, and dive deeper into these hooks. Click button.
 
 ## Setup and starting point
 
-- This is a conference explorer app! Some of this is just made up data, maybe you can find your next conference idea here.
-- The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS. But, don't worry, we are focusing on client side React today.
+- This is a conference explorer app!
+- The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Demo app: Click talks, filter talks, filters that don't work yet.
 
 ## Go through the code
 
-- I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a client component as a promise.
-- We have the filters themselves, then the Talks are reiving the talks promise.
-- Passing this promise through to the talks list.
-
-## Add Suspense
-
-- Let's just refresh some server component knowledge and wrap this client component in a suspense to provide a loading state while this promise resolved.
-- Then, we can read it with use() to suspend the component while it resolves.
-- Now we unblocked the page and we have a nice loading state. We'll come back and enhance this later.
+- I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
+- We have the filters themselves, then the Talks client component is receiving the talks promise. Suspending with a fallback.
 
 ## AsyncSelect with useTransition and useOptimistic
 
 - Let's move on to the filters, using this AsyncSelect.
 - Using ariakit under the hood here to create beautiful custom accessible interactive selects
-- Typical interaction! Setting some loading state, doing an async operation, doing a side effect and an error rollback.
+- Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
 - This could be any promise, including the one we just created for the select component.
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. The toast fires before the page has updated, meaning we have this out of sync update. Add a single param string.
-- Let's replace the manual loading state with a transition here to simplify this pattern and fix the problem. React 19 transitions can be async. Creating a lower priority, deferred state update.
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
 - We can use useTransition and wrap the state update and the async call, creating an Action.
-- An action is a function called in a transition, meaning we have a specific term for this type of concurrent behavior.
+- An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - All the updates execute once the entire transition is done, keeping them in sync.
-- Remove manual rollback. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
+- Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
 
