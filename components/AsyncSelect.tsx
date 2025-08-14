@@ -32,7 +32,7 @@ export default function AsyncSelect({ name, selected: initialSelected, onSelect,
           const result = await setAsyncFilter(item);
           setSelected(result);
         } catch (error) {
-          setSelected({ label: 'All', value: '' });
+          setSelected(initialSelected);
           toast.error(`Failed to update filter ${name}: ${error}`);
         } finally {
           setIsLoading(false);
