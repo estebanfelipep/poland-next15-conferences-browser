@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useOptimistic, useState } from 'react';
+import React, { useOptimistic, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast from 'react-hot-toast';
-import Sparkle from 'react-sparkle';
 import LoadingBar from 'react-top-loading-bar';
 import { someRandomServerFunction } from '@/data/actions/cookie';
 import type { FilterOptions, FilterType } from '@/types/filters';
@@ -18,13 +17,6 @@ export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
-  const [sparkle, setSparkle] = useState(false);
-
-  useEffect(() => {
-    if (tag !== 'React') {
-      setSparkle(false);
-    }
-  }, [tag]);
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -53,27 +45,20 @@ export default function Filters({ filterOptions, filters }: Props) {
           selected={{ label: year || 'All Years', value: year || '' }}
           options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
         />
-        <div className="relative">
-          <RouterSelect
-            // This executes on selecting an item as a regular event
-            onSelect={item => {
-              if (item.value === 'React') {
-                setSparkle(true);
-              } else {
-                setSparkle(false);
-              }
-            }}
-            // This executes at the end of the transition
-            selectAction={item => {
-              toast.success('Applied tag filter: ' + item.value, { duration: 5000 });
-            }}
-            name="tag"
-            label="Tag"
-            selected={{ label: tag || 'All Tags', value: tag || '' }}
-            options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
-          />
-          {sparkle && <Sparkle />}
-        </div>
+        <RouterSelect
+          // This executes on selecting an item as a regular event
+          onSelect={item => {
+            document.title = `${item.value} - Conference Explorer`;
+          }}
+          // This executes at the end of the transition
+          selectAction={item => {
+            toast.success('Applied tag filter: ' + item.value, { duration: 5000 });
+          }}
+          name="tag"
+          label="Tag"
+          selected={{ label: tag || 'All Tags', value: tag || '' }}
+          options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
+        />
         <RouterSelect
           name="speaker"
           // Using useOptimistic means it will automatically revert to false once the transition is complete
@@ -89,10 +74,6 @@ export default function Filters({ filterOptions, filters }: Props) {
         <RouterSelect
           name="conference"
           label="Conference"
-          onSelect={item => {
-            // A regular event
-            document.title = `${item.value} - Conference Explorer`;
-          }}
           selectAction={async item => {
             // This also executes when the transition is complete
             await someRandomServerFunction(item.value, year);
