@@ -27,17 +27,15 @@ export default function Select({ options, label, selected, hideSpinner = false, 
   return (
     <div>
       <Ariakit.SelectProvider value={selected.value}>
-        <Ariakit.SelectLabel className="mb-1 text-sm font-bold uppercase sm:mb-2 sm:text-base">
-          {label}
-        </Ariakit.SelectLabel>
+        <Ariakit.SelectLabel className="mb-2 font-bold uppercase">{label}</Ariakit.SelectLabel>
         <div className="flex items-center gap-4">
           <Ariakit.Select
             aria-busy={isPending}
-            className="group flex items-center gap-2"
+            className="group flex min-w-0 items-center gap-2 sm:flex-initial"
             render={<SelectButton variant={hasActiveFilter ? 'primary' : 'secondary'} />}
           >
-            {selected.label}
-            <Ariakit.SelectArrow className="transition-transform group-aria-expanded:rotate-180" />
+            <span className="flex-1 truncate text-left sm:flex-initial">{selected.label}</span>
+            <Ariakit.SelectArrow className="flex-shrink-0 transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
           {isPending && !hideSpinner && <Spinner />}
         </div>
