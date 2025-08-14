@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useOptimistic, useState } from 'react';
+import React, { useOptimistic, useRef, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast from 'react-hot-toast';
 import LoadingBar from 'react-top-loading-bar';
 import { someRandomServerFunction } from '@/data/actions/cookie';
 import type { FilterOptions, FilterType } from '@/types/filters';
+import { updateThemeColor } from '@/utils/themeColors';
 import RouterSelect from './RouterSelect';
 
 type Props = {
@@ -17,6 +18,7 @@ export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
+  const documentRef = useRef(document);
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -48,7 +50,7 @@ export default function Filters({ filterOptions, filters }: Props) {
         <RouterSelect
           // This executes on selecting an item as a regular event
           onSelect={item => {
-            document.title = `${item.value} - Conference Explorer`;
+            updateThemeColor(item.value, documentRef);
           }}
           // This executes at the end of the transition
           selectAction={item => {
