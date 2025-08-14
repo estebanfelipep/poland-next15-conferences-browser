@@ -10,10 +10,9 @@ import type { Talk } from '@prisma/client';
 type MinimizedTalkProps = {
   talk: Talk;
   onSelect: () => void;
-  isExpanded: boolean;
 };
 
-export function MinimizedTalk({ talk, onSelect, isExpanded }: MinimizedTalkProps) {
+export function MinimizedTalk({ talk, onSelect }: MinimizedTalkProps) {
   return (
     <Card className="hover:shadow-primary/25 h-full w-full transition-all hover:shadow-lg">
       <button onClick={onSelect} className="flex h-full w-full flex-col text-left">
@@ -24,11 +23,6 @@ export function MinimizedTalk({ talk, onSelect, isExpanded }: MinimizedTalkProps
               by <span className="font-medium">{talk.speaker}</span>
             </p>
           </div>
-          {!isExpanded && (
-            <span className="bg-theme-accent shrink-0 rounded-full px-3 py-1 text-xs font-medium text-white">
-              Expand
-            </span>
-          )}
         </div>
         <div className="mb-4 flex flex-wrap gap-2">
           <Badge variant="secondary">{talk.conference}</Badge>

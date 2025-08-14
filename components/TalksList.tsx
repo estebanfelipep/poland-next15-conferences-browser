@@ -5,7 +5,6 @@ import React, { startTransition, use, useRef, useState, unstable_ViewTransition 
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
-import { cn } from '@/utils/cn';
 import { ExpandedTalk } from './talk-item/ExpandedTalk';
 import { MinimizedTalk } from './talk-item/MinimizedTalk';
 import Skeleton from './ui/Skeleton';
@@ -59,9 +58,7 @@ export default function TalksList({ talksPromise, search }: Props) {
         onClose={() => {
           startTransition(() => {
             setExpandedTalkId(null);
-            setTimeout(() => {
-              window.scrollTo({ behavior: 'smooth', top: scrollPositionRef.current });
-            }, 100);
+            scrollToPosition(scrollPositionRef.current);
           });
         }}
       />
@@ -70,28 +67,18 @@ export default function TalksList({ talksPromise, search }: Props) {
     <>
       <div suppressHydrationWarning className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {filteredTalks.map(talk => {
-          const isExpanded = expandedTalkId === talk.id;
           return (
-            <div
-              key={talk.id}
-              className={cn(
-                'col-span-1',
-                isExpanded && 'z-10 col-span-2 rounded-2xl bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
-              )}
-            >
-              <ViewTransition name={`talk-${talk.id}`}>
-                <MinimizedTalk
-                  talk={talk}
-                  onSelect={() => {
-                    scrollPositionRef.current = window.scrollY;
-                    startTransition(() => {
-                      setExpandedTalkId(talk.id);
-                    });
-                  }}
-                  isExpanded={isExpanded}
-                />
-              </ViewTransition>
-            </div>
+            <ViewTransition key={`talk-${talk.id}`} name={`talk-${talk.id}`}>
+              <MinimizedTalk
+                talk={talk}
+                onSelect={() => {
+                  scrollPositionRef.current = window.scrollY;
+                  startTransition(() => {
+                    setExpandedTalkId(talk.id);
+                  });
+                }}
+              />
+            </ViewTransition>
           );
         })}
       </div>
@@ -117,4 +104,10 @@ export function TalksListSkeleton() {
       <Skeleton />
     </div>
   );
+}
+
+function scrollToPosition(position: number) {
+  setTimeout(() => {
+    window.scrollTo({ behavior: 'smooth', top: position });
+  }, 100);
 }
