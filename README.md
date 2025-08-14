@@ -6,10 +6,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install the dependencies (with `--force` due to old packages):
+First, install the dependencies
 
 ```bash
-npm install --force
+npm install
 ```
 
 Then, run the development server:

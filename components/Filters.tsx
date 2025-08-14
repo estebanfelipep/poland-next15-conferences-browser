@@ -19,14 +19,12 @@ export default function Filters({ filterOptions, filters }: Props) {
           selected={{ label: year || 'All Years', value: year || '' }}
           options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
         />
-        <div className="relative">
-          <AsyncSelect
-            name="tag"
-            label="Tag"
-            selected={{ label: tag || 'All Tags', value: tag || '' }}
-            options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
-          />
-        </div>
+        <AsyncSelect
+          name="tag"
+          label="Tag"
+          selected={{ label: tag || 'All Tags', value: tag || '' }}
+          options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
+        />
         <AsyncSelect
           name="speaker"
           label="Speaker"
