@@ -5,7 +5,6 @@ import React, { use, useRef, useState } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
-import { cn } from '@/utils/cn';
 import { ExpandedTalk } from './talk-item/ExpandedTalk';
 import { MinimizedTalk } from './talk-item/MinimizedTalk';
 import Skeleton from './ui/Skeleton';
@@ -57,33 +56,22 @@ export default function TalksList({ talksPromise, search }: Props) {
       }
       onClose={() => {
         setExpandedTalkId(null);
-        setTimeout(() => {
-          window.scrollTo({ behavior: 'smooth', top: scrollPositionRef.current });
-        }, 100);
+        scrollToPosition(scrollPositionRef.current);
       }}
     />
   ) : (
     <>
       <div suppressHydrationWarning className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {filteredTalks.map(talk => {
-          const isExpanded = expandedTalkId === talk.id;
           return (
-            <div
+            <MinimizedTalk
+              talk={talk}
               key={talk.id}
-              className={cn(
-                'col-span-1',
-                isExpanded && 'z-10 col-span-2 rounded-2xl bg-gradient-to-r from-indigo-50 to-indigo-100 shadow-2xl',
-              )}
-            >
-              <MinimizedTalk
-                talk={talk}
-                onSelect={() => {
-                  scrollPositionRef.current = window.scrollY;
-                  setExpandedTalkId(talk.id);
-                }}
-                isExpanded={isExpanded}
-              />
-            </div>
+              onSelect={() => {
+                scrollPositionRef.current = window.scrollY;
+                setExpandedTalkId(talk.id);
+              }}
+            />
           );
         })}
       </div>
@@ -109,4 +97,10 @@ export function TalksListSkeleton() {
       <Skeleton />
     </div>
   );
+}
+
+function scrollToPosition(position: number) {
+  setTimeout(() => {
+    window.scrollTo({ behavior: 'smooth', top: position });
+  }, 100);
 }

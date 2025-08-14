@@ -1,5 +1,4 @@
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition, useOptimistic } from 'react';
 import { createQueryString } from '@/utils/createQueryString';
 import Badge from '../ui/Badge';
