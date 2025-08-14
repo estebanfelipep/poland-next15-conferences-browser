@@ -16,7 +16,7 @@
 ## Setup and starting point
 
 - This is a conference explorer app! Some of this is just made up data, maybe you can find your next conference idea here.
-- The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS. But, don't worry, we are focusing on client side React today.
+- The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Demo app: Click talks, filter talks, filters that don't work yet.
 
 ## Go through the code
@@ -27,7 +27,7 @@
 
 ## Add Suspense
 
-- Let's just refresh some server component knowledge and wrap this client component in a suspense to provide a loading state while this promise resolved.
+- Let's just refresh some server component knowledge. But, don't worry, we are focusing on client side React today. Wrap this client component in a suspense to provide a loading state while this promise resolved.
 - Then, we can read it with use() to suspend the component while it resolves.
 - Now we unblocked the page and we have a nice loading state. We'll come back and enhance this later.
 
@@ -35,10 +35,9 @@
 
 - Let's move on to the filters, using this AsyncSelect.
 - Using ariakit under the hood here to create beautiful custom accessible interactive selects
-- Typical interaction! Setting some loading state, doing an async operation, doing a side effect and an error rollback.
+- Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
 - This could be any promise, including the one we just created for the select component.
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. The toast fires before the page has updated, meaning we have this out of sync update. Add a single param string.
-- Let's replace the manual loading state with a transition here to simplify this pattern and fix the problem. React 19 transitions can be async. Creating a lower priority, deferred state update.
+- Let's replace the manual loading state with a transition here to simplify this pattern. React 19 transitions can be async. Creating a lower priority, deferred state update.
 - We can use useTransition and wrap the state update and the async call, creating an Action.
 - An action is a function called in a transition, meaning we have a specific term for this type of concurrent behavior.
 - All the updates execute once the entire transition is done, keeping them in sync.
@@ -48,6 +47,7 @@
 
 ## RouterSelect expose action
 
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - Replace with better param string to maintain existing params.
 - To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.

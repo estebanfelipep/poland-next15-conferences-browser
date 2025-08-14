@@ -25,27 +25,26 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
         if (item.value === selected.value) return;
         onSelect?.(item);
 
-        setSelected(item);
         setIsLoading(true);
-        const result = await sendAsyncSelectChange(name, item.value);
-        if (result?.error) {
-          toast.error(`Failed to update filter ${name}: ${result.error}`);
+        setSelected(item);
+        try {
+          await setAsyncFilter(name, item.value);
+        } catch (error) {
           setSelected({ label: 'All', value: '' });
-        } else {
-          toast.success(`Filter ${name} updated to ${item.label}`);
+          toast.error(`Failed to update filter ${name}: ${error}`);
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }}
     />
   );
 }
 
-function sendAsyncSelectChange(name: string, value: string): Promise<{ error: string | null }> {
-  console.log(`Sending async select change for ${name} with value: ${value}`);
-  return new Promise(resolve => {
+function setAsyncFilter(name: string, value: string) {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({ error: null });
-      // resolve({ error: 'An error occurred' });
+      reject(new Error('An error occurred'));
+      resolve({ name, value });
     }, 1000);
   });
 }
