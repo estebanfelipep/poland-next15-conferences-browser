@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState } from 'react';
 import type { TalksResult } from '@/types/talk';
-import TalksList, { TalksListSkeleton } from './TalksList';
+import TalksGrid, { TalksGridSkeleton } from './TalksGrid';
 import Button from './ui/Button';
 import SearchField from './ui/SearchField';
 
@@ -12,7 +12,7 @@ type Props = {
   talksPromise: Promise<TalksResult>;
 };
 
-export default function Talks({ talksPromise }: Props) {
+export default function TalksExplorer({ talksPromise }: Props) {
   const [search, setSearch] = useState('');
   const searchParams = useSearchParams();
 
@@ -27,8 +27,8 @@ export default function Talks({ talksPromise }: Props) {
         }}
       />
       <ActiveFilters />
-      <Suspense fallback={<TalksListSkeleton />}>
-        <TalksList key={searchParams.toString()} talksPromise={talksPromise} search={search} />
+      <Suspense fallback={<TalksGridSkeleton />}>
+        <TalksGrid key={searchParams.toString()} talksPromise={talksPromise} search={search} />
       </Suspense>
     </>
   );

@@ -1,18 +1,16 @@
 'use client';
 
 import React from 'react';
-
 import Badge from '../ui/Badge';
-
 import Card from '../ui/Card';
 import type { Talk } from '@prisma/client';
 
-type MinimizedTalkProps = {
+type Props = {
   talk: Talk;
   onSelect: () => void;
 };
 
-export function MinimizedTalk({ talk, onSelect }: MinimizedTalkProps) {
+export function TalkCard({ talk, onSelect }: Props) {
   return (
     <Card className="hover:shadow-primary/25 h-full w-full transition-all hover:shadow-lg">
       <button onClick={onSelect} className="flex h-full w-full flex-col text-left">

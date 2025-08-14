@@ -6,12 +6,12 @@ import Button from '../ui/Button';
 import Card from '../ui/Card';
 import type { Talk } from '@prisma/client';
 
-type ExpandedTalkProps = {
+type Props = {
   talk: Talk | null;
   onClose: () => void;
 };
 
-export function ExpandedTalk({ talk, onClose }: ExpandedTalkProps) {
+export function TalkDetails({ talk, onClose }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
