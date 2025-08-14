@@ -4,9 +4,9 @@
 
 - Aurora, web dev, norway, consultant at Crayon Consulting in oslo
 - Excited to speak here today, because i'll be teaching about modern react patterns: concurrent features, actions, and whats next.
-- Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and unstable interfaces.
-- With React 18 and concurrent mode we already got a lot of ways to improve the user experience and responsiveness of our apps. Now, coming in to 19, we have even more tools at our disposal, and new ways to combine them.
-- These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue . They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
+- Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and unstable user interfaces.
+- With React 18 we already got a lot of features to allow us to improve the UX and responsiveness of our apps. Now, coming in to 19, we have even more tools at our disposal, and new ways to combine them.
+- These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue. They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
 - Who here has ever used useTransition?
 - Who here has ever used useOptimistic?
 - Who here has ever used useDeferredValue?
