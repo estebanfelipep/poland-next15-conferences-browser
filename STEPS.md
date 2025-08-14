@@ -21,15 +21,9 @@
 
 ## Go through the code
 
-- I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a client component as a promise.
+- I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a client component as a promise. Suspending with a fallback.
 - We have the filters themselves, then the Talks are reiving the talks promise.
 - Passing this promise through to the talks list.
-
-## Add Suspense
-
-- Let's just refresh some server component knowledge. But, don't worry, we are focusing on client side React today. Wrap this client component in a suspense to provide a loading state while this promise resolved.
-- Then, we can read it with use() to suspend the component while it resolves.
-- Now we unblocked the page and we have a nice loading state. We'll come back and enhance this later.
 
 ## AsyncSelect with useTransition and useOptimistic
 

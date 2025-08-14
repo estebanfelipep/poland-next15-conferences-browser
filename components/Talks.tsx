@@ -2,9 +2,9 @@
 
 import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import type { TalksResult } from '@/types/talk';
-import TalksList from './TalksList';
+import TalksList, { TalksListSkeleton } from './TalksList';
 import Button from './ui/Button';
 import SearchField from './ui/SearchField';
 
@@ -27,7 +27,9 @@ export default function Talks({ talksPromise }: Props) {
         }}
       />
       <ActiveFilters />
-      <TalksList key={searchParams.toString()} talksPromise={talksPromise} search={search} />
+      <Suspense fallback={<TalksListSkeleton />}>
+        <TalksList key={searchParams.toString()} talksPromise={talksPromise} search={search} />
+      </Suspense>
     </>
   );
 }
