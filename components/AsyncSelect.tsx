@@ -28,7 +28,8 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
         setIsLoading(true);
         setSelected(item);
         try {
-          await setAsyncFilter(name, item.value);
+          const result = await setAsyncFilter(name, item.value);
+          setSelected(result);
         } catch (error) {
           setSelected({ label: 'All', value: '' });
           toast.error(`Failed to update filter ${name}: ${error}`);
@@ -40,11 +41,11 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
   );
 }
 
-function setAsyncFilter(name: string, value: string) {
+function setAsyncFilter(name: string, value: string): Promise<SelectItem> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       reject(new Error('An error occurred'));
-      resolve({ name, value });
+      resolve({ label: name, value });
     }, 1000);
   });
 }
