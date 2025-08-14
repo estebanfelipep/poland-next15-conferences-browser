@@ -1,4 +1,4 @@
-export function updateThemeColor(tag: string, documentRef: React.RefObject<Document>) {
+export function updateThemeColor(tag: string, documentRef: React.RefObject<Document | null>) {
   const colorMap = {
     AI: { dark: '#7a96d1', darker: '#6382b9', primary: '#95ade9' },
     Angular: { dark: '#b80029', darker: '#9a0022', primary: '#dd0031' },

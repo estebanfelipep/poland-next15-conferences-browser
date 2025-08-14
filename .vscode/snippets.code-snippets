@@ -6,16 +6,14 @@
             "selectAction?: (item: SelectItem) => void | Promise<void>;"
         ],
     },
-    "resetSparkleEffect": {
+    "useEffectDocumentRef": {
         "scope": "typescriptreact",
-        "prefix": "resetSparkleEffect",
+        "prefix": "useEffectDocumentRef",
         "body": [
             "useEffect(() => {",
-            "  if (tag !== 'React') {",
-            "    setSparkle(false);",
-            "  }",
-            "}, [tag]);"
-        ],
+            "  documentRef.current = document;",
+            "}, []);"
+        ]
     },
     "loadingBarComponent": {
         "scope": "typescriptreact",
@@ -30,22 +28,6 @@
             "  }}",
             "/>"
         ],
-    },
-    "duplicatedTalksArray": {
-        "scope": "typescriptreact",
-        "prefix": "duplicatedTalksArray",
-        "body": [
-            "const duplicatedTalks: Talk[] = Array(5)",
-            "  .fill(null)",
-            "  .flatMap((_, i) => {",
-            "    return initialTalks.map((talk, j) => {",
-            "      return {",
-            "        ...talk,",
-            "        id: talk.id + '-dup-' + i + '-' + j,",
-            "      };",
-            "    });",
-            "  });"
-        ]
     },
     "importViewTransition": {
         "scope": "typescript",
