@@ -28,7 +28,7 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
         setIsLoading(true);
         setSelected(item);
         try {
-          const result = await setAsyncFilter(name, item.value);
+          const result = await setAsyncFilter(item);
           setSelected(result);
         } catch (error) {
           setSelected({ label: 'All', value: '' });
@@ -41,11 +41,11 @@ export default function AsyncSelect({ name, onSelect, ...otherProps }: Props) {
   );
 }
 
-function setAsyncFilter(name: string, value: string): Promise<SelectItem> {
-  return new Promise((resolve, reject) => {
+function setAsyncFilter(item: SelectItem): Promise<SelectItem> {
+  return new Promise(resolve => {
     setTimeout(() => {
-      reject(new Error('An error occurred'));
-      resolve({ label: name, value });
+      // reject(new Error('An error occurred'));
+      resolve(item);
     }, 1000);
   });
 }
