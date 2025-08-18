@@ -29,7 +29,7 @@ export function TalkDetails({ talk, onClose }: Props) {
   if (!talk) return null;
 
   return (
-    <Card className="shadow-primary/25 w-full p-6 shadow-lg">
+    <Card className="shadow-primary/25 w-full p-8 shadow-lg">
       <div className="mb-6 flex items-start justify-between">
         <div className="flex-1">
           <h1 className="text-theme-text mb-2 text-3xl font-bold">{talk.title}</h1>
