@@ -2,7 +2,7 @@
 
 import { X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useTransition } from 'react';
 import type { TalksResult } from '@/types/talk';
 import TalksGrid, { TalksGridSkeleton } from './TalksGrid';
 import Button from './ui/Button';
@@ -37,6 +37,7 @@ export default function TalksExplorer({ talksPromise }: Props) {
 function ActiveFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const entries = searchParams
     ? Array.from(searchParams.entries()).filter(([, value]) => {
@@ -60,8 +61,11 @@ function ActiveFilters() {
           })}
         </div>
         <Button
+          loading={isPending}
           onClick={() => {
-            router.push('/?');
+            startTransition(() => {
+              router.push('/?');
+            });
           }}
           variant="secondary"
           type="button"
