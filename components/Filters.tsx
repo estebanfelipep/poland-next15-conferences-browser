@@ -12,7 +12,7 @@ export default function Filters({ filterOptions, filters }: Props) {
 
   return (
     <div className="w-full">
-      <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 md:gap-6">
+      <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 md:gap-6">
         <AsyncSelect
           name="year"
           label="Year"
