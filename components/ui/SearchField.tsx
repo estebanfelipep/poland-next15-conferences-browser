@@ -15,7 +15,13 @@ export default function SearchField({
 }: Props & React.HTMLProps<HTMLInputElement>) {
   return (
     <div className="relative">
-      <input className="pl-9" {...otherProps} placeholder={placeholder || 'Search...'} type="search" />
+      <input
+        className="pl-9"
+        autoComplete="off"
+        {...otherProps}
+        placeholder={placeholder || 'Search...'}
+        type="search"
+      />
       <div className="text-gray absolute top-1/2 left-3 -translate-y-1/2">
         {isSearching ? (
           <div aria-label="searching..." className="h-fit w-fit animate-spin">
