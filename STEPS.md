@@ -22,7 +22,8 @@
 ## Go through the code
 
 - I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
-- We have the filters themselves, then the Talks client component is receiving the talks promise. Suspending with a fallback.
+- We have the filters themselves.
+- Thats it for the setup, this talk is not really about server components.
 
 ## AsyncSelect with useTransition and useOptimistic
 
@@ -34,10 +35,10 @@
 - We can use useTransition and wrap the state update and the async call, creating an Action.
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - All the updates execute once the entire transition is done, keeping them in sync.
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 
 ## RouterSelect expose action
 
@@ -60,6 +61,7 @@
 
 ## Active filters with useTransition
 
+- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
 - We can now upgrade the interaction of this clear button with another transition!
 - Add transition to router.push and get loading state.
 - Showcase state, normal react event handling!

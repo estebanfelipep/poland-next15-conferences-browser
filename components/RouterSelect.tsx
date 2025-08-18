@@ -33,7 +33,7 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
         startTransition(async () => {
           setOptimisticItem(item);
           await selectAction?.(item);
-          router.push(`?${createQueryString(searchParams, { name, value: item.value })}`);
+          router.push(createQueryString(searchParams, { name, value: item.value }));
         });
       }}
     />
