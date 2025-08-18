@@ -28,6 +28,7 @@
 
 ## AsyncSelect with useTransition and useOptimistic
 
+- Let's start by making the filters work! We want to be able to select a filter, and have the talks list update.
 - Let's move on to the filters, using this AsyncSelect.
 - Using ariakit under the hood here to create beautiful custom accessible interactive selects
 - Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
@@ -43,6 +44,7 @@
 
 ## RouterSelect expose action
 
+- The filters are already working, but we want to make this component reusable and customizable.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - Replace with better param string to maintain existing params.
 - To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.
@@ -51,6 +53,7 @@
 
 ## Filters use the action prop
 
+- So we have our custom RouterSelect, and we start adding custom behavior to it.
 - Now we can actually add our custom behavior in any way we want, and the naming will tell us what to expect.
 - I just have a bunch of random libraries I wanna try to demonstrate the possibilities.
 - Customize loading bar: add loading bar, onSelect start progress, action end. We know that the onSelect is triggered right away, where the load complete is when the transition is complete.
@@ -62,6 +65,7 @@
 ## Active filters with useTransition
 
 - Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
+- Now let's solidify our knowledge and make a loading state for the clear button.
 - We can now upgrade the interaction of this clear button with another transition!
 - Add transition to router.push and get loading state.
 - Showcase state, normal react event handling!
