@@ -29,49 +29,47 @@
 ## AsyncSelect with useTransition and useOptimistic
 
 - Let's start by making the filters work! We want to be able to select a filter, and have the talks list update.
-- Let's move on to the filters, using this AsyncSelect.
-- Using ariakit under the hood here to create beautiful custom accessible interactive selects
+- But first, let's look inside this AsyncSelect.
 - Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
 - This could be any promise, including the one we just created for the select component.
+- Before we make them work, let's look at the code and see how we can improve it.
+- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it can lead to flickering states.
 - Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
 - We can use useTransition and wrap the state update and the async call, creating an Action.
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - All the updates execute once the entire transition is done, keeping them in sync.
+- See same interaction, less code and less prone to errors.
 - Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- Notice how our interaction is still the same, but now we have a more robust optimistic update that works with the transition. Consider this pattern anytime you have a state update that is not immediately reflected in the UI, like a server call.
 
 ## RouterSelect expose action
 
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - The filters are already working, but we want to make this component reusable and customizable.
+- I'm not persisting the prev params (showcase), let's add a better param function to maintain existing params. Showcase.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
-- Replace with better param string to maintain existing params.
+- This is now a very useful select, but it is not very customizable. We want to be able to execute a custom action when the select is changed, like a toast, or a loading bar, or anything else.
+- For example, I want that toast that we saw before to show when the select is changed. But when I add it to onSelect, it will execute immediately, and not wait for the transition to complete.
 - To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.
 - We should await this so the parent can pass either sync or async here for max flexibility.
 - Any UI comp can do this! Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components! We can add either one or both if thats what we want!
 
 ## Filters use the action prop
 
-- So we have our custom RouterSelect, and we start adding custom behavior to it.
+- So we have our custom RouterSelect.
 - Now we can actually add our custom behavior in any way we want, and the naming will tell us what to expect.
 - I just have a bunch of random libraries I wanna try to demonstrate the possibilities.
-- Customize loading bar: add loading bar, onSelect start progress, action end. We know that the onSelect is triggered right away, where the load complete is when the transition is complete.
-- OnSelect update theme variable with ref, another regular example, add toast inside the action after complete.
-- Optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! We can call it without another transition here bc of the naming, just like a form action.
-- We can also call async functions, like this select action random server function, that execute at the end. Maybe we can trigger this at some point.
+- Year: Customize loading bar: add loading bar, onSelect start progress, action end. We know that the onSelect is triggered right away, where the load complete is when the transition is complete. Hide spinner.
+- Tag: OnSelect update theme variable with ref, another regular example, add toast inside the action after complete.
+- Speaker: Optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! We can call it without another transition here bc of the naming, just like a form action.
+- Conference: We can also call async functions, like this select action random server function, that would execute at the end. Maybe we can trigger this at some point.
 - Let's move on for now!
-
-## Active filters with useTransition
-
-- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
-- Now let's solidify our knowledge and make a loading state for the clear button.
-- We can now upgrade the interaction of this clear button with another transition!
-- Add transition to router.push and get loading state.
-- Showcase state, normal react event handling!
 
 ## Talks list with useDeferredValue
 
+- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
 - Let's move on to the talks list here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
 - Let's replace this promise from the server with a simple data fetching function, that will be triggered on every rerender. It has a very simple cache implementation (showcase) so we can see it in action with use().
 - Could be your useSuspenseQuery from apollo or tanstack, or any other suspense enabled data source.

@@ -1,10 +1,17 @@
 {
     "selectActionType": {
-        "scope": "typescript",
+        "scope": "typescriptreact",
         "prefix": "selectActionType",
         "body": [
             "selectAction?: (item: SelectItem) => void | Promise<void>;"
         ],
+    },
+    "importLoadingBar": {
+        "scope": "typescriptreact",
+        "prefix": "importLoadingBar",
+        "body": [
+            "import LoadingBar from 'react-top-loading-bar';"
+        ]
     },
     "useEffectDocumentRef": {
         "scope": "typescriptreact",
@@ -13,6 +20,13 @@
             "useEffect(() => {",
             "  documentRef.current = document;",
             "}, []);"
+        ]
+    },
+    "importConfettiExplosion": {
+        "scope": "typescriptreact",
+        "prefix": "importConfettiExplosion",
+        "body": [
+            "import { ConfettiExplosion } from 'react-confetti-explosion';"
         ]
     },
     "loadingBarComponent": {
