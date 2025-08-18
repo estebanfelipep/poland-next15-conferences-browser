@@ -5,7 +5,7 @@
 - Aurora, web dev, norway, consultant at Crayon Consulting in oslo
 - Excited to speak here today, because i'll be teaching about modern react patterns: concurrent rendering, actions, and whats next.
 - Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and excess complexity.
-- With React 18 we already got a lot of features to allow us to improve the UX and responsiveness of our apps. Now, coming in to 19, we have even more tools at our disposal, and new ways to combine them.
+- With React 18 we already got a lot of features to allow us to improve the UX and responsiveness of our apps. Now, in to 19, we have even more tools at our disposal, and new ways to combine them.
 - These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue. They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
 - Who here has ever used useTransition?
 - Who here has ever used useOptimistic?
@@ -18,20 +18,19 @@
 - This is a conference explorer app!
 - The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Demo app: Click talks, filter talks, filters that don't work yet.
-- I'm gonna use the features we just talked about to add functionality to this app, and show you how they can be used together.
+- I'm gonna use the features we just talked about to add functionality to this app, and show you how they can be used together. Let's look at the code.
 
 ## Go through the code
 
 - I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
 - We have the filters themselves.
-- Thats it for the setup, this talk is not really about server components.
+- Thats it for the setup, this talk is not really about server components, but using them.
 
 ## AsyncSelect with useTransition and useOptimistic
 
 - Let's start by making the filters work! We want to be able to select a filter, and have the talks list update.
 - But first, let's look inside this AsyncSelect.
 - Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
-- This could be any promise, including the one we just created for the select component.
 - Before we make them work, let's look at the code and see how we can improve it.
 - Handling loading states this way is not ideal, because we have to manage the loading state manually, and it can lead to flickering states.
 - Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
@@ -46,9 +45,8 @@
 
 ## RouterSelect expose action
 
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add a single param string. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
-- The filters are already working, but we want to make this component reusable and customizable.
-- I'm not persisting the prev params (showcase), let's add a better param function to maintain existing params. Showcase.
+- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- The filters are already working.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - This is now a very useful select, but it is not very customizable. We want to be able to execute a custom action when the select is changed, like a toast, or a loading bar, or anything else.
 - For example, I want that toast that we saw before to show when the select is changed. But when I add it to onSelect, it will execute immediately, and not wait for the transition to complete.
