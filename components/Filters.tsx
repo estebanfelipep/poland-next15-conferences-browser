@@ -35,7 +35,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           setProgress(0);
         }}
       />
-      <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 md:gap-6">
+      <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 md:gap-6">
         <RouterSelect
           hideSpinner
           // The onSelect is triggered when an item is first selected

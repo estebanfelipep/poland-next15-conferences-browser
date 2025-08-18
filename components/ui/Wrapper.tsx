@@ -35,32 +35,20 @@ export default async function Wrapper({ children }: Props) {
                 Concurrent Rendering, Actions &amp; What&apos;s Next
               </span>
             </div>
-            <div className="mb-8 flex flex-col items-center md:hidden">
-              <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-3 flex h-24 w-24 items-center justify-center rounded-xl border-4 shadow-lg">
-                <Image priority src={'/qr-code.png'} alt="QR Code" width={80} height={80} className="rounded-lg" />
-              </div>
-              <div className="text-accent-dark dark:text-accent-light text-base font-medium">@aurorascharff</div>
-              <div className="text-accent mt-1 text-sm">Aurora Scharff</div>
+            <div className="mb-8 text-center">
+              <h3 className="text-accent-dark dark:text-accent-light mb-4 text-xl font-bold">
+                🧭 What We&apos;ll Explore Today
+              </h3>
+              <ul className="text-accent-dark dark:text-accent-light inline-flex flex-wrap justify-center gap-2 text-lg sm:gap-4">
+                <FeatureItem>useTransition</FeatureItem>
+                <FeatureItem>useOptimistic</FeatureItem>
+                <FeatureItem>useDeferredValue</FeatureItem>
+                <FeatureItem>View Transitions</FeatureItem>
+              </ul>
             </div>
-            <div className="mb-8 hidden grid-cols-1 items-start gap-8 md:grid md:grid-cols-2">
-              <div className="text-left">
-                <h3 className="text-accent-dark dark:text-accent-light mb-4 text-xl font-bold">
-                  🧭 What We&apos;ll Explore Today
-                </h3>
-                <ul className="text-accent-dark dark:text-accent-light space-y-2 text-lg">
-                  <FeatureItem>useTransition</FeatureItem>
-                  <FeatureItem>useOptimistic</FeatureItem>
-                  <FeatureItem>useDeferredValue</FeatureItem>
-                  <FeatureItem>View Transitions</FeatureItem>
-                </ul>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="bg-divider dark:bg-divider-dark border-primary-dark dark:border-primary mb-3 flex h-32 w-32 items-center justify-center rounded-xl border-4 shadow-lg">
-                  <Image priority src={'/qr-code.png'} alt="QR Code" width={120} height={120} className="rounded-lg" />
-                </div>
-                <div className="text-accent-dark dark:text-accent-light text-lg font-medium">@aurorascharff</div>
-                <div className="text-accent mt-1 text-sm">Aurora Scharff</div>
-              </div>
+            <div className="mb-6 text-center">
+              <div className="text-accent-dark dark:text-accent-light text-lg font-medium">@aurorascharff</div>
+              <div className="text-accent mt-1 text-sm">Aurora Scharff</div>
             </div>
             <form action={hideIntro} className="mt-4">
               <Button type="submit" className="px-8 py-3 text-lg">
