@@ -18,6 +18,7 @@
 - This is a conference explorer app!
 - The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Demo app: Click talks, filter talks, filters that don't work yet.
+- I'm gonna use the features we just talked about to add functionality to this app, and show you how they can be used together.
 
 ## Go through the code
 
