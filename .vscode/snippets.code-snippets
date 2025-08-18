@@ -31,4 +31,14 @@
             "};"
         ]
     }
+    ,
+    "toastSuccessSelectedTag": {
+        "scope": "typescriptreact",
+        "prefix": "toastSuccessSelectedTag",
+        "body": [
+            "toast.success(`Selected tag: ${item.label}`, {",
+            "  duration: 5000,",
+            "});"
+        ]
+    }
 }
