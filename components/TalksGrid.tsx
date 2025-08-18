@@ -17,9 +17,9 @@ type Props = {
 };
 
 export default function TalksGrid({ talksPromise, search }: Props) {
+  const { talks: initialTalks, totalPages } = use(talksPromise);
   const searchParams = useSearchParams();
   const activeFilters = Object.fromEntries(searchParams.entries());
-  const { talks: initialTalks, totalPages } = use(talksPromise);
   const normalizedSearch = search.trim().toLowerCase();
   const [expandedTalkId, setExpandedTalkId] = useState<string | null>(null);
   const scrollPositionRef = useRef<number>(0);
