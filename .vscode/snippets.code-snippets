@@ -13,36 +13,6 @@
             "import LoadingBar from 'react-top-loading-bar';"
         ]
     },
-    "useEffectDocumentRef": {
-        "scope": "typescriptreact",
-        "prefix": "useEffectDocumentRef",
-        "body": [
-            "useEffect(() => {",
-            "  documentRef.current = document;",
-            "}, []);"
-        ]
-    },
-    "importConfettiExplosion": {
-        "scope": "typescriptreact",
-        "prefix": "importConfettiExplosion",
-        "body": [
-            "import { ConfettiExplosion } from 'react-confetti-explosion';"
-        ]
-    },
-    "loadingBarComponent": {
-        "scope": "typescriptreact",
-        "prefix": "loadingBarComponent",
-        "body": [
-            "<LoadingBar",
-            "  color=\"#8132fe\"",
-            "  height={5}",
-            "  progress={0}",
-            "  onLoaderFinished={() => {",
-            "    console.log('Loading finished');",
-            "  }}",
-            "/>"
-        ],
-    },
     "importViewTransition": {
         "scope": "typescriptreact",
         "prefix": "importViewTransition",
