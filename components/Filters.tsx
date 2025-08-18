@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
 import LoadingBar from 'react-top-loading-bar';
 import type { FilterOptions, FilterType } from '@/types/filters';
@@ -15,6 +15,11 @@ export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding] = useState(false);
   const [progress, setProgress] = useState(0);
+  const documentRef = useRef<Document | null>(null);
+
+  useEffect(() => {
+    documentRef.current = document;
+  }, []);
 
   return (
     <div className="flex items-center justify-between gap-4">

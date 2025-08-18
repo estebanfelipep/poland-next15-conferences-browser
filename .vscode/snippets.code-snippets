@@ -13,17 +13,6 @@
             "import LoadingBar from 'react-top-loading-bar';"
         ]
     },
-    "useEffectDocumentRef": {
-        "scope": "typescriptreact",
-        "prefix": "useEffectDocumentRef",
-        "body": [
-            "const documentRef = useRef<Document | null>(null);",
-            "",
-            "useEffect(() => {",
-            "  documentRef.current = document;",
-            "}, []);"
-        ]
-    },
     "importViewTransition": {
         "scope": "typescriptreact",
         "prefix": "importViewTransition",
