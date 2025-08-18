@@ -6,13 +6,6 @@
             "selectAction?: (item: SelectItem) => void | Promise<void>;"
         ],
     },
-    "importLoadingBar": {
-        "scope": "typescriptreact",
-        "prefix": "importLoadingBar",
-        "body": [
-            "import LoadingBar from 'react-top-loading-bar';"
-        ]
-    },
     "importViewTransition": {
         "scope": "typescriptreact",
         "prefix": "importViewTransition",
@@ -20,18 +13,6 @@
             "import { unstable_ViewTransition as ViewTransition } from 'react';"
         ]
     },
-    "createQueryString": {
-        "scope": "typescriptreact",
-        "prefix": "createQueryString",
-        "body": [
-            "const createQueryString = (name: string, value: string) => {",
-            "  const params = new URLSearchParams(searchParams.toString());",
-            "  params.set(name, value);",
-            "  return params.toString();",
-            "};"
-        ]
-    }
-    ,
     "toastSuccessSelectedTag": {
         "scope": "typescriptreact",
         "prefix": "toastSuccessSelectedTag",
@@ -39,6 +20,16 @@
             "toast.success(`Selected tag: ${item.label}`, {",
             "  duration: 5000,",
             "});"
+        ]
+    },
+    "createQueryStringSnippet": {
+        "scope": "typescriptreact",
+        "prefix": "createQueryString",
+        "body": [
+            "createQueryString(searchParams, {",
+            "  name,",
+            "  value: item.value,",
+            "}),"
         ]
     }
 }
