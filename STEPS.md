@@ -22,7 +22,7 @@
 ## Go through the code
 
 - I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
-- We have the filters themselves, then the Talks client component is receiving the talks promise. Suspending with a fallback.
+- We have the filters themselves.
 - Thats it for the setup, this talk is not really about server components.
 
 ## AsyncSelect with useTransition and useOptimistic
@@ -61,6 +61,7 @@
 
 ## Active filters with useTransition
 
+- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
 - We can now upgrade the interaction of this clear button with another transition!
 - Add transition to router.push and get loading state.
 - Showcase state, normal react event handling!
