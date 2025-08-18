@@ -70,16 +70,17 @@
 ## Talks list with useDeferredValue
 
 - Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
-- Let's move on to the talks list here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
+- Let's move on to the talks grid here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
 - Let's replace this promise from the server with a simple data fetching function, that will be triggered on every rerender. It has a very simple cache implementation (showcase) so we can see it in action with use().
 - Could be your useSuspenseQuery from apollo or tanstack, or any other suspense enabled data source.
 - Notice when i search here, the suspense boundary is showing every time. Usedeferredvalue can be used to avoid this flickering by deferring the value until the component is actually ready!
+- Go back to talksexplorer.
 - Add hook: usedeferred value takes in a value and returns a deferred version of it. It signalizes to react that this is a lower priority update, and we want to defer updating the UI until the deferred value is ready.
 - Notice the suspense boundary is no longer flickering.
 - Add isStale indicator for the spinner!
 - We can build any sort of stable UI state, in this stale while revalidate pattern! I recently used it for a async combobox.
 - Put back the passed promise.
-- Comment out useDeferredValue, were gonna need this for our last part of the talk.
+- Leave useDeferredValue, were gonna need this for our last part of the talk.
 
 ## View transitions
 
