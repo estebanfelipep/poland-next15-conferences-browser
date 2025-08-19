@@ -13,16 +13,16 @@
             "import { unstable_ViewTransition as ViewTransition } from 'react';"
         ]
     },
-    "toastSuccessSelectedTag": {
+    "toastSuccess": {
         "scope": "typescriptreact",
-        "prefix": "toastSuccessSelectedTag",
+        "prefix": "toastSuccess",
         "body": [
             "toast.success(`Selected tag: ${item.label}`, {",
             "  duration: 5000,",
             "});"
         ]
     },
-    "createQueryStringSnippet": {
+    "createQueryString": {
         "scope": "typescriptreact",
         "prefix": "createQueryString",
         "body": [
@@ -30,6 +30,14 @@
             "  name,",
             "  value: item.value,",
             "}),"
+        ]
+    }
+    ,
+    "optimisticSelected": {
+        "scope": "typescriptreact",
+        "prefix": "optimisticSelected",
+        "body": [
+            "optimisticSelected, setOptimisticSelected"
         ]
     }
 }
