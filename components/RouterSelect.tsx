@@ -15,7 +15,7 @@ type Props = {
 } & SelectProps;
 
 export default function RouterSelect({ name, selected, selectAction, onSelect, ...otherProps }: Props) {
-  const [optimisticItem, setOptimisticItem] = useOptimistic(selected);
+  const [optimisticSelected, setOptimisticSelected] = useOptimistic(selected);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,13 +25,13 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
       {...otherProps}
       name={name}
       isPending={isPending}
-      selected={optimisticItem}
+      selected={optimisticSelected}
       onSelect={item => {
-        if (item.value === optimisticItem.value) return;
+        if (item.value === optimisticSelected.value) return;
         onSelect?.(item);
 
         startTransition(async () => {
-          setOptimisticItem(item);
+          setOptimisticSelected(item);
           await selectAction?.(item);
           router.push(createQueryString(searchParams, { name, value: item.value }));
         });
