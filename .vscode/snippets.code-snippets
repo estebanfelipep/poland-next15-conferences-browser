@@ -28,7 +28,7 @@
         "body": [
             "createQueryString(searchParams, {",
             "  name,",
-            "  value: item.value,",
+            "  value: items,",
             "}),"
         ]
     }

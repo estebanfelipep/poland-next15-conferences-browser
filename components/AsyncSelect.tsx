@@ -8,12 +8,12 @@ import type { SelectItem, SelectProps } from './ui/select/Select';
 type Props = {
   hideSpinner?: boolean;
   options: SelectItem[];
-  selected?: SelectItem;
-  onSelect?: (item: SelectItem) => void;
+  selected?: SelectItem[];
+  onSelect?: (items: SelectItem[]) => void;
 } & SelectProps;
 
-export default function AsyncSelect({ name, selected: initialSelected, onSelect, ...otherProps }: Props) {
-  const [selected, setSelected] = useState<SelectItem>(initialSelected);
+export default function AsyncSelect({ name, selected: initialSelected = [], onSelect, ...otherProps }: Props) {
+  const [selected, setSelected] = useState<SelectItem[]>(initialSelected);
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -22,14 +22,13 @@ export default function AsyncSelect({ name, selected: initialSelected, onSelect,
       name={name}
       selected={selected}
       isPending={isLoading}
-      onSelect={async item => {
-        if (item.value === selected.value) return;
-        onSelect?.(item);
+      onSelect={async items => {
+        onSelect?.(items);
 
         setIsLoading(true);
-        setSelected(item);
+        setSelected(items);
         try {
-          const result = await setAsyncFilter(item);
+          const result = await setAsyncFilter(items);
           setSelected(result);
         } catch (error) {
           setSelected(initialSelected);
@@ -42,11 +41,12 @@ export default function AsyncSelect({ name, selected: initialSelected, onSelect,
   );
 }
 
-function setAsyncFilter(item: SelectItem): Promise<SelectItem> {
+function setAsyncFilter(items: SelectItem[]): Promise<SelectItem[]> {
   return new Promise((resolve, reject) => {
+    const delay = items.length === 0 ? 500 : items.length * 1500;
     setTimeout(() => {
-      reject(new Error('An error occurred'));
-      resolve(item);
-    }, 1000);
+      resolve(items);
+      reject(new Error(`Failed to update filter with ${items.length} items`));
+    }, delay);
   });
 }

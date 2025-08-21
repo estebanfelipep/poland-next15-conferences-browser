@@ -14,17 +14,34 @@ export async function getTalks(
   await slow(1500);
 
   const where: Prisma.TalkWhereInput = {};
-  if (filters.speaker?.trim()) {
-    where.speaker = { contains: filters.speaker.trim(), mode: 'insensitive' };
+
+  const validSpeakers = processFilterValues(filters.speaker);
+  if (validSpeakers.length > 0) {
+    where.speaker = {
+      in: validSpeakers,
+      mode: 'insensitive',
+    };
   }
-  if (filters.year?.toString().trim()) {
-    where.year = typeof filters.year === 'string' ? parseInt(filters.year.trim()) : filters.year;
+
+  const validYears = processYearValues(filters.year);
+  if (validYears.length > 0) {
+    where.year = { in: validYears };
   }
-  if (filters.tag?.trim()) {
-    where.tag = { contains: filters.tag.trim(), mode: 'insensitive' };
+
+  const validTags = processFilterValues(filters.tag);
+  if (validTags.length > 0) {
+    where.tag = {
+      in: validTags,
+      mode: 'insensitive',
+    };
   }
-  if (filters.conference?.trim()) {
-    where.conference = { contains: filters.conference.trim(), mode: 'insensitive' };
+
+  const validConferences = processFilterValues(filters.conference);
+  if (validConferences.length > 0) {
+    where.conference = {
+      in: validConferences,
+      mode: 'insensitive',
+    };
   }
 
   const [talks, total] = await Promise.all([
@@ -82,4 +99,28 @@ export async function getTalkFilterOptions(): Promise<FilterOptions> {
       return { label: item.year.toString(), value: item.year.toString() };
     }),
   };
+}
+
+function processFilterValues(value: string | string[] | undefined): string[] {
+  if (!value) return [];
+  const values = Array.isArray(value) ? value : [value];
+  return values
+    .filter(v => {
+      return v?.trim();
+    })
+    .map(v => {
+      return v.trim();
+    });
+}
+
+function processYearValues(value: string | string[] | undefined): number[] {
+  if (!value) return [];
+  const values = Array.isArray(value) ? value : [value];
+  return values
+    .filter(y => {
+      return y?.toString().trim();
+    })
+    .map(y => {
+      return typeof y === 'string' ? parseInt(y.trim()) : y;
+    });
 }

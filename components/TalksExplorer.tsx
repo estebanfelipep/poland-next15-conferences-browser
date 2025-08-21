@@ -39,23 +39,30 @@ function ActiveFilters() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const entries = searchParams
-    ? Array.from(searchParams.entries()).filter(([, value]) => {
-        return value && value.trim() !== '';
-      })
-    : [];
+  const filterGroups = new Map<string, string[]>();
+  if (searchParams) {
+    Array.from(searchParams.entries()).forEach(([key, value]) => {
+      if (value && value.trim() !== '') {
+        if (!filterGroups.has(key)) {
+          filterGroups.set(key, []);
+        }
+        filterGroups.get(key)!.push(value);
+      }
+    });
+  }
 
   return (
-    entries.length > 0 && (
+    filterGroups.size > 0 && (
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">
-          {entries.map(([key, value]) => {
+          {Array.from(filterGroups.entries()).map(([key, values]) => {
             return (
               <span
                 key={key}
                 className="bg-primary/20 text-primary inline-flex items-center gap-2 rounded-full px-2 py-1 text-xs font-medium"
               >
-                <span className="capitalize">{key}: </span> <span>{value}</span>
+                <span className="capitalize">{key}: </span>
+                <span>{values.join(', ')}</span>
               </span>
             );
           })}

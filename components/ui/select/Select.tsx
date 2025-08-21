@@ -12,21 +12,42 @@ export type SelectItem = {
 
 export type SelectProps = {
   name: string;
-  selected: SelectItem;
+  selected: SelectItem[];
   label: string;
   options: SelectItem[];
   hideSpinner?: boolean;
   isPending?: boolean;
   variant?: 'primary' | 'secondary';
-  onSelect?: (item: SelectItem) => void;
+  onSelect?: (items: SelectItem[]) => void;
 };
 
 export default function Select({ options, label, selected, hideSpinner = false, isPending, onSelect }: SelectProps) {
-  const hasActiveFilter = options.length > 0 && selected.value !== options[0].value;
+  const hasActiveFilter = selected.length > 0;
+  const selectedValues = selected.map(item => {
+    return item.value;
+  });
+
+  const displayText =
+    selected.length === 0
+      ? options[0]?.label || 'Select...'
+      : selected.length === 1
+        ? selected[0].label
+        : `${selected.length} selected`;
 
   return (
     <div>
-      <Ariakit.SelectProvider value={selected.value}>
+      <Ariakit.SelectProvider
+        value={selectedValues}
+        setValue={values => {
+          const newSelected = values.map(value => {
+            const option = options.find(opt => {
+              return opt.value === value;
+            });
+            return option || { label: value, value };
+          });
+          onSelect?.(newSelected);
+        }}
+      >
         <Ariakit.SelectLabel className="mb-2 font-bold uppercase">{label}</Ariakit.SelectLabel>
         <div className="flex items-center gap-4">
           <Ariakit.Select
@@ -34,7 +55,7 @@ export default function Select({ options, label, selected, hideSpinner = false, 
             className="group flex min-w-0 items-center gap-2 sm:flex-initial"
             render={<SelectButton variant={hasActiveFilter ? 'primary' : 'secondary'} />}
           >
-            <span className="flex-1 truncate text-left sm:flex-initial">{selected.label}</span>
+            <span className="flex-1 truncate text-left sm:flex-initial">{displayText}</span>
             <Ariakit.SelectArrow className="flex-shrink-0 transition-transform group-aria-expanded:rotate-180" />
           </Ariakit.Select>
           {isPending && !hideSpinner && <Spinner />}
@@ -50,11 +71,8 @@ export default function Select({ options, label, selected, hideSpinner = false, 
                 className="data-active-item:bg-card aria-disabled:text-gray dark:data-active-item:bg-card-dark data-focus-visible:bg-primary dark:data-focus-visible:bg-primary mx-2 flex items-center justify-between gap-4 rounded-md p-2 data-focus-visible:text-white"
                 key={option.value}
                 value={option.value}
-                onClick={() => {
-                  onSelect?.(option);
-                }}
               >
-                {option.label}
+                <span className="flex-1">{option.label}</span>
                 <Ariakit.SelectItemCheck />
               </Ariakit.SelectItem>
             );

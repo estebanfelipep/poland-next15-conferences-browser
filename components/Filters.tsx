@@ -36,28 +36,43 @@ export default function Filters({ filterOptions, filters }: Props) {
         <AsyncSelect
           name="year"
           label="Year"
-          selected={{ label: year || 'All Years', value: year || '' }}
+          selected={toSelectItems(year, filterOptions.years)}
           options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
         />
         <AsyncSelect
           name="tag"
           label="Tag"
-          selected={{ label: tag || 'All Tags', value: tag || '' }}
+          selected={toSelectItems(tag, filterOptions.tags)}
           options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
         />
         <AsyncSelect
           name="speaker"
           label="Speaker"
-          selected={{ label: speaker || 'All Speakers', value: speaker || '' }}
+          selected={toSelectItems(speaker, filterOptions.speakers)}
           options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
         />
         <AsyncSelect
           name="conference"
           label="Conference"
-          selected={{ label: conference || 'All Conferences', value: conference || '' }}
+          selected={toSelectItems(conference, filterOptions.conferences)}
           options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}
         />
       </div>
     </div>
   );
 }
+
+const toSelectItems = (values: string | string[] | undefined, options: { label: string; value: string }[]) => {
+  if (!values) return [];
+  const valueArray = Array.isArray(values) ? values : [values];
+  return valueArray
+    .filter(v => {
+      return v.trim();
+    })
+    .map(value => {
+      const option = options.find(opt => {
+        return opt.value === value;
+      });
+      return option || { label: value, value };
+    });
+};
