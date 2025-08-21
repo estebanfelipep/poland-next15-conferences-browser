@@ -11,42 +11,53 @@ export async function getTalks(
   page: number = 1,
   pageSize: number = 30,
 ): Promise<TalksResult> {
-  await slow(1500);
+  await slow(1000);
 
   const where: Prisma.TalkWhereInput = {};
 
   const validSpeakers = processFilterValues(filters.speaker);
   if (validSpeakers.length > 0) {
-    where.speaker = {
-      in: validSpeakers,
-      mode: 'insensitive',
-    };
+    where.speaker =
+      validSpeakers.length === 1
+        ? { contains: validSpeakers[0], mode: 'insensitive' }
+        : { in: validSpeakers, mode: 'insensitive' };
   }
 
   const validYears = processYearValues(filters.year);
   if (validYears.length > 0) {
-    where.year = { in: validYears };
+    where.year = validYears.length === 1 ? validYears[0] : { in: validYears };
   }
 
   const validTags = processFilterValues(filters.tag);
   if (validTags.length > 0) {
-    where.tag = {
-      in: validTags,
-      mode: 'insensitive',
-    };
+    where.tag =
+      validTags.length === 1 ? { contains: validTags[0], mode: 'insensitive' } : { in: validTags, mode: 'insensitive' };
   }
 
   const validConferences = processFilterValues(filters.conference);
   if (validConferences.length > 0) {
-    where.conference = {
-      in: validConferences,
-      mode: 'insensitive',
-    };
+    where.conference =
+      validConferences.length === 1
+        ? { contains: validConferences[0], mode: 'insensitive' }
+        : { in: validConferences, mode: 'insensitive' };
   }
 
   const [talks, total] = await Promise.all([
     prisma.talk.findMany({
       orderBy: { title: 'asc' },
+      select: {
+        conference: true,
+        createdAt: true,
+        description: true,
+        duration: true,
+        id: true,
+        slides: true,
+        speaker: true,
+        tag: true,
+        title: true,
+        videoUrl: true,
+        year: true,
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       where,
@@ -60,26 +71,22 @@ export async function getTalks(
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {
   const [years, tags, conferences, speakers] = await Promise.all([
-    prisma.talk.findMany({
-      distinct: ['year'],
+    prisma.talk.groupBy({
+      by: ['year'],
       orderBy: { year: 'desc' },
-      select: { year: true },
     }),
-    prisma.talk.findMany({
-      distinct: ['tag'],
+    prisma.talk.groupBy({
+      by: ['tag'],
       orderBy: { tag: 'asc' },
-      select: { tag: true },
       where: { tag: { not: null } },
     }),
-    prisma.talk.findMany({
-      distinct: ['conference'],
+    prisma.talk.groupBy({
+      by: ['conference'],
       orderBy: { conference: 'asc' },
-      select: { conference: true },
     }),
-    prisma.talk.findMany({
-      distinct: ['speaker'],
+    prisma.talk.groupBy({
+      by: ['speaker'],
       orderBy: { speaker: 'asc' },
-      select: { speaker: true },
     }),
   ]);
 
@@ -91,10 +98,12 @@ export async function getTalkFilterOptions(): Promise<FilterOptions> {
       return { label: item.speaker, value: item.speaker };
     }),
     tags: tags
+      .filter(item => {
+        return item.tag;
+      })
       .map(item => {
         return { label: item.tag!, value: item.tag! };
-      })
-      .filter(Boolean),
+      }),
     years: years.map(item => {
       return { label: item.year.toString(), value: item.year.toString() };
     }),
@@ -105,22 +114,22 @@ function processFilterValues(value: string | string[] | undefined): string[] {
   if (!value) return [];
   const values = Array.isArray(value) ? value : [value];
   return values
-    .filter(v => {
-      return v?.trim();
-    })
+    .filter(Boolean)
     .map(v => {
       return v.trim();
-    });
+    })
+    .filter(Boolean);
 }
 
 function processYearValues(value: string | string[] | undefined): number[] {
   if (!value) return [];
   const values = Array.isArray(value) ? value : [value];
   return values
-    .filter(y => {
-      return y?.toString().trim();
-    })
+    .filter(Boolean)
     .map(y => {
       return typeof y === 'string' ? parseInt(y.trim()) : y;
+    })
+    .filter(y => {
+      return !isNaN(y);
     });
 }

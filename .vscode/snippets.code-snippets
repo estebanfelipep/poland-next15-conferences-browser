@@ -3,7 +3,7 @@
         "scope": "typescriptreact",
         "prefix": "selectActionType",
         "body": [
-            "selectAction?: (item: SelectItem) => void | Promise<void>;"
+            "selectAction?: (items: SelectItem[]) => void | Promise<void>;"
         ],
     },
     "importViewTransition": {
@@ -17,7 +17,7 @@
         "scope": "typescriptreact",
         "prefix": "toastSuccess",
         "body": [
-            "toast.success(`Selected tag: ${item.label}`, {",
+            "toast.success(`Applied tag filter: ${items[0]?.value}`, {",
             "  duration: 5000,",
             "});"
         ]
