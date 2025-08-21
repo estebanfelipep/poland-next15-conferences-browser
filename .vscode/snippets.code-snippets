@@ -17,9 +17,10 @@
         "scope": "typescriptreact",
         "prefix": "toastSuccess",
         "body": [
-            "toast.success(`Applied tag filter: ${items[0]?.value}`, {",
-            "  duration: 5000,",
-            "});"
+            "if (items.length > 0) {",
+            "  const message = `Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`;",
+            "  toast.success(message, { duration: 5000 });",
+            "}"
         ]
     },
     "createQueryString": {
@@ -38,6 +39,31 @@
         "prefix": "optimisticSelected",
         "body": [
             "optimisticSelected, setOptimisticSelected"
+        ]
+    },
+    "someRandomServerFunction": {
+        "scope": "typescriptreact",
+        "prefix": "serverFunctionCall",
+        "body": [
+            "await someRandomServerFunction(",
+            "  items.map(item => {",
+            "    return item.value;",
+            "  }),",
+            "  year,",
+            ");"
+        ]
+    },
+    "kentExplosion": {
+        "scope": "typescriptreact",
+        "prefix": "kentExplosion",
+        "body": [
+            "if (",
+            "  items.some(item => {",
+            "    return item.value === 'Kent C. Dodds';",
+            "  })",
+            ") {",
+            "  setIsExploding(true);",
+            "}"
         ]
     }
 }
