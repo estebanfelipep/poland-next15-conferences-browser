@@ -70,43 +70,50 @@ export async function getTalks(
 }
 
 export async function getTalkFilterOptions(): Promise<FilterOptions> {
-  const [years, tags, conferences, speakers] = await Promise.all([
-    prisma.talk.groupBy({
-      by: ['year'],
-      orderBy: { year: 'desc' },
-    }),
-    prisma.talk.groupBy({
-      by: ['tag'],
-      orderBy: { tag: 'asc' },
-      where: { tag: { not: null } },
-    }),
-    prisma.talk.groupBy({
-      by: ['conference'],
-      orderBy: { conference: 'asc' },
-    }),
-    prisma.talk.groupBy({
-      by: ['speaker'],
-      orderBy: { speaker: 'asc' },
-    }),
-  ]);
+  const talks = await prisma.talk.findMany({
+    select: {
+      conference: true,
+      speaker: true,
+      tag: true,
+      year: true,
+    },
+  });
+
+  const conferences = new Set<string>();
+  const speakers = new Set<string>();
+  const tags = new Set<string>();
+  const years = new Set<number>();
+
+  for (const talk of talks) {
+    conferences.add(talk.conference);
+    speakers.add(talk.speaker);
+    if (talk.tag) tags.add(talk.tag);
+    years.add(talk.year);
+  }
 
   return {
-    conferences: conferences.map(item => {
-      return { label: item.conference, value: item.conference };
-    }),
-    speakers: speakers.map(item => {
-      return { label: item.speaker, value: item.speaker };
-    }),
-    tags: tags
-      .filter(item => {
-        return item.tag;
-      })
-      .map(item => {
-        return { label: item.tag!, value: item.tag! };
+    conferences: Array.from(conferences)
+      .sort()
+      .map(conference => {
+        return { label: conference, value: conference };
       }),
-    years: years.map(item => {
-      return { label: item.year.toString(), value: item.year.toString() };
-    }),
+    speakers: Array.from(speakers)
+      .sort()
+      .map(speaker => {
+        return { label: speaker, value: speaker };
+      }),
+    tags: Array.from(tags)
+      .sort()
+      .map(tag => {
+        return { label: tag, value: tag };
+      }),
+    years: Array.from(years)
+      .sort((a, b) => {
+        return b - a;
+      }) // Descending order
+      .map(year => {
+        return { label: year.toString(), value: year.toString() };
+      }),
   };
 }
 
