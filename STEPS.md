@@ -31,6 +31,7 @@
 - Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
+- See how it work with a rejecting promise, temporary.
 - Notice how our interaction is completely smooth, and we have a more robust optimistic update that works with the transition. Consider this pattern anytime you have a state update that is not immediately reflected in the UI, like a server call.
 
 ## Review app
