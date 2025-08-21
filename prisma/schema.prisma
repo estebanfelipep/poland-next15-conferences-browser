@@ -13,15 +13,16 @@ datasource db {
 }
 
 model Talk {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  title       String
-  speaker     String
-  description String?
-  year        Int
-  tag         String?
-  conference  String
-  duration    Int?
-  videoUrl    String?
-  slides      String?
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  title           String
+  speaker         String
+  description     String?
+  longDescription String?
+  year            Int
+  tag             String?
+  conference      String
+  duration        Int?
+  videoUrl        String?
+  slides          String?
 }

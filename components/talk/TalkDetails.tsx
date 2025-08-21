@@ -76,10 +76,16 @@ export function TalkDetails({ talk, onClose }: Props) {
           )}
         </div>
       </div>
-      {talk.description && (
+      {(talk.longDescription || talk.description) && (
         <div className="mb-8">
           <h2 className="text-theme-text mb-3 text-xl font-semibold">Description</h2>
-          <p className="text-theme-text-secondary leading-relaxed">{talk.description}</p>
+          <div className="text-theme-text-secondary leading-relaxed">
+            {talk.longDescription ? (
+              <div className="whitespace-pre-line">{talk.longDescription}</div>
+            ) : (
+              <p>{talk.description}</p>
+            )}
+          </div>
         </div>
       )}
       <div className="mb-8">
