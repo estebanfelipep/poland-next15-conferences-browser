@@ -13,39 +13,42 @@
 - Who has tried the canary release of View Transitions in React?
 - Perfect! Let's begin, and dive deeper into these hooks. Click button.
 
-## Setup and starting point
+## Setup
 
-- Full screen: This is a conference explorer app!
-- The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
-- Demo app: Click talks, filter talks, filters that don't work yet.
-- I'm gonna use the features we just talked about to add functionality to this app, and show you how they can be used together. Let's look at the code.
+- Let's start simple. I'm in this Filters component where I have some selects here for years, tags, speakers, and conferences. Plain Async Selects. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions.
+- Demo the filtering UX. We're having some weird loading states that flicker and are not in sync. Let's get to the code.
+
+## AsyncSelect with useTransition and useOptimistic
+
+- Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
+- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to flickering states.
+- Because we have a shared loading state, and whichever async call finishes first overwrites the next state, leading to this premature loading state. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
+- Instead, let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
+- We can use useTransition and wrap the state update and the async call, creating an Action.
+- An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
+- All the updates execute once the entire transition is done, keeping them in sync.
+- See same interaction, less code and no UX errors.
+- Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
+- UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
+- Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
+- Notice how our interaction is completely smooth, and we have a more robust optimistic update that works with the transition. Consider this pattern anytime you have a state update that is not immediately reflected in the UI, like a server call.
+
+## Review app
+
+- So what is this app anyway?
+- This is actually a the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
+- Zoom out to 110%
+- Go to page. We were just using the filters, let's actually add inn the actual functionality gere.
+- Demo app: See talks, search, click talks.
 
 ## Go through the code
 
 - I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
-- We have the filters themselves.
-- Thats it for the setup, this talk is not really about server components, but using them.
-
-## AsyncSelect with useTransition and useOptimistic
-
-- Let's start by making the filters work! We want to be able to select a filter, and have the talks list update.
-- But first, let's look inside this AsyncSelect.
-- Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
-- Before we make them work, let's look at the code and see how we can improve it.
-- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it can lead to flickering states.
-- Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
-- We can use useTransition and wrap the state update and the async call, creating an Action.
-- An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
-- All the updates execute once the entire transition is done, keeping them in sync.
-- See same interaction, less code and less prone to errors.
-- Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
-- UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
-- Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
-- Notice how our interaction is still the same, but now we have a more robust optimistic update that works with the transition. Consider this pattern anytime you have a state update that is not immediately reflected in the UI, like a server call.
 
 ## RouterSelect expose action
 
-- Let's say something else happens as a result of this promise, let's actually replace this with router push. Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- Let's make the filters work! We want to be able to select a filter, and have the talks list update.
+- Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - The filters are already working.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - This is now a very useful select, but it is not very customizable. We want to be able to execute a custom action when the select is changed, like a toast, or a loading bar, or anything else.
