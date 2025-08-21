@@ -49,7 +49,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           name="year"
           label="Year"
           selected={toSelectItems(year, filterOptions.years)}
-          options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
+          options={filterOptions.years}
         />
         <RouterSelect
           // This executes on selecting an item as a regular event
@@ -63,7 +63,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           name="tag"
           label="Tag"
           selected={toSelectItems(tag, filterOptions.tags)}
-          options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
+          options={filterOptions.tags}
         />
         <RouterSelect
           name="speaker"
@@ -75,7 +75,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           }}
           label="Speaker"
           selected={toSelectItems(speaker, filterOptions.speakers)}
-          options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
+          options={filterOptions.speakers}
         />
         <RouterSelect
           name="conference"
@@ -85,7 +85,7 @@ export default function Filters({ filterOptions, filters }: Props) {
             await someRandomServerFunction(items[0]?.value || '', year);
           }}
           selected={toSelectItems(conference, filterOptions.conferences)}
-          options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}
+          options={filterOptions.conferences}
         />
       </div>
     </div>
