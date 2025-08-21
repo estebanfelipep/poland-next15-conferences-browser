@@ -29,7 +29,7 @@ export default function Select({ options, label, selected, hideSpinner = false, 
 
   const displayText =
     selected.length === 0
-      ? options[0]?.label || 'Select...'
+      ? `Select ${label.toLowerCase()}...`
       : selected.length === 1
         ? selected[0].label
         : `${selected.length} selected`;

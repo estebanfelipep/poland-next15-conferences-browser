@@ -83,6 +83,7 @@
 ## View transitions
 
 - View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these features to make the most out of view transitions.
+- We already learned all the basics of this, so we are able to use it now.
 - View transitions need to know a before and after state to animate, and for react, since this is not MPA, its just state, so we need to mark this UI transition to animate it, using our concurrent features.
 - View transitions need either a transition or a deferred update.
 - Let's start simple and wrap the app with a global viewtrans component to enable the default crossfade. Navigations in nextjs are transitions, so this works out of the box with out filters.
