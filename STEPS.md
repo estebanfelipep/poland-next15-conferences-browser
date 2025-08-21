@@ -15,7 +15,7 @@
 
 ## Setup and starting point
 
-- This is a conference explorer app!
+- Full screen: This is a conference explorer app!
 - The setup is the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Demo app: Click talks, filter talks, filters that don't work yet.
 - I'm gonna use the features we just talked about to add functionality to this app, and show you how they can be used together. Let's look at the code.
@@ -101,7 +101,7 @@
 
 ## Final demo
 
-- Let's see all of this in action!
+- Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in
 - We have the filterable list with the filtering animation here using View Transitions and useDeferredValue
 - We can click the items and have this named view transition connecting the two items

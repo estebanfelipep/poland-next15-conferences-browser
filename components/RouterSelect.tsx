@@ -7,11 +7,11 @@ import Select from './ui/select/Select';
 import type { SelectItem, SelectProps } from './ui/select/Select';
 
 type Props = {
-  selected: SelectItem;
+  selected: SelectItem[];
   hideSpinner?: boolean;
   options: SelectItem[];
-  selectAction?: (item: SelectItem) => void | Promise<void>;
-  onSelect?: (item: SelectItem) => void;
+  selectAction?: (items: SelectItem[]) => void | Promise<void>;
+  onSelect?: (items: SelectItem[]) => void;
 } & SelectProps;
 
 export default function RouterSelect({ name, selected, selectAction, onSelect, ...otherProps }: Props) {
@@ -26,14 +26,19 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
       name={name}
       isPending={isPending}
       selected={optimisticSelected}
-      onSelect={item => {
-        if (item.value === optimisticSelected.value) return;
-        onSelect?.(item);
+      onSelect={items => {
+        onSelect?.(items);
 
         startTransition(async () => {
-          setOptimisticSelected(item);
-          await selectAction?.(item);
-          router.push(createQueryString(searchParams, { name, value: item.value }));
+          setOptimisticSelected(items);
+          await selectAction?.(items);
+
+          router.push(
+            createQueryString(searchParams, {
+              name,
+              value: items,
+            }),
+          );
         });
       }}
     />

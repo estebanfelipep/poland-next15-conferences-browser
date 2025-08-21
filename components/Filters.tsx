@@ -48,46 +48,61 @@ export default function Filters({ filterOptions, filters }: Props) {
           }}
           name="year"
           label="Year"
-          selected={{ label: year || 'All Years', value: year || '' }}
+          selected={toSelectItems(year, filterOptions.years)}
           options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
         />
         <RouterSelect
           // This executes on selecting an item as a regular event
-          onSelect={item => {
-            updateThemeColor(item.value, documentRef);
+          onSelect={items => {
+            updateThemeColor(items[0]?.value, documentRef);
           }}
           // This executes at the end of the transition
-          selectAction={item => {
-            toast.success('Applied tag filter: ' + item.value, { duration: 5000 });
+          selectAction={items => {
+            toast.success('Applied tag filter: ' + items[0]?.value, { duration: 5000 });
           }}
           name="tag"
           label="Tag"
-          selected={{ label: tag || 'All Tags', value: tag || '' }}
+          selected={toSelectItems(tag, filterOptions.tags)}
           options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
         />
         <RouterSelect
           name="speaker"
           // Using useOptimistic means it will automatically revert to false once the transition is complete
-          selectAction={item => {
-            if (item.value === 'Kent C. Dodds') {
+          selectAction={items => {
+            if (items[0]?.value === 'Kent C. Dodds') {
               setIsExploding(true);
             }
           }}
           label="Speaker"
-          selected={{ label: speaker || 'All Speakers', value: speaker || '' }}
+          selected={toSelectItems(speaker, filterOptions.speakers)}
           options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
         />
         <RouterSelect
           name="conference"
           label="Conference"
-          selectAction={async item => {
+          selectAction={async items => {
             // This also executes when the transition is complete
-            await someRandomServerFunction(item.value, year);
+            await someRandomServerFunction(items[0]?.value || '', year);
           }}
-          selected={{ label: conference || 'All Conferences', value: conference || '' }}
+          selected={toSelectItems(conference, filterOptions.conferences)}
           options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}
         />
       </div>
     </div>
   );
 }
+
+const toSelectItems = (values: string | string[] | undefined, options: { label: string; value: string }[]) => {
+  if (!values) return [];
+  const valueArray = Array.isArray(values) ? values : [values];
+  return valueArray
+    .filter(v => {
+      return v.trim();
+    })
+    .map(value => {
+      const option = options.find(opt => {
+        return opt.value === value;
+      });
+      return option || { label: value, value };
+    });
+};

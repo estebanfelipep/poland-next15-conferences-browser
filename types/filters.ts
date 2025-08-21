@@ -1,8 +1,8 @@
 export type FilterType = {
-  conference?: string;
-  speaker?: string;
-  tag?: string;
-  year?: string;
+  conference?: string | string[];
+  speaker?: string | string[];
+  tag?: string | string[];
+  year?: string | string[];
 };
 
 export type FilterOption = {

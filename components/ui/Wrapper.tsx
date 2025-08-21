@@ -76,6 +76,14 @@ export default async function Wrapper({ children }: Props) {
                 <Image priority src={'/qr-code.png'} alt="QR Code" width={144} height={144} className="rounded-lg" />
               </div>
               <div className="text-accent-dark dark:text-accent-light text-lg font-medium">@aurorascharff</div>
+              <a
+                href="https://github.com/aurorascharff/next15-conference-app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary-dark mt-1 text-sm underline transition-colors"
+              >
+                github.com/aurorascharff/next15-conference-app
+              </a>
             </div>
             <div className="text-accent-dark dark:text-accent-light mt-2 text-lg font-medium">
               <span className="text-accent">Enjoy the party 🎉</span>
