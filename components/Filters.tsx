@@ -58,7 +58,10 @@ export default function Filters({ filterOptions, filters }: Props) {
           }}
           // This executes at the end of the transition
           selectAction={items => {
-            toast.success('Applied tag filter: ' + items[0]?.value, { duration: 5000 });
+            if (items.length > 0) {
+              const message = `Applied ${items.length} tag filter${items.length > 1 ? 's' : ''}`;
+              toast.success(message, { duration: 5000 });
+            }
           }}
           name="tag"
           label="Tag"
@@ -69,7 +72,11 @@ export default function Filters({ filterOptions, filters }: Props) {
           name="speaker"
           // Using useOptimistic means it will automatically revert to false once the transition is complete
           selectAction={items => {
-            if (items[0]?.value === 'Kent C. Dodds') {
+            if (
+              items.some(item => {
+                return item.value === 'Kent C. Dodds';
+              })
+            ) {
               setIsExploding(true);
             }
           }}
@@ -82,7 +89,12 @@ export default function Filters({ filterOptions, filters }: Props) {
           label="Conference"
           selectAction={async items => {
             // This also executes when the transition is complete
-            await someRandomServerFunction(items[0]?.value || '', year);
+            await someRandomServerFunction(
+              items.map(item => {
+                return item.value;
+              }),
+              year,
+            );
           }}
           selected={toSelectItems(conference, filterOptions.conferences)}
           options={filterOptions.conferences}
