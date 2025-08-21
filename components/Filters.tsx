@@ -37,25 +37,25 @@ export default function Filters({ filterOptions, filters }: Props) {
           name="year"
           label="Year"
           selected={toSelectItems(year, filterOptions.years)}
-          options={[{ label: 'All Years', value: '' }, ...filterOptions.years]}
+          options={filterOptions.years}
         />
         <AsyncSelect
           name="tag"
           label="Tag"
           selected={toSelectItems(tag, filterOptions.tags)}
-          options={[{ label: 'All Tags', value: '' }, ...filterOptions.tags]}
+          options={filterOptions.tags}
         />
         <AsyncSelect
           name="speaker"
           label="Speaker"
           selected={toSelectItems(speaker, filterOptions.speakers)}
-          options={[{ label: 'All Speakers', value: '' }, ...filterOptions.speakers]}
+          options={filterOptions.speakers}
         />
         <AsyncSelect
           name="conference"
           label="Conference"
           selected={toSelectItems(conference, filterOptions.conferences)}
-          options={[{ label: 'All Conferences', value: '' }, ...filterOptions.conferences]}
+          options={filterOptions.conferences}
         />
       </div>
     </div>
