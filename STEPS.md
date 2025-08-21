@@ -15,7 +15,7 @@
 
 ## Setup
 
-- Let's start simple. I'm in this Filters component where I have some selects here for years, tags, speakers, and conferences. Plain Async Selects. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions.
+- Let's start simple. I'm in this AsyncSelect component where I have some selects here for years, tags, speakers, and conferences. Plain Async Selects. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions.
 - Demo the filtering UX. We're having some weird loading states that flicker and are not in sync. Let's get to the code.
 
 ## AsyncSelect with useTransition and useOptimistic
@@ -35,15 +35,12 @@
 
 ## Review app
 
-- So what is this app anyway?
+- So what is this app anyway? Open sidebar.
 - This is actually a the Next.js App Router, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
-- Zoom out to 110%
-- Go to page. We were just using the filters, let's actually add inn the actual functionality gere.
-- Demo app: See talks, search, click talks.
-
-## Go through the code
-
+- Zoom out to 110%.
+- Go to page. We were just using the filters, let's actually add inn the actual functionality here.
 - I'm in the nextjs app router so I am using server components to fetch data. Layout.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
+- Demo app: See talks, search, click talks.
 
 ## RouterSelect expose action
 
