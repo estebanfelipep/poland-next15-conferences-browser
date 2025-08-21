@@ -55,11 +55,11 @@
     },
     "kentExplosion": {
         "scope": "typescriptreact",
-        "prefix": "kentExplosion",
+        "prefix": "anishaExplosion",
         "body": [
             "if (",
             "  items.some(item => {",
-            "    return item.value === 'Kent C. Dodds';",
+            "    return item.value === 'Anisha Malde';",
             "  })",
             ") {",
             "  setIsExploding(true);",
