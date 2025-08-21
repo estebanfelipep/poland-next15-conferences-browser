@@ -3,7 +3,7 @@ import 'server-only';
 import { prisma } from '@/db';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import type { TalksResult } from '@/types/talk';
-
+import { slow } from '@/utils/slow';
 import type { Prisma } from '@prisma/client';
 
 export async function getTalks(
@@ -11,6 +11,7 @@ export async function getTalks(
   page: number = 1,
   pageSize: number = 30,
 ): Promise<TalksResult> {
+  await slow(500);
   const where: Prisma.TalkWhereInput = {};
 
   const validSpeakers = processFilterValues(filters.speaker);
