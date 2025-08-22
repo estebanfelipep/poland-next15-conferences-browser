@@ -68,7 +68,7 @@
 ## (Talks list with useDeferredValue)
 
 - Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
-- Let's move on to the talks grid here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
+- Let's move on to the talks grid here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know useDeferredValue, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
 - Let's replace this promise from the server with a simple data fetching function, that will be triggered on every rerender. It has a very simple cache implementation (showcase) so we can see it in action with use().
 - Could be your useSuspenseQuery from apollo or tanstack, or any other suspense enabled data source.
 - Notice when i search here, the suspense boundary is showing every time. Usedeferredvalue can be used to avoid this flickering by deferring the value until the component is actually ready!
@@ -84,12 +84,13 @@
 
 - View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these features to make the most out of view transitions.
 - We already learned all the basics of this, so we are able to use it now.
-- View transitions need to know a before and after state to animate, and for react, since this is not MPA, its just state, so we need to mark this UI transition to animate it, using our concurrent features.
-- View transitions need either a transition or a deferred update.
-- Let's start simple and wrap the app with a global viewtrans component to enable the default crossfade. Navigations in nextjs are transitions, so this works out of the box with out filters.
+- View transitions need to know a before and after state to animate, and for react, since this is not MPA, its just state, so we need to mark this UI transition somehow to animate it, using our concurrent features.
+- View transitions need either a transition or a deferred value.
+- Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. Navigations in nextjs are transitions, so this works out of the box with out filters.
+- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
 - They have 4 triggers based on how a view trans component behaves in a transition: enter, exit, update, and share.
-- Next, let's animate the list entering the view. Enter exit on list. Triggered when viewtrans component is added and removed from the dom. This is custom animations that I've added to my css file like this.
-- Exit on suspense! Animates down and the list goes up. Removed from the DOM.
+- Next, let's animate the grid entering the view. Enter exit on list. Triggered when viewtrans component is added and removed from the dom. This is custom animations that I've added to my css file like this.
+- Exit on suspense! Animates down and the list goes up. Removed from the tree.
 - How about these list items, they are not animating. There is no transition or deffered update on this search.
 - Usedefferedvalue can defer rendering a part of the UI and keep the important parts like this input reponsive.
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it. It can also be used with async data fetching to improve UX in something like a combobox and avoid jarring UI updates.
@@ -99,7 +100,7 @@
 - How about this item detail. We need to wrap the state updates in a transition! Direct import since we don't need pending state or async.
 - Let's add a view trans to the talk details on enter with a slide in.
 - Two different components are in the view at separate times. To animate between them, we can use a shared element transition by adding a name.
-- I'm really bad at animations and I was able to add all this! React handles all the possible edge cases, declaratively define your view trans.
+- I'm really bad at animations and I was able to add all this! React handles all the possible edge cases, let's you declaratively define your view trans.
 
 ## Final demo
 

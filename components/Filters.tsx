@@ -54,7 +54,7 @@ export default function Filters({ filterOptions, filters }: Props) {
         <RouterSelect
           // This executes on selecting an item as a regular event
           onSelect={items => {
-            updateThemeColor(items[0]?.value, documentRef);
+            updateThemeColor(items, documentRef);
           }}
           // This executes at the end of the transition
           selectAction={items => {
@@ -89,12 +89,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           label="Conference"
           selectAction={async items => {
             // This also executes when the transition is complete
-            await someRandomServerFunction(
-              items.map(item => {
-                return item.value;
-              }),
-              year,
-            );
+            await someRandomServerFunction(items, year);
           }}
           selected={toSelectItems(conference, filterOptions.conferences)}
           options={filterOptions.conferences}
