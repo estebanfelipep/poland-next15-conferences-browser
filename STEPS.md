@@ -11,7 +11,7 @@
 - Who here has ever used useTransition?
 - Who here has ever used useOptimistic?
 - Who here has ever used useDeferredValue?
-- Who has tried the canary release of View Transitions in React?
+- Who has tried the experimental release of View Transitions in React?
 - Perfect! Let's begin, and dive deeper into these hooks. Click button.
 
 ## Setup
