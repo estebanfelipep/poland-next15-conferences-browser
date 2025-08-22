@@ -2,6 +2,7 @@
 
 ## Introduction
 
+- Fullscreen view
 - Aurora, web dev, norway, consultant at Crayon Consulting in oslo
 - Excited to speak here today, because i'll be teaching about modern react patterns: concurrent rendering, actions, and whats next.
 - Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and excess complexity.
@@ -15,6 +16,7 @@
 
 ## Setup
 
+- Code view
 - Let's start simple. I'm in this AsyncSelect component where I have some selects here for years, tags, speakers, and conferences. Plain Async Selects. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.
 - Demo the filtering UX. We're having some weird loading states that flicker and are not in sync. Let's get to the code.
 
@@ -104,6 +106,7 @@
 
 ## Final demo
 
+- Fullscreen view
 - Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in
 - We have the filterable list with the filtering animation here using View Transitions and useDeferredValue
