@@ -1,4 +1,9 @@
-export function updateThemeColor(tag: string, documentRef: React.RefObject<Document | null>) {
+export function updateThemeColor(
+  items: { label: string; value: string }[],
+  documentRef: React.RefObject<Document | null>,
+) {
+  const lastSelectedTag = items.length > 0 ? items[items.length - 1].value : null;
+
   const colorMap = {
     AI: { dark: '#7a96d1', darker: '#6382b9', primary: '#95ade9' },
     Angular: { dark: '#b80029', darker: '#9a0022', primary: '#dd0031' },
@@ -14,7 +19,7 @@ export function updateThemeColor(tag: string, documentRef: React.RefObject<Docum
     'Vue.js': { dark: '#42a378', darker: '#358663', primary: '#4fc08d' },
   };
 
-  const colors = colorMap[tag as keyof typeof colorMap] || {
+  const colors = (lastSelectedTag && colorMap[lastSelectedTag as keyof typeof colorMap]) || {
     dark: '#6b21ff',
     darker: '#5b1ddb',
     primary: '#8132fe',

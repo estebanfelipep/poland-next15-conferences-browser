@@ -1,7 +1,7 @@
 {
-    "selectActionType": {
+    "selectAction": {
         "scope": "typescriptreact",
-        "prefix": "selectActionType",
+        "prefix": "selectAction",
         "body": [
             "selectAction?: (items: SelectItem[]) => void | Promise<void>;"
         ],
@@ -13,9 +13,9 @@
             "import { unstable_ViewTransition as ViewTransition } from 'react';"
         ]
     },
-    "toastSuccess": {
+    "successToast": {
         "scope": "typescriptreact",
-        "prefix": "toastSuccess",
+        "prefix": "successToast",
         "body": [
             "if (items.length > 0) {",
             "  const message = `Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`;",
@@ -41,21 +41,9 @@
             "optimisticSelected, setOptimisticSelected"
         ]
     },
-    "someRandomServerFunction": {
+    "explodeForSpeaker": {
         "scope": "typescriptreact",
-        "prefix": "serverFunctionCall",
-        "body": [
-            "await someRandomServerFunction(",
-            "  items.map(item => {",
-            "    return item.value;",
-            "  }),",
-            "  year,",
-            ");"
-        ]
-    },
-    "kentExplosion": {
-        "scope": "typescriptreact",
-        "prefix": "anishaExplosion",
+        "prefix": "explodeForSpeaker",
         "body": [
             "if (",
             "  items.some(item => {",

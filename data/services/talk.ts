@@ -11,7 +11,7 @@ export async function getTalks(
   page: number = 1,
   pageSize: number = 30,
 ): Promise<TalksResult> {
-  await slow(500);
+  await slow(1000);
   const where: Prisma.TalkWhereInput = {};
 
   const validSpeakers = processFilterValues(filters.speaker);
