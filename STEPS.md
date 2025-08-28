@@ -87,6 +87,7 @@
 - Let's mark the before after state with useDeferredValue! Add isStale indicator for the spinner!
 - This is how react will know what is the before and after for the animation. Triggers an update.
 - Add a lower down view trans to animate each item individually.
+- Use chrome devtools to slow down the animations! Animation drawer.
 - How about this item detail. We need to wrap the state updates in a transition! Direct import since we don't need pending state or async.
 - Let's add a view trans to the talk details on enter with a slide in.
 - Two different components are in the view at separate times. To animate between them, we can use a shared element transition by adding a name.
