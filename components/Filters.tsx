@@ -5,6 +5,7 @@ import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast from 'react-hot-toast';
 import LoadingBar from 'react-top-loading-bar';
 import { someRandomServerFunction } from '@/data/actions/cookie';
+import { logUserSelectedConference } from '@/data/actions/logger';
 import type { FilterOptions, FilterType } from '@/types/filters';
 import { updateThemeColor } from '@/utils/themeColors';
 import RouterSelect from './RouterSelect';
@@ -18,6 +19,10 @@ export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
+  const [optimisticProgress, incrementProgress] = useOptimistic(progress, (prev, increment: number) => {
+    const next = prev + increment;
+    return next >= 100 ? 99.99 : next;
+  });
   const documentRef = useRef<Document | null>(null);
 
   useEffect(() => {
@@ -30,7 +35,7 @@ export default function Filters({ filterOptions, filters }: Props) {
       <LoadingBar
         color="#8132fe"
         height={5}
-        progress={progress}
+        progress={optimisticProgress}
         onLoaderFinished={() => {
           setProgress(0);
         }}
@@ -38,12 +43,9 @@ export default function Filters({ filterOptions, filters }: Props) {
       <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 md:gap-6">
         <RouterSelect
           hideSpinner
-          // The onSelect is triggered when an item is first selected
-          onSelect={() => {
-            setProgress(progress + 10);
-          }}
-          // With useState, we know that the selectAction will be called after the transition is complete
+          // The optimistic update happens immediately on selecting an item, then the loader completes when the transition is done
           selectAction={() => {
+            incrementProgress(30);
             setProgress(100);
           }}
           name="year"
@@ -60,7 +62,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           selectAction={items => {
             if (items.length > 0) {
               const message = `Applied ${items.length} tag filter${items.length > 1 ? 's' : ''}`;
-              toast.success(message, { duration: 5000 });
+              toast.success(message);
             }
           }}
           name="tag"
@@ -89,6 +91,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           label="Conference"
           selectAction={async items => {
             // This also executes when the transition is complete
+            await logUserSelectedConference(items);
             await someRandomServerFunction(items, year);
           }}
           selected={toSelectItems(conference, filterOptions.conferences)}
