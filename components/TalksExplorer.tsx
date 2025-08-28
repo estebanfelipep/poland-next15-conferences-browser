@@ -43,8 +43,8 @@ export default function TalksExplorer({ talksPromise }: Props) {
           </ViewTransition>
         }
       >
-        <ViewTransition enter="slide-up" exit="slide-down">
-          <TalksGrid key={searchParams.toString()} talksPromise={talksPromise} search={deferredSearch} />
+        <ViewTransition key={searchParams.toString()} enter="slide-up" exit="slide-down" default="none">
+          <TalksGrid talksPromise={talksPromise} search={deferredSearch} />
         </ViewTransition>
       </Suspense>
     </>

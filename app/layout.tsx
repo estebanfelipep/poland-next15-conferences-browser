@@ -1,7 +1,7 @@
 import './globals.css';
 
 import { Geist } from 'next/font/google';
-import React, { unstable_ViewTransition as ViewTransition } from 'react';
+import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import Wrapper from '@/components/ui/Wrapper';
 import { cn } from '@/utils/cn';
@@ -19,11 +19,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
         <Toaster position="top-right" />
-        <ViewTransition>
-          <Wrapper>
-            <main>{children}</main>
-          </Wrapper>
-        </ViewTransition>
+        <Wrapper>
+          <main>{children}</main>
+        </Wrapper>
       </body>
     </html>
   );

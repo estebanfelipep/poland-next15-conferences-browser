@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { startTransition, use, useRef, useState, unstable_ViewTransition as ViewTransition } from 'react';
+import React, { use, useRef, useState, unstable_ViewTransition as ViewTransition } from 'react';
 import { getTalksAction } from '@/data/actions/talk';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import type { TalksResult } from '@/types/talk';
@@ -55,11 +55,9 @@ export default function TalksGrid({ talksPromise, search }: Props) {
             return talk.id === expandedTalkId;
           }) || null
         }
-        onClose={() => {
-          startTransition(() => {
-            setExpandedTalkId(null);
-            scrollToPosition(scrollPositionRef.current);
-          });
+        closeAction={() => {
+          setExpandedTalkId(null);
+          scrollToPosition(scrollPositionRef.current);
         }}
       />
     </ViewTransition>
@@ -71,11 +69,9 @@ export default function TalksGrid({ talksPromise, search }: Props) {
             <ViewTransition key={`talk-${talk.id}`} name={`talk-${talk.id}`}>
               <TalkCard
                 talk={talk}
-                onSelect={() => {
+                selectAction={() => {
                   scrollPositionRef.current = window.scrollY;
-                  startTransition(() => {
-                    setExpandedTalkId(talk.id);
-                  });
+                  setExpandedTalkId(talk.id);
                 }}
               />
             </ViewTransition>
