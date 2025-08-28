@@ -74,6 +74,7 @@
 - View transitions need to know a before and after state to animate, and for react, since this is not MPA, its just state, so we need to mark this UI transition somehow to animate it, using our concurrent features.
 - View transitions need either a transition or a deferred value.
 - Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. Navigations in nextjs are transitions, so this works out of the box with out filters.
+- This is actually a anti-pattern, remove it so we can add more specific transitions.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - Next, let's animate the grid entering the view.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter, exit, update, and share.
