@@ -26,12 +26,10 @@ export default function AsyncSelect({ name, selected: initialSelected = [], onSe
         onSelect?.(items);
 
         setIsLoading(true);
-        setSelected(items);
         try {
           const result = await syncFiltersToServer(items);
           setSelected(result);
         } catch (error) {
-          setSelected(initialSelected);
           toast.error(`Failed to update filter ${name}: ${error}`);
         } finally {
           setIsLoading(false);

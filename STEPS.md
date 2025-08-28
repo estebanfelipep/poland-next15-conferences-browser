@@ -22,7 +22,7 @@
 ## AsyncSelect with useTransition and useOptimistic
 
 - I'm in this AsyncSelect component.
-- Typical interaction! Setting some loading state, optimistic update, doing an async operation, doing a side effect and an error rollback.
+- Typical interaction! Setting some loading state, doing an async operation, doing a side effect and an error rollback.
 - Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to flickering states.
 - Because we have a shared loading state, and whichever async call finishes first overwrites the next state, leading to this premature loading state. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
 - Instead, let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
@@ -30,7 +30,7 @@
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - All the updates execute once the entire transition is done, keeping them in sync.
 - See same interaction, less code and no UX errors.
-- Remove optimistic update. Notice the problem, this is what we fixed. Let's replace it with useOptimistic.
+- Still, our select values are not updating.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
 - See how it work with a rejecting promise, temporary.
