@@ -54,12 +54,9 @@ export default function Filters({ filterOptions, filters }: Props) {
           options={filterOptions.years}
         />
         <RouterSelect
-          // This executes on selecting an item as a regular event
-          onSelect={items => {
-            updateThemeColor(items, documentRef);
-          }}
-          // This executes at the end of the transition
+          // This executes at the end of the transition, however theme color uses a ref so it executes immediately
           selectAction={items => {
+            updateThemeColor(items, documentRef);
             if (items.length > 0) {
               const message = `Applied ${items.length} tag filter${items.length > 1 ? 's' : ''}`;
               toast.success(message);
