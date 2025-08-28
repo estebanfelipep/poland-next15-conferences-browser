@@ -18,8 +18,7 @@
         "prefix": "successToast",
         "body": [
             "if (items.length > 0) {",
-            "  const message = `Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`;",
-            "  toast.success(message, { duration: 5000 });",
+            "  toast.success(`Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`);",
             "}"
         ]
     },
@@ -52,6 +51,16 @@
             ") {",
             "  setIsExploding(true);",
             "}"
+        ]
+    },
+    "optimisticProgress": {
+        "scope": "typescriptreact",
+        "prefix": "optimisticProgress",
+        "body": [
+            "const [optimisticProgress, incrementProgress] = useOptimistic(progress, (prev, increment: number) => {",
+            "  const next = prev + increment;",
+            "  return next >= 100 ? 99.99 : next;",
+            "});"
         ]
     }
 }

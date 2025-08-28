@@ -61,7 +61,7 @@
 - So we have our custom RouterSelect.
 - Now we can actually add our custom behavior in any way we want, and the naming will tell us what to expect.
 - I just have a bunch of random libraries I wanna try to demonstrate the possibilities. Let's enable the code here.
-- Year: Customize loading bar: add loading bar, onSelect start progress, action end. We know that the onSelect is triggered right away, where the load complete is when the transition is complete. Hide spinner.
+- Year: Customize loading bar: add loading bar, onSelect start progress. Add optimistic state and replace with action. We know that the optimistic is triggered right away, where the load complete is when the transition is complete. Hide spinner. Optimistic reducer function.
 - Tag: Add simple toast like we wanted to with SelectAction. OnSelect update theme variable with this doc ref! Regular event handling.
 - Speaker: Set exploding, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! We can call it without another transition here bc of the naming, just like a form action.
 - Conference: We can also call async functions, like this select action random server function. Maybe we can trigger this at some point.
