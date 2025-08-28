@@ -28,7 +28,7 @@ export default function AsyncSelect({ name, selected: initialSelected = [], onSe
         setIsLoading(true);
         setSelected(items);
         try {
-          const result = await executeAsyncWork(items);
+          const result = await syncFiltersToServer(items);
           setSelected(result);
         } catch (error) {
           setSelected(initialSelected);
@@ -41,7 +41,7 @@ export default function AsyncSelect({ name, selected: initialSelected = [], onSe
   );
 }
 
-function executeAsyncWork(items: SelectItem[]): Promise<SelectItem[]> {
+function syncFiltersToServer(items: SelectItem[]): Promise<SelectItem[]> {
   return new Promise((resolve, reject) => {
     const delay = items.length === 0 ? 500 : items.length * 1500;
     setTimeout(() => {
