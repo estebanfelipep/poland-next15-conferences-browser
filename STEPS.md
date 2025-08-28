@@ -64,7 +64,7 @@
 - Year: Customize loading bar: add loading bar, onSelect start progress. Add optimistic state and replace with action. We know that the optimistic is triggered right away, where the load complete is when the transition is complete. Hide spinner. Optimistic reducer function.
 - Tag: Add simple toast like we wanted to with SelectAction. OnSelect update theme variable with this doc ref! Regular event handling.
 - Speaker: Set exploding, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! We can call it without another transition here bc of the naming, just like a form action.
-- Conference: We can also call async functions, like this select action random server function. Maybe we can trigger this at some point.
+- Conference: We can also call async functions in the action, executed at the end, like a logger of what confs are selected. And a random server function. Maybe we can trigger this at some point.
 - Let's move on for now, and start adding some view transitions!
 
 ## View transitions
