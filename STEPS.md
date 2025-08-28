@@ -67,21 +67,6 @@
 - Conference: We can also call async functions, like this select action random server function. Maybe we can trigger this at some point.
 - Let's move on for now, and start adding some view transitions!
 
-## (Talks list with useDeferredValue)
-
-- Let's see the TalksExplorer. The Talks client component is receiving the talks promise. Suspending with a fallback.
-- Let's move on to the talks grid here. I want to demonstrate the functionality of useDeferredValue to you. Now, you may know useDeferredValue, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until the user stops typing. This is still relevant! However it can also be used with async data fetching to improve UX.
-- Let's replace this promise from the server with a simple data fetching function, that will be triggered on every rerender. It has a very simple cache implementation (showcase) so we can see it in action with use().
-- Could be your useSuspenseQuery from apollo or tanstack, or any other suspense enabled data source.
-- Notice when i search here, the suspense boundary is showing every time. Usedeferredvalue can be used to avoid this flickering by deferring the value until the component is actually ready!
-- Go back to talksexplorer.
-- Add hook: usedeferred value takes in a value and returns a deferred version of it. It signalizes to react that this is a lower priority update, and we want to defer updating the UI until the deferred value is ready.
-- Notice the suspense boundary is no longer flickering.
-- Add isStale indicator for the spinner!
-- We can build any sort of stable UI state, in this stale while revalidate pattern! I recently used it for a async combobox.
-- Put back the passed promise.
-- Leave useDeferredValue, were gonna need this for our last part of the talk. Comment out.
-
 ## View transitions
 
 - View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
@@ -92,7 +77,7 @@
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - Next, let's animate the grid entering the view.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter, exit, update, and share.
-- Add enter exit on grid.
+- Add enter exit on grid. Move key to transition.
 - Triggered when viewtrans component is added and removed from the dom. This is custom animations that I've added to my css file like this.
 - Exit on suspense! Animates down and the list goes up. Removed from the DOM.
 - How about these list items, they are not animating. There is no transition or deffered update on this search.
