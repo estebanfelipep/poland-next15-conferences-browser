@@ -1,19 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { startTransition } from 'react';
 import Badge from '../ui/Badge';
 import Card from '../ui/Card';
 import type { Talk } from '@prisma/client';
 
 type Props = {
   talk: Talk;
-  onSelect: () => void;
+  onSelect?: () => void;
+  selectAction?: () => void | Promise<void>;
 };
 
-export function TalkCard({ talk, onSelect }: Props) {
+export function TalkCard({ talk, onSelect, selectAction }: Props) {
   return (
     <Card className="hover:shadow-primary/25 h-full w-full transition-all hover:shadow-lg">
-      <button onClick={onSelect} className="flex h-full w-full flex-col text-left">
+      <button
+        onClick={() => {
+          onSelect?.();
+          startTransition(async () => {
+            await selectAction?.();
+          });
+        }}
+        className="flex h-full w-full flex-col text-left"
+      >
         <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
             <h3 className="text-theme-text mb-2 text-lg leading-tight font-semibold">{talk.title}</h3>

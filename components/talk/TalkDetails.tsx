@@ -8,10 +8,11 @@ import type { Talk } from '@prisma/client';
 
 type Props = {
   talk: Talk | null;
-  onClose: () => void;
+  onClose?: () => void;
+  closeAction?: () => void | Promise<void>;
 };
 
-export function TalkDetails({ talk, onClose }: Props) {
+export function TalkDetails({ talk, onClose, closeAction }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -38,7 +39,16 @@ export function TalkDetails({ talk, onClose }: Props) {
             {talk.duration && <span className="ml-3">• {talk.duration} min</span>}
           </p>
         </div>
-        <Button onClick={onClose} type="button" variant="secondary">
+        <Button
+          onClick={() => {
+            onClose?.();
+            startTransition(async () => {
+              await closeAction?.();
+            });
+          }}
+          type="button"
+          variant="secondary"
+        >
           ← Back to List
         </Button>
       </div>
