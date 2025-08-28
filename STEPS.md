@@ -77,9 +77,9 @@
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - Next, let's animate the grid entering the view.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter, exit, update, and share.
-- Add enter exit on grid. Move key to transition.
+- Add enter exit on grid. Move key to transition. Default none.
 - Triggered when viewtrans component is added and removed from the dom. This is custom animations that I've added to my css file like this.
-- Exit on suspense! Animates down and the list goes up. Removed from the DOM.
+- Exit on suspense! Animates down and the list goes up. Removed from the DOM. Default none.
 - How about these list items, they are not animating. There is no transition or deffered update on this search.
 - Usedefferedvalue can defer rendering a part of the UI and keep the important parts like this input reponsive.
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it. It can also be used with async data fetching to improve UX and avoid jarring UI updates in something like a combobox.
