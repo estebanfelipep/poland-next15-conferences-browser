@@ -50,7 +50,7 @@
 
 ## RouterSelect expose action
 
-- Let's make the filters work! We want to be able to select a filter, and have the talks list update.
+- Let's make the filters work! We want to be able to select a filter, and have the talks list update. Instead of using this dummy sync to filter, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - The filters are already working.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
