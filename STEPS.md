@@ -22,15 +22,18 @@
 ## AsyncSelect with useTransition and useOptimistic
 
 - I'm in this AsyncSelect component.
-- Typical interaction! Setting some loading state, doing an async operation, doing a side effect and an error rollback.
-- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to flickering states.
+- Typical interaction! Setting some loading state, doing an async operation, doing a side effect.
+- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to out of sync states.
 - Because we have a shared loading state, and whichever async call finishes first overwrites the next state, leading to this premature loading state. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
 - Instead, let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
 - We can use useTransition and wrap the state update and the async call, creating an Action.
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
-- All the updates execute once the entire transition is done, keeping them in sync.
 - See same interaction, less code and no UX errors.
-- Still, our select values are not updating.
+- All the updates execute once the entire transition is done, keeping them in sync.
+- I also have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck".
+- Let's try to add an optimistic update to this select value, so it reflects the user action immediately.
+- Add the naive version outside the transition. This is not ideal, because if the async operation fails, we have to manually revert the state, and it can lead to out of sync states again.
+- Weird flickering UI.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as it runs, and when its done, reverts to the passed value. Meaning if this passed value is updated, it can seamlessly transition to the new value.
 - See how it work with a rejecting promise, temporary.
