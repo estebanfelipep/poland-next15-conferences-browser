@@ -80,8 +80,9 @@
 
 - View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
 - We already learned all the basics of this, so we are able to use it now.
-- View transitions need to know a before and after state to animate, and for react, since this is not MPA, its just state, so we need to mark this UI transition somehow to animate it, using our concurrent features.
+- View transitions need a way to mark this UI transition somehow to animate it, using our concurrent features.
 - View transitions need either a transition or a deferred value.
+- "when a transition finishes, react will automatically animate the result of the transition to the new UI"
 - Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. Navigations in nextjs are transitions, so this works out of the box with out filters.
 - "NextJS is following the suspense-enabled router pattern from the React team, so every route navigation is wrapped in a transition"
 - "this adds a cross fade, but for many of these interactions we don't want that. so let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree"
