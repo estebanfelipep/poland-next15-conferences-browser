@@ -30,31 +30,34 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
   if (!talk) return null;
 
   return (
-    <Card className="shadow-primary/25 w-full p-8 shadow-lg">
-      <div className="mb-6 flex items-start justify-between">
-        <div className="flex-1">
-          <h1 className="text-theme-text mb-2 text-3xl font-bold">{talk.title}</h1>
-          <p className="text-theme-text-secondary text-lg">
+    <Card className="shadow-primary/25 w-full p-4 shadow-lg sm:p-6 lg:p-8">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-theme-text mb-2 text-2xl font-bold break-words sm:text-3xl">{talk.title}</h1>
+          <p className="text-theme-text-secondary text-base sm:text-lg">
             by <span className="font-semibold">{talk.speaker}</span>
             {talk.duration && <span className="ml-3">• {talk.duration} min</span>}
           </p>
         </div>
-        <Button
-          onClick={() => {
-            onClose?.();
-            startTransition(async () => {
-              await closeAction?.();
-            });
-          }}
-          type="button"
-          variant="secondary"
-        >
-          ← Back to List
-        </Button>
+        <div className="flex-shrink-0">
+          <Button
+            onClick={() => {
+              onClose?.();
+              startTransition(async () => {
+                await closeAction?.();
+              });
+            }}
+            type="button"
+            variant="secondary"
+            className="w-full sm:w-auto"
+          >
+            ← Back to List
+          </Button>
+        </div>
       </div>
       <div className="mb-6">
         <p className="text-theme-text-secondary mb-3 text-sm">Click these badges to filter for similar talks:</p>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           <Badge
             disabled={isPending && activeFilter === `conference:${talk.conference}`}
             variant="secondary"
@@ -87,9 +90,9 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
         </div>
       </div>
       {(talk.longDescription || talk.description) && (
-        <div className="mb-8">
-          <h2 className="text-theme-text mb-3 text-xl font-semibold">Description</h2>
-          <div className="text-theme-text-secondary leading-relaxed">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-theme-text mb-3 text-lg font-semibold sm:text-xl">Description</h2>
+          <div className="text-theme-text-secondary text-sm leading-relaxed sm:text-base">
             {talk.longDescription ? (
               <div className="whitespace-pre-line">{talk.longDescription}</div>
             ) : (
@@ -98,9 +101,9 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
           </div>
         </div>
       )}
-      <div className="mb-8">
-        <h2 className="text-theme-text mb-3 text-xl font-semibold">Resources</h2>
-        <div className="flex flex-wrap gap-3">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-theme-text mb-3 text-lg font-semibold sm:text-xl">Resources</h2>
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
           {talk.videoUrl && (
             <a href={talk.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
               <Badge variant="accent" className="w-full justify-center">
