@@ -25,8 +25,8 @@ export default async function Wrapper({ children }: Props) {
   return (
     <>
       {showIntro ? (
-        <div className="bg-card/95 dark:bg-card-dark/95 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-          <div className="border-primary bg-card dark:bg-card-dark relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 px-6 py-8 shadow-2xl md:px-10 md:py-12">
+        <div className="bg-card/95 dark:bg-card/10 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+          <div className="border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12 dark:bg-black">
             <span className="text-primary dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
             <div className="text-primary-dark dark:text-primary mb-6 text-center text-2xl font-extrabold md:text-3xl lg:text-5xl">
               Modern React Patterns
