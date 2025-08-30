@@ -80,12 +80,15 @@
 - Conference: We can also call async functions in the action, executed at the end, like a logger of what confs are selected. And a random server function. Maybe we can trigger this at some point.
 - Let's move on for now, and start adding some view transitions!
 
-## View transitions
+## View Transitions
 
 - View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
 - We already learned all the basics of this, so we are able to use it now.
-- View transitions need a way to mark a UI transition, and they require either suspense, a transition or a deferred value.
+- View transitions need a way to mark an animation, and that can be either suspense, a transition or a deferred value.
 - For example, when a transition finishes, react will automatically animate the result of the transition to the new UI.
+
+## Add View Transitions
+
 - Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. NextJS is following the suspense-enabled router pattern from the React team, so every route navigation is wrapped in a transition. S this works out of the box with our filters.
 - It adds a cross fade, but for many of these interactions we don't want that. so let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
