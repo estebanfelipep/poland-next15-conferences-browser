@@ -1,6 +1,5 @@
 'use client';
 
-import { useLinkStatus } from 'next/link';
 import React from 'react';
 import { useFormStatus } from 'react-dom';
 import { cn } from '@/utils/cn';
@@ -23,9 +22,8 @@ export default function Button({
   disabled,
   ...otherProps
 }: Props & React.HTMLProps<HTMLButtonElement>) {
-  const { pending: pendingFormSubmit } = useFormStatus();
-  const { pending: pendingNavigate } = useLinkStatus();
-  const isSubmitting = pendingNavigate || pendingFormSubmit || loading;
+  const { pending } = useFormStatus();
+  const isSubmitting = pending || loading;
 
   return (
     <button

@@ -94,7 +94,7 @@
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense in a ViewTransition.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter DOM, exit DOM, update inside view trans, and shared element transition.
 - Add Exit on suspense with "slide-down"! Animates down and the list goes up. Removed from the DOM. This is custom animations that I've added to my css file like this
-- Wrap grid in ViewTransition, move key. Add enter exit on grid.
+- Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
 - Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.
 - How about this item detail.
@@ -105,6 +105,7 @@
 - However, i see that two different related components are in the view at separate times. To animate between them, we can use a shared element transition.
 - Wrap TalkCard in ViewTransition. We can add a name to these. The names need to be unique and the same. See animation. Use closeAction to animate close.
 - For shared element transitions, if the thing you're sharing is not visible in the before/after, react will fall back to a cross fade instead of things flying off screen. So when I scroll down to the bottom, click the last item - it will expand into it. But when I close it and go back to the list (which is at the top) that item is no longer visible on the screen so it just cross fades close. React automatically figures out what the right thing to do is!
+- I also have clickable badges by the way, they also animate now on router push!
 - How about the search interaction. I already a ViewTransition on the cards, but theyre not animating. Thats' because there is no transition or deferred update on this search.
 - Usedefferedvalue can defer rendering a part of the UI.
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
@@ -118,7 +119,7 @@
 - Fullscreen view
 - Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in.
-- We can click the items and have this named view transition connecting the two items.
+- We can click the items and have this named view transition connecting the two items. Animate badges, shared.
 - We have the filterable list with the filtering animation here, triggered by useDeferredValue. Unfilter.
 - We can execute the custom select components with a various set of side effects based on the transition behavior, and have it animate. Year.
 - And we can clear the filters with a smooth transition in and out.

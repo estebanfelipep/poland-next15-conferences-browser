@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     },
     viewTransition: true,
   },
+  typedRoutes: true,
 };
 
 module.exports = nextConfig;
