@@ -94,7 +94,7 @@
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense in a ViewTransition.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter DOM, exit DOM, update inside view trans, and shared element transition.
 - Add Exit on suspense with "slide-down"! Animates down and the list goes up. Removed from the DOM. This is custom animations that I've added to my css file like this
-- Wrap grid in ViewTransition, move key. Add enter exit on grid.
+- Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
 - Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.
 - How about this item detail.
