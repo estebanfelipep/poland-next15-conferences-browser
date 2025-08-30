@@ -27,7 +27,7 @@ export default function AsyncSelect({ name, selected: initialSelected = [], onSe
 
         setIsLoading(true);
         try {
-          const result = await syncFiltersToServer(items);
+          const result = await executeAsyncWork(items);
           setSelected(result);
         } catch (error) {
           toast.error(`Failed to update filter ${name}: ${error}`);
@@ -39,7 +39,7 @@ export default function AsyncSelect({ name, selected: initialSelected = [], onSe
   );
 }
 
-function syncFiltersToServer(items: SelectItem[]): Promise<SelectItem[]> {
+function executeAsyncWork(items: SelectItem[]): Promise<SelectItem[]> {
   return new Promise((resolve, reject) => {
     const delay = items.length === 0 ? 500 : items.length * 1500;
     setTimeout(() => {
