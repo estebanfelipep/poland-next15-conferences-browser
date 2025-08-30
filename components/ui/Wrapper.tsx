@@ -26,7 +26,7 @@ export default async function Wrapper({ children }: Props) {
     <>
       {showIntro ? (
         <div className="bg-card/95 dark:bg-card/10 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-          <div className="border-primary relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12 dark:bg-black">
+          <div className="border-primary da@rk:bg-black relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12">
             <span className="text-primary dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
             <div className="text-primary-dark dark:text-primary mb-6 text-center text-2xl font-extrabold md:text-3xl lg:text-5xl">
               Modern React Patterns
@@ -43,7 +43,9 @@ export default async function Wrapper({ children }: Props) {
                 <FeatureItem>useTransition</FeatureItem>
                 <FeatureItem>useOptimistic</FeatureItem>
                 <FeatureItem>useDeferredValue</FeatureItem>
-                <FeatureItem>View Transitions</FeatureItem>
+                <FeatureItem>
+                  {'<'}ViewTransition{'>'}
+                </FeatureItem>
               </ul>
             </div>
             <div className="mb-6 text-center">

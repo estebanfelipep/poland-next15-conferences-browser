@@ -56,7 +56,7 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
         </div>
       </div>
       <div className="mb-6">
-        <p className="text-theme-text-secondary mb-3 text-sm">Click these badges to filter for similar talks:</p>
+        <p className="text-theme-text-secondary mb-3 text-sm">Filter for similar talks:</p>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           <Badge
             disabled={isPending && activeFilter === `conference:${talk.conference}`}
