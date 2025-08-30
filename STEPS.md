@@ -23,29 +23,29 @@
 
 - The selects are created by this this AsyncSelect component.
 - If we look at the code for these drop downs, we can see they're implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect.
-- Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true.
-- When we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state, which is why we see a flicker. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
+- Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
 - The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
 
 ## AsyncSelect with useTransition
 
 - Fortunately, React has a API for this: transitions. Transitions allow react to coordinate async requests in events and render. Let's see how we can use transitions here to create a better experience, with no flickering, and less code.
-- Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 allowed transitions to be async.
-- We can use useTransition and wrap the state update and the async call, creating an Action.
+- Let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update.
+- We can use useTransition and wrap the state update and the async call, creating an Action. React 19 allowed transitions to be async.
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
-- See same interaction, less code and no UX errors.
-- All the updates execute once all the transitions are done, keeping them in sync.
+- All the updates execute once transitions are done, keeping them in sync, less code and no UX errors.
 
 ## AsyncSelect with useOptimistic
 
 - I also have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck".
 - Let's try to add an optimistic update to this select value, so it reflects the user action immediately.
-- Add the naive version outside the transition. This is not ideal, because if the async operation fails, we have to manually revert the state.
+- Add the naive version outside the transition. If the async operation fails, we have to manually revert the state.
 - And we get this weird flickering UI on the update and out of sync states again, because it's not synced to the transition.
-- UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger. React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch.
+- UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
+- Remove all naive optimistic.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as the action runs, and when its done, settles to the passed value. seamlessly merge with the new value.
-- See how it work with a rejecting promise, temporary.
-- Notice how our interaction is completely smooth, and we have a more robust optimistic update that works with the transition.
+- (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
+- It becomes clearer with a rejecting promise. Comment out toast.
+- Notice how our interaction is completely smooth, we have a more robust optimistic update that works with the transition, and less code.
 
 ## Review app
 
