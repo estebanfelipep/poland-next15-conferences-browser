@@ -23,7 +23,7 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
     startTransition(() => {
       setActiveFilter(filterKey);
       const queryString = createQueryString(searchParams, { name: filterType, value });
-      router.push(`/?${queryString}`);
+      router.push(`${queryString}`);
     });
   };
 
