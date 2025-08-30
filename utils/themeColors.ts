@@ -1,7 +1,6 @@
-export function updateThemeColor(
-  items: { label: string; value: string }[],
-  documentRef: React.RefObject<Document | null>,
-) {
+import type { SelectItem } from '@/components/ui/select/Select';
+
+export function updateThemeColor(items: SelectItem[], documentRef: React.RefObject<Document | null>) {
   const lastSelectedTag = items.length > 0 ? items[items.length - 1].value : null;
 
   const colorMap = {
