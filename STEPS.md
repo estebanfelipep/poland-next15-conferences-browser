@@ -50,10 +50,10 @@
 ## Review app
 
 - So what is this app anyway? Open sidebar.
-- This is actually a Next.js App Router app, Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
+- This is actually a Next.js App Router app, using Prisma ORM and an Prisma Postgres DB, Tailwind CSS.
 - Zoom out to 110%.
 - Go to page. We were just using the filters, let's actually add inn the actual functionality here.
-- I'm in the nextjs app router so I am using server components to fetch data. Page.tsx gets the active filters from the params, and the filter options based on all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
+- I'm using server components to fetch data. Page.tsx gets the active filters from the searchparams, and the filter options are created from all data in the database. We're getting the talks based on these filters directly in the server comp, and passing it down to a as a promise.
 - We're using async await here because we're in a server component, but if this was a client app, we could use use() instead, so these patterns are useful in either RSC or CSR.
 - Demo app: See talks, search, click talks.
 
@@ -61,19 +61,20 @@
 
 - Let's make the selects filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
-- The filters are already working.
+- Remove internal state.
+- The filters are already working, giving us this smooth flicker-free ui.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
-- This is now a very useful select, but it is not very customizable. We want to be able to execute custom behavior when the select is changed.
-- To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.
+- So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? We need to make this reusable and customizable.
+- We want to create a way to execute a synced outdate from the outside. What can expose an action prop, a function called within the transition.
 - We should await this so the parent can pass either sync or async here for max flexibility.
-- Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components!
+- Think about the new react 19 form. We have either onSubmit or action, depending on our needs. And we can also do this with our own components!
 - We could even extract the whole routing logic out to make this a reusable async select again, but for this demo, lets keep it here.
 
 ## Filters use the action prop
 
-- So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? Well, since react is coordinating the action for us, we can add anything to this action callback an it will be included in the transition automatically.
-- The naming will tell us what to expect, that we know this is using a transition.
-- I just have a bunch of random side effects I wanna try to demonstrate the possibilities.
+- Let's add some custom behavior. I just have a bunch of random side effects so that we can understand the possibilities.
+- Since react is coordinating the action for us, we can add anything to this action callback an it will be included in the transition automatically.
+- The naming will tell us what to expect. We know this is using a transition.
 - Year: Customize loading bar: Hide spinner. Set progress 100 state, synced to the transition. Add optimistic state and replace. We know that the optimistic is triggered right away, and the regular state is synced to the action. Optimistic reducer function, to coordinate any transition to this optimistic update. We can call it without another transition here bc of the naming, just like a form action.
 - Tag: Add simple toast like we used to have to with SelectAction. Update theme variable with this doc ref, this is a ref so its not coordinated with the transition.
 - Speaker: Set exploding, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! Again, no additional transition needed.
