@@ -6,7 +6,7 @@
 - Aurora, web dev, norway, consultant at Crayon Consulting in oslo
 - Excited to speak here today, because i'll be teaching about modern react patterns: concurrent rendering, actions, and whats next.
 - Handling async operations in UI components can be tricky, we might encounter flickering pending states, inefficient state updates, and excess complexity.
-- With React 18 we already got a lot of features to allow us to improve the UX and responsiveness of our apps. Now, in 19, we have even more tools at our disposal, and new ways to combine them.
+- With React 18 we got these concurrent features which allowed us to improve the UX and responsiveness of our apps. Now, in 19, we have even more tools at our disposal, and new ways to combine them.
 - These are the concurrent features we are going to explore today. useTransition, useOptimistic, and useDeferredValue. They are going to become increasingly more important with View Transitions coming to React, which we will also check out at the end!
 - Who here has ever used useTransition?
 - Who here has ever used useOptimistic?
@@ -16,13 +16,13 @@
 
 ## Setup
 
-- I have some selects here for years, tags, speakers, and conferences. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.
-- Demo the filtering UX. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. Let's get to the code.
+- I have some selects here for years, tags, speakers, and conferences. They're actually created with Ariakit using custom styling, where Ariakit handles the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.
+- Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. Let's get to the code.
 
 ## Introduce starting point AsyncSelect
 
 - The selects are created by this this AsyncSelect component.
-- If we look at the code for these drop downs, we can see they're implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we post the values to the server, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect.
+- If we look at the code for these drop downs, we can see they're implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect.
 - Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true.
 - When we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state, which is why we see a flicker. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
 - The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
