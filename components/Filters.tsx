@@ -89,7 +89,7 @@ export default function Filters({ filterOptions, filters }: Props) {
           selectAction={async items => {
             // This also executes when the transition is complete
             await logUserSelectedConference(items);
-            await someRandomServerFunction(items, year);
+            await someRandomServerFunction(items, year as string);
           }}
           selected={toSelectItems(conference, filterOptions.conferences)}
           options={filterOptions.conferences}
