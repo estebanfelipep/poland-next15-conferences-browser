@@ -16,18 +16,21 @@
 
 ## Setup
 
-- I have some selects here for years, tags, speakers, and conferences. Plain Async Selects. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.
+- I have some selects here for years, tags, speakers, and conferences. They're actually created with this custom styling using Ariakit, handling the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.
+- Demo the filtering UX. Selects feel stuck. We're having some weird loading states that flicker and are not in sync on multiple selection. Let's get to the code.
+
+## Introduce starting point AsyncSelect
+
+- I'm in this AsyncSelect component.
 - "if we look at the code for these drop downs, we can see they're implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we post the values to the server, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true"
-- Demo the filtering UX. We're having some weird loading states that flicker and are not in sync. Let's get to the code.
+- Typical interaction! Setting some loading state, doing an async operation, doing a side effect.
+- "looking at this code, we're able to see the cause of loading flicker. When we click x, the code does y, and then z, which is why we see a flicker.
+- Because we have a shared loading state, and whichever async call finishes first overwrites the next state, leading to this premature loading state. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!W
+- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to out of sync states.
+- "the fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. what we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once".
 
 ## AsyncSelect with useTransition and useOptimistic
 
-- I'm in this AsyncSelect component.
-- Typical interaction! Setting some loading state, doing an async operation, doing a side effect.
-- "looking at this code, we're able to see the cause of loading flicker. When we click x, the code does y, and then z, which is why we see a flicker.
-- Handling loading states this way is not ideal, because we have to manage the loading state manually, and it leads to out of sync states.
-- Because we have a shared loading state, and whichever async call finishes first overwrites the next state, leading to this premature loading state. User actions don't match the state. We would need request tracking and cancellation to ensure the most recent operations affects the final state, or disable the interaction entirely while its pending!
-- "the fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. what we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once".
 - "Fortunately, React has a API for this: transitions. Transitions allow react to coordinate async requests in events and render so x, y,z. Let's see how we can use transitions here to create a better experience, with no flickering, and less code."
 - Instead, let's replace the manual loading state with a transition here to simplify this pattern. Creating a lower priority, deferred state update. React 19 transitions can be async.
 - We can use useTransition and wrap the state update and the async call, creating an Action.
@@ -90,8 +93,9 @@
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - Next, let's animate the grid entering the view.
 - View trans have 4 triggers based on how a view trans component behaves in a transition: enter, exit, update, and share.
-- "as the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTranstions (even outside a transition btw), so we can wrap the <Suspense> in a ViewTransition. But if you do that, it's going to opt-in the whole subtree, so what I typically do is something like"
+- "as the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTranstions (even outside a transition btw), so we can wrap the Suspense in a ViewTransition. But if you do that, it's going to opt-in the whole subtree, so what I typically do is something like"
 - Add enter exit on grid. Move key to transition. Default none.
+- Custom animations like this
 - "Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will cross fade. But since the default is "none" it wont cross fade any other update in the tree below, causing unexpected animations"
 - Triggered when viewtrans component is added and removed from the dom. This is custom animations that I've added to my css file like this.
 - Exit on suspense! Animates down and the list goes up. Removed from the DOM. Default none.
@@ -116,10 +120,9 @@
 - Fullscreen view
 - Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in
-- We have the filterable list with the filtering animation here using View Transitions and useDeferredValue
+- We have the filterable list with the filtering animation here using View Transitions and useDeferredValue. Unfilter.
 - We can click the items and have this named view transition connecting the two items
-- Reset to make sure there are items
-- We can execute the custom select components with a various set of side effects based on the transition behavior.
+- We can execute the custom select components with a various set of side effects based on the transition behavior. Show, clear, show.
 - And we can clear the filters with a smooth transition in and out.
 - Let's try to trigger that random server function somehow. It's react universe 2025 right?
 
