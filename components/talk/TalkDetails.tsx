@@ -5,6 +5,7 @@ import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import Card from '../ui/Card';
 import type { Talk } from '@prisma/client';
+import type { Route } from 'next';
 
 type Props = {
   talk: Talk | null;
@@ -23,7 +24,7 @@ export function TalkDetails({ talk, onClose, closeAction }: Props) {
     startTransition(() => {
       setActiveFilter(filterKey);
       const queryString = createQueryString(searchParams, { name: filterType, value });
-      router.push(`${queryString}`);
+      router.push(`${queryString}` as Route);
     });
   };
 

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: 'Conference Explorer',
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
