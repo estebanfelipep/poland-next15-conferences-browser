@@ -38,7 +38,7 @@ export default function TalksExplorer({ talksPromise }: Props) {
       <ActiveFilters />
       <Suspense
         fallback={
-          <ViewTransition exit="slide-down" default="none">
+          <ViewTransition exit="slide-down">
             <TalksGridSkeleton />
           </ViewTransition>
         }

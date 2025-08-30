@@ -17,13 +17,13 @@ type Props = {
 
 export default function Filters({ filterOptions, filters }: Props) {
   const { year, tag, conference, speaker } = filters;
+  const documentRef = useRef<Document | null>(null);
   const [isExploding, setIsExploding] = useOptimistic(false);
   const [progress, setProgress] = useState(0);
   const [optimisticProgress, incrementProgress] = useOptimistic(progress, (prev, increment: number) => {
     const next = prev + increment;
     return next >= 100 ? 99.99 : next;
   });
-  const documentRef = useRef<Document | null>(null);
 
   useEffect(() => {
     documentRef.current = document;
