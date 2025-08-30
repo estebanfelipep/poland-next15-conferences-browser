@@ -63,6 +63,7 @@
 - To make this component reusable and customizable, we want to expose a way to execute this synced outdate from the outside. What we can do is expose an action prop, a function called within the transition.
 - We should await this so the parent can pass either sync or async here for max flexibility.
 - Any UI comp can do this! Think about the new react 19 form. We have either onSubmit or action, depending on our needs. We can also do this with our own components! We can add either one or both if thats what we want!
+- We could even extract the whole routing logic out to make this a reusable async select again, but for this demo, lets keep it here.
 
 ## Filters use the action prop
 
