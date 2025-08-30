@@ -5,6 +5,7 @@ import React, { useOptimistic, useTransition } from 'react';
 import { createQueryString } from '@/utils/createQueryString';
 import Select from './ui/select/Select';
 import type { SelectItem, SelectProps } from './ui/select/Select';
+import type { Route } from 'next';
 
 type Props = {
   selected: SelectItem[];
@@ -37,7 +38,7 @@ export default function RouterSelect({ name, selected, selectAction, onSelect, .
             createQueryString(searchParams, {
               name,
               value: items,
-            }),
+            }) as Route,
           );
         });
       }}
