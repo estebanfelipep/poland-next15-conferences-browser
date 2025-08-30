@@ -1,7 +1,7 @@
 {
-    "selectAction": {
+    "actionProp": {
         "scope": "typescriptreact",
-        "prefix": "selectAction",
+        "prefix": "actionProp",
         "body": [
             "selectAction?: (items: SelectItem[]) => void | Promise<void>;"
         ],
@@ -21,28 +21,24 @@
             "  toast.success(`Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`);",
             "}"
         ]
-    },
-    "createQueryString": {
+    },"createQueryStringValue": {
         "scope": "typescriptreact",
-        "prefix": "createQueryString",
+        "prefix": "createQueryStringValue",
         "body": [
             "createQueryString(searchParams, {",
             "  name,",
             "  value: items,",
             "}),"
         ]
-    }
-    ,
-    "optimisticSelected": {
+    }, "optimisticSelected": {
         "scope": "typescriptreact",
         "prefix": "optimisticSelected",
         "body": [
             "optimisticSelected, setOptimisticSelected"
         ]
-    },
-    "explodeForSpeaker": {
+    },"celebrateSpeaker": {
         "scope": "typescriptreact",
-        "prefix": "explodeForSpeaker",
+        "prefix": "celebrateSpeaker",
         "body": [
             "if (",
             "  items.some(item => {",
@@ -52,8 +48,7 @@
             "  setIsExploding(true);",
             "}"
         ]
-    },
-    "optimisticProgress": {
+    },"optimisticProgress": {
         "scope": "typescriptreact",
         "prefix": "optimisticProgress",
         "body": [
@@ -61,6 +56,13 @@
             "  const next = prev + increment;",
             "  return next >= 100 ? 99.99 : next;",
             "});"
+        ]
+    },
+    "awaitSomeRandomServerFunction": {
+        "scope": "typescriptreact",
+        "prefix": "awaitSomeRandomServerFunction",
+        "body": [
+            "await someRandomServerFunction(items, year as string);"
         ]
     }
 }
