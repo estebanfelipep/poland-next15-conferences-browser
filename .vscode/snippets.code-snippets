@@ -28,7 +28,7 @@
             "createQueryString(searchParams, {",
             "  name,",
             "  value: items,",
-            "}) as Route,"
+            "}) as Route"
         ]
     }, "optimisticSelected": {
         "scope": "typescriptreact",
