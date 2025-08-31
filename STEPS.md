@@ -17,6 +17,7 @@
 ## Setup
 
 - I have some selects here for years, tags, speakers, and conferences.
+- (They're actually created with Ariakit using custom styling, where Ariakit handles the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.)
 - Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. Let's get to the code.
 
 ## Introduce starting point AsyncSelect
