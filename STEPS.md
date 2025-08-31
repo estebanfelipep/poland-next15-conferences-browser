@@ -24,7 +24,8 @@
 
 - The selects are created by this this AsyncSelect component.
 - If we look at the code, we can see the selects implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect on error.
-- Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state. We might need request tracking and cancellation, or disable the interaction entirely while its pending to fix this!
+- Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state.
+- (We might need request tracking and cancellation, or disable the interaction entirely while its pending to fix this!)
 - The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
 
 ## AsyncSelect with useTransition
@@ -63,7 +64,7 @@
 
 - Let's hook our async select up to filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
-- The filters are already working, giving us this smooth flicker-free ui.
+- The filters are already working, giving us this optimistic and smooth flicker-free ui.
 - Remove internal state.
 - Now we can directly see the selected filters.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
@@ -93,8 +94,8 @@
 
 ## Add View Transitions
 
-- Layout.tsx. Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. NextJS is following the suspense-enabled router pattern from the React team, so every route navigation is wrapped in a transition. So ViewTransitions works out of the box with our filters.
-- It adds this cross fade, but for many of these interactions we don't want that. so let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree. Copy the import.
+- Layout.tsx. Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. NextJS is following the suspense-enabled router pattern from the React team, so every route navigation is wrapped in a transition. So ViewTransitions works out of the box with our filters, it adds this cross fade.
+- But for many of these interactions we don't want that. So let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree. Copy the import.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
 - View trans have 4 triggers based on how a view trans component behaves: enter DOM, exit DOM, updates happen inside it, and shared element transition.
@@ -103,9 +104,10 @@
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
 - Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.
 - How about this item detail.
-- Go to Grid, let's add a view trans to the talk details on enter with a slide in.
+- Go to Grid, let's add a view trans to the talk details.
 - If we want animation, we need to wrap the state update in a transition.
 - Our TalkCard has an action prop as well, let's switch to an action so we know it's in a transition already. Let's use the closeAction to animate close as well.
+- Add enter with a slide in.
 - When this transition finishes, react will automatically animate the result of the transition to the new UI.
 - However, i see that two different related components are in the view at separate times. To animate between them, we can use a shared element transition.
 - Wrap TalkCard in ViewTransition. We can add a name to these. The names need to be unique and the same. See animation.
@@ -116,7 +118,7 @@
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
 - Use chrome devtools to slow down the animations! Animation drawer. Showcase.
-- React let's you declaratively define your view trans, while handling all the possible edge cases. I'm really bad at animations but I was able to add all this!
+- React let me declaratively define my view trans, while handling all the possible edge cases. I'm really bad at animations but I was still able to add all this!
 
 ## Final demo
 
@@ -124,9 +126,9 @@
 - Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in.
 - We can click the items and have this named view transition connecting the two items. Animate badges, shared.
+- And we can clear the filters with a smooth transition in and out.
 - We have the filterable list with the filtering animation here, triggered by useDeferredValue. Unfilter.
 - We can execute the custom select components with a various set of side effects based on the transition behavior. Year. Animates as well because its a router push. Notice the smooth UX on the select and the loading bar.
-- And we can clear the filters with a smooth transition in and out.
 - Tag: angular, solid, react, vue. Clear.
 - Speaker, Clear.
 - Conference: Let's try to trigger that random server function somehow. It's react universe 2025 right?
