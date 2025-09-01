@@ -80,7 +80,7 @@
 - The naming will tell us what to expect. We know this is using a transition because of the action suffix.
 - Year: Customize loading bar: Set progress 100 state, hide spinner, synced to the transition.  Want also a ui update instantly. Optimistic reducer function, to coordinate any transition to this optimistic update. We can call it without another transition here bc of the naming, just like a form action. Add optimistic state and replace. We know that the optimistic is triggered right away and, and the regular state is synced to the action, and the optimistic update settles.
 - Tag: Add simple toast like we used to have to with SelectAction. Update theme variable with this doc ref, this is a ref so its not coordinated with the transition.
-- Speaker: Set exploding onSelect, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! Again, no additional transition needed.
+- Speaker: Add optimistic exploding, handles its own reset state after transition completes. No revert state or timeouts. Optimistic update synced to the transition! Again, no additional transition needed.
 - Conference: We can also call async functions in the action, executed at the end, like a logger of what confs are selected. And a random server function. Maybe we can trigger this at some point.
 - Let's move on for now, and start adding some view transitions!
 
