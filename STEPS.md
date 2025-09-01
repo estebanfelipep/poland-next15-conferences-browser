@@ -100,7 +100,7 @@
 - Add Exit on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this,
 - Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
-- Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.
+- (Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.)
 - How about this item detail.
 - Go to Grid, let's add a view trans to the talk details, enter slide-in.
 - If we want animation, we need to wrap the state update in a transition.
@@ -113,7 +113,7 @@
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
-- Use chrome devtools to slow down the animations! Animation drawer. Showcase.
+- (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
 - React let me declaratively define my view trans, (while handling all the possible edge cases). I'm really bad at animations but I was still able to add all this!
 
 ## Final demo

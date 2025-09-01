@@ -57,12 +57,17 @@
             "  return next >= 100 ? 99.99 : next;",
             "});"
         ]
-    },
-    "awaitSomeRandomServerFunction": {
+    }, "awaitSomeRandomServerFunction": {
         "scope": "typescriptreact",
         "prefix": "awaitSomeRandomServerFunction",
         "body": [
             "await someRandomServerFunction(items, year as string);"
+        ]
+    },"uniqueName": {
+        "scope": "typescriptreact",
+        "prefix": "uniqueName",
+        "body": [
+            "name={`talk-${expandedTalkId}`}",
         ]
     }
 }
