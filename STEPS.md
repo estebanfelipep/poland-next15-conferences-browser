@@ -32,9 +32,9 @@
 
 - Fortunately, React has a API for this: transitions. Transitions allow react to coordinate async requests in events and render. Let's see how we can use transitions here to create a better experience, with no flickering, and less code.
 - Let's replace the manual loading state with a transition here to simplify this pattern. IsPending and startTransition. startTransition creates lower priority, deferred state update.
-- We can use useTransition and wrap the state update and the async call, creating an Action. React 19 allowed transitions to be async.
+- We can use useTransition and wrap the state update and the async call. React 19 allowed transitions to be async.
 - Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
-- An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
+- Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - Showcase.
 - All the updates execute once all transitions are done, keeping them in sync, less code and no flickering loading states.
 
@@ -47,7 +47,7 @@
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
 - It becomes clearer with a rejecting promise. Comment out toast.
-- Notice how our interaction is completely smooth, we have a more robust optimistic update that works with the transition, and less code, and no UX errors.
+- Notice how our interaction is completely smooth, we have a robust optimistic update that works with the transition, and less code, and no UX errors.
 
 ## Review app
 
@@ -62,8 +62,8 @@
 
 - Let's hook our async select up to filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- Remove internal state, get it from the passed params.
 - The filters are already working, giving us this optimistic and smooth flicker-free ui.
-- Remove internal state. Now we can directly see the selected filters.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? And we don't want to be part of the reusable component.
 - We want to create a way to execute a synced outdate from the outside. What can expose an action prop, a function called within the transition.

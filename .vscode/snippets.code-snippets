@@ -67,7 +67,7 @@
         "scope": "typescriptreact",
         "prefix": "uniqueName",
         "body": [
-            "name={`talk-${expandedTalkId}`}",
+            "name={`talk-\\${expandedTalkId}`}",
         ]
     }
 }
