@@ -40,8 +40,9 @@
 
 ## AsyncSelect with useOptimistic
 
-- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", and it only select one value. We could use the updater function.
-- Instead, let's try to add an optimistic update to this select value, so it reflects the user action immediately.
+- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
+-(We could add a naive optimistic update, where we set the state immediately, and then revert it if the async operation fails. But it would still be out of sync.)
+- (Let's try to add an optimistic update to this select value, so it reflects the user action immediately).
 - (Add the naive version outside the transition. If the async operation fails, we have to manually revert the state).
 - (And we get this weird flickering UI on the update and out of sync states again, because it's not synced to the transition).
 - (Remove all naive optimistic).
@@ -66,8 +67,7 @@
 - Let's hook our async select up to filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - The filters are already working, giving us this optimistic and smooth flicker-free ui.
-- Remove internal state.
-- Now we can directly see the selected filters.
+- Remove internal state. Now we can directly see the selected filters.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? And we don't want to be part of the reusable component.
 - We want to create a way to execute a synced outdate from the outside. What can expose an action prop, a function called within the transition.
@@ -82,7 +82,7 @@
 - Add selectAction year.
 - Since react is coordinating the action for us, we can add anything to this action callback an it will be included in the transition automatically.
 - The naming will tell us what to expect. We know this is using a transition because of the action suffix.
-- Year: Customize loading bar: Set progress 100 state, synced to the transition. Hide spinner. Want also a ui update instantly. Optimistic reducer function, to coordinate any transition to this optimistic update. We can call it without another transition here bc of the naming, just like a form action. Add optimistic state and replace. We know that the optimistic is triggered right away and, and the regular state is synced to the action, and the optimistic update settles.
+- Year: Customize loading bar: Set progress 100 state, hide spinner, synced to the transition.  Want also a ui update instantly. Optimistic reducer function, to coordinate any transition to this optimistic update. We can call it without another transition here bc of the naming, just like a form action. Add optimistic state and replace. We know that the optimistic is triggered right away and, and the regular state is synced to the action, and the optimistic update settles.
 - Tag: Add simple toast like we used to have to with SelectAction. Update theme variable with this doc ref, this is a ref so its not coordinated with the transition.
 - Speaker: Set exploding onSelect, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! Again, no additional transition needed.
 - Conference: We can also call async functions in the action, executed at the end, like a logger of what confs are selected. And a random server function. Maybe we can trigger this at some point.
