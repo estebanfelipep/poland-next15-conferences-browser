@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import Image from 'next/image';
-import React, { unstable_ViewTransition as ViewTransition } from 'react';
+import React from 'react';
 import { resetEasterEgg, hideIntro } from '@/data/actions/cookie';
 import Button from './Button';
 import type { ReactNode } from 'react';
@@ -23,7 +23,7 @@ export default async function Wrapper({ children }: Props) {
   const showIntro = (await cookies()).get('hideIntro')?.value !== 'true';
 
   return (
-    <ViewTransition>
+    <>
       {showIntro ? (
         <WrapperCard>
           <span className="text-primary dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
@@ -94,7 +94,7 @@ export default async function Wrapper({ children }: Props) {
       ) : (
         children
       )}
-    </ViewTransition>
+    </>
   );
 }
 

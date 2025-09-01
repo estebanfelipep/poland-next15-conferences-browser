@@ -18,38 +18,39 @@
 
 - I have some selects here for years, tags, speakers, and conferences.
 - (They're actually created with Ariakit using custom styling, where Ariakit handles the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.)
-- Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. Let's get to the code.
+- Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. We have some UX problems here. Let's get to the code.
 
 ## Introduce starting point AsyncSelect
 
 - The selects are created by this this AsyncSelect component.
 - If we look at the code, we can see the selects implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect on error.
-- Looking at this code, we're able to see the cause of loading flicker. When we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state.
+- Looking at this code, we're able to see the cause of UX problems, the stuck select and loading flicker. The state is set after the async function, causing the delayed update. Then, when we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state.
 - (We might need request tracking and cancellation, or disable the interaction entirely while its pending to fix this!)
 - The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
 
 ## AsyncSelect with useTransition
 
 - Fortunately, React has a API for this: transitions. Transitions allow react to coordinate async requests in events and render. Let's see how we can use transitions here to create a better experience, with no flickering, and less code.
-- Let's replace the manual loading state with a transition here to simplify this pattern. UseTransition creates lower priority, deferred state update. IsPending and startTransition.
+- Let's replace the manual loading state with a transition here to simplify this pattern. IsPending and startTransition. startTransition creates lower priority, deferred state update.
 - We can use useTransition and wrap the state update and the async call, creating an Action. React 19 allowed transitions to be async.
+- Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
 - An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - Showcase.
-- All the updates execute once all transitions are done, keeping them in sync, less code and no UX errors.
+- All the updates execute once all transitions are done, keeping them in sync, less code and no flickering loading states.
 
 ## AsyncSelect with useOptimistic
 
-- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck".
-- Let's try to add an optimistic update to this select value, so it reflects the user action immediately.
-- Add the naive version outside the transition. If the async operation fails, we have to manually revert the state.
-- And we get this weird flickering UI on the update and out of sync states again, because it's not synced to the transition.
-- Remove all naive optimistic.
+- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", and it only select one value. We could use the updater function.
+- Instead, let's try to add an optimistic update to this select value, so it reflects the user action immediately.
+- (Add the naive version outside the transition. If the async operation fails, we have to manually revert the state).
+- (And we get this weird flickering UI on the update and out of sync states again, because it's not synced to the transition).
+- (Remove all naive optimistic).
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as the action runs, and when its done, settles to the passed value. Seamlessly merge with the new value.
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
 - It becomes clearer with a rejecting promise. Comment out toast.
-- Notice how our interaction is completely smooth, we have a more robust optimistic update that works with the transition, and less code.
+- Notice how our interaction is completely smooth, we have a more robust optimistic update that works with the transition, and less code, and no UX errors.
 
 ## Review app
 
