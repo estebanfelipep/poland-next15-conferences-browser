@@ -28,7 +28,7 @@ export async function getTalks(
   const validTags = processFilterValues(filters.tag);
   if (validTags.length > 0) {
     where.tag =
-      validTags.length === 1 ? { contains: validTags[0], mode: 'insensitive' } : { in: validTags, mode: 'insensitive' };
+      validTags.length === 1 ? { equals: validTags[0], mode: 'insensitive' } : { in: validTags, mode: 'insensitive' };
   }
 
   const validConferences = processFilterValues(filters.conference);

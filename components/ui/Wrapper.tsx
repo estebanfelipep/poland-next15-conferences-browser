@@ -23,7 +23,7 @@ export default async function Wrapper({ children }: Props) {
   const showIntro = (await cookies()).get('hideIntro')?.value !== 'true';
 
   return (
-    <ViewTransition>
+    <>
       {showIntro ? (
         <WrapperCard>
           <span className="text-primary dark:text-primary mb-6 animate-bounce text-6xl select-none">🚀</span>
@@ -94,16 +94,18 @@ export default async function Wrapper({ children }: Props) {
       ) : (
         children
       )}
-    </ViewTransition>
+    </>
   );
 }
 
 function WrapperCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-card/95 dark:bg-card/10 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-      <div className="border-primary da@rk:bg-black relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12">
-        {children}
+    <ViewTransition>
+      <div className="bg-card/95 dark:bg-card/10 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+        <div className="border-primary da@rk:bg-black relative mx-4 flex max-w-4xl flex-col items-center rounded-3xl border-4 bg-white px-6 py-8 shadow-2xl md:px-10 md:py-12">
+          {children}
+        </div>
       </div>
-    </div>
+    </ViewTransition>
   );
 }
