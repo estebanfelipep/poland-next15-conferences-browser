@@ -86,7 +86,7 @@
 
 ## View Transitions
 
-- View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
+- DOCS: View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
 - View transitions need a way to mark an animation, and that can be either suspense, a transition or a deferred update.
 - For example, when a transition finishes, react will automatically animate the result of the transition to the new UI.
 
