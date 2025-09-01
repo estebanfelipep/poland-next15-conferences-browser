@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body className={cn(GeistSans.className, 'mb-12 flex grow flex-col p-4 sm:p-10 xl:px-40 2xl:px-96')}>
-        <Toaster toastOptions={{ duration: 3000 }} position="top-right" />
+        <Toaster toastOptions={{ duration: 5000 }} position="top-right" />
         <Wrapper>
           <main>{children}</main>
         </Wrapper>
