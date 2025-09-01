@@ -99,7 +99,6 @@
   z-index: 100;
 }
 
-  /* Slide animations for Suspense the fallback down */
 ::view-transition-old(.slide-down) {
   animation: 150ms ease-out both fade-out, 150ms ease-out both slide-down;
 }
@@ -108,7 +107,6 @@
   animation: 210ms ease-in 150ms both fade-in, 400ms ease-in both slide-up;
 }
 
-/* Keyframes to support our animations above. */
 @keyframes slide-up {
   from {
     transform: translateY(10px);
