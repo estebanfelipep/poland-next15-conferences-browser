@@ -113,7 +113,6 @@
 - However, i see that two different related components are in the view at separate times. To animate between them, we can use a shared element transition.
 - Wrap TalkCard in ViewTransition. We can add a name to these. The names need to be unique and the same. See animation.
 - (For shared element transitions, if the thing you're sharing is not visible in the before/after, react will fall back to a cross fade instead of things flying off screen. So when I scroll down to the bottom, click the last item - it will expand into it. But when I close it and go back to the list (which is at the top) that item is no longer visible on the screen so it just cross fades close. React automatically figures out what the right thing to do is!)
-- I also have clickable badges by the way, they also animate now on router push!
 - Finally, how about the search interaction. I already a ViewTransition on the cards, but theyre not animating. Thats' because there is no transition or deferred update on this search. Let's solve it with useDeferredValue.
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
@@ -126,7 +125,7 @@
 - Fullscreen view
 - Let's see all of this in action! Full screen.
 - Initial load suspense animation out and list in.
-- We can click the items and have this named view transition connecting the two items. Animate badges, shared.
+- We can click the items and have this named view transition connecting the two items. I also have clickable badges by the way, they also animate now on router push!
 - And we can clear the filters with a smooth transition in and out.
 - We have the filterable list with the filtering animation here, triggered by useDeferredValue. Unfilter.
 - We can execute the custom select components with a various set of side effects based on the transition behavior. Year. Animates as well because its a router push. Notice the smooth UX on the select and the loading bar.
