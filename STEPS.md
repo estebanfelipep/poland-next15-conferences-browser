@@ -18,13 +18,13 @@
 
 - I have some selects here for years, tags, speakers, and conferences.
 - (They're actually created with Ariakit using custom styling, where Ariakit handles the accessibility and interactions, like keyboard nav, click outside, focus, and viewport aware placement.)
-- Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection. We have some UX problems here. Let's get to the code.
+- Try selects. Selects feel stuck, i suppose async. We're having some weird loading states that flicker and are not in sync on multiple selection, losing the last update. We have some UX problems here. Let's get to the code.
 
 ## Introduce starting point AsyncSelect
 
 - The selects are created by this this AsyncSelect component.
 - If we look at the code, we can see the selects implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect on error.
-- Looking at this code, we're able to see the cause of UX problems, the stuck select and loading flicker. The state is set after the async function, causing the delayed update. Then, when we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state.
+- Looking at this code, we're able to see the cause of UX problems, the stuck select and loading flicker. The state is set after the async function, causing the delayed update. Then, when we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state, and the select value is overwritten.
 - (We might need request tracking and cancellation, or disable the interaction entirely while its pending to fix this!)
 - The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
 
@@ -34,9 +34,9 @@
 - Let's replace the manual loading state with a transition here to simplify this pattern. IsPending and startTransition. startTransition creates lower priority, deferred state update.
 - We can use useTransition and wrap the state update and the async call. React 19 allowed transitions to be async.
 - Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
-- Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
+- Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior, that executes all events in a batch once they're all done.
 - Showcase.
-- At this point, flickering UI errors are fixed. All the updates execute once all transitions are done, keeping them in sync.
+- At this point, the flickering UI problems are fixed. All the updates execute once all transitions are done, keeping them in sync.
 
 ## AsyncSelect with useOptimistic
 
@@ -47,7 +47,7 @@
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
 - It becomes clearer with a rejecting promise. Comment out toast.
-- Notice how our interaction is completely smooth, we have a robust optimistic update that works with the transition, and less code, and no UX errors.
+- Notice how our interaction is completely smooth, we have a robust optimistic update that works with the transition, and less code, and no UX problems.
 
 ## Review app
 
@@ -61,8 +61,8 @@
 ## RouterSelect expose action
 
 - Let's hook our async select up to filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
-- Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
-- Remove internal state, get it from the passed params.
+- Add search params. Add a param string with createParam. - Remove internal state, get it from the passed params
+- The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
 - The filters are already working, giving us this optimistic and smooth flicker-free ui.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? And we don't want to be part of the reusable component.
@@ -87,7 +87,7 @@
 ## View Transitions
 
 - DOCS: View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
-- View transitions need a way to mark an animation, and that can be either suspense, a transition or a deferred update.
+- Because view transitions are triggered when elements update a transition, a suspense, or a deferred update.
 - For example, when a transition finishes, react will automatically animate the result of the transition to the new UI.
 
 ## Add View Transitions
@@ -114,7 +114,7 @@
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
 - (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
-- React let me declaratively define my view trans, (while handling all the possible edge cases). I'm really bad at animations but I was still able to add all this!
+- React has let me declaratively define my view trans, while doing all the work handling all the possible edge cases. I'm really bad at animations but I was still able to add all this!
 
 ## Final demo
 
