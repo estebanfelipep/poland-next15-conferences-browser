@@ -97,9 +97,9 @@
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
 - View trans have 4 activators based on how the view trans component behaves: enter: VT is added to DOM, exit: VT removed DOM, update: updates occur inside it, name: it's a shared element transition between two VTs removed and added in the same transition. We can add custom animations for each activator.
-- Add Exit on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this.
-- Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
-- But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
+- Customize exit activator on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this.
+- Wrap grid in ViewTransition. Customize enter and exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
+- But if you do this, it's going to opt-in the whole subtree to unintended animations, so what you typically do add a default of none, so it doesnt crossfade everything else.
 - (Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.)
 - How about this item detail.
 - Go to Grid, let's add a view trans to the talk details, enter slide-in.
