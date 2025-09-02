@@ -32,22 +32,22 @@
 
 - Fortunately, React has a API for this: transitions. Transitions allow react to coordinate async requests in events and render. Let's see how we can use transitions here to create a better experience, with no flickering, and less code.
 - Let's replace the manual loading state with a transition here to simplify this pattern. IsPending and startTransition. startTransition creates lower priority, deferred state update.
-- We can use useTransition and wrap the state update and the async call, creating an Action. React 19 allowed transitions to be async.
+- We can use useTransition and wrap the state update and the async call. React 19 allowed transitions to be async.
 - Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
-- An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
+- Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - Showcase.
-- All the updates execute once all transitions are done, keeping them in sync, less code and no flickering loading states.
+- At this point, flickering UI errors are fixed. All the updates execute once all transitions are done, keeping them in sync.
 
 ## AsyncSelect with useOptimistic
 
-- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
+- How do we make this better? I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
 - We could add a naive optimistic update, where we set the state immediately, and then revert it if the async operation fails. But let's try useOptimistic instead, which is designed for this exact use case.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as the action runs, and when its done, settles to the passed value. Seamlessly merge with the new value.
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
 - It becomes clearer with a rejecting promise. Comment out toast.
-- Notice how our interaction is completely smooth, we have a more robust optimistic update that works with the transition, and less code, and no UX errors.
+- Notice how our interaction is completely smooth, we have a robust optimistic update that works with the transition, and less code, and no UX errors.
 
 ## Review app
 
@@ -62,8 +62,8 @@
 
 - Let's hook our async select up to filter! We want to be able to select a filter, and have the talks list update. Instead of using this dummy async function, let's actually update the URL and have the server fetch the new data.
 - Add search params. Add a param string with createParam. The way the nextjs router works, is the params don't update until the new page is ready. Now, we are tracking our transition state to the new page with the new params.
+- Remove internal state, get it from the passed params.
 - The filters are already working, giving us this optimistic and smooth flicker-free ui.
-- Remove internal state. Now we can directly see the selected filters.
 - Let's rename this to RouterSelect since we want to reuse this functionality for a specific component. Typical reusable use case we encounter in nextjs app router.
 - So in our select we are updating the router, but what happens if we want to add a toast or do more things in the action? And we don't want to be part of the reusable component.
 - We want to create a way to execute a synced outdate from the outside. What can expose an action prop, a function called within the transition.
@@ -80,13 +80,13 @@
 - The naming will tell us what to expect. We know this is using a transition because of the action suffix.
 - Year: Customize loading bar: Set progress 100 state, hide spinner, synced to the transition.  Want also a ui update instantly. Optimistic reducer function, to coordinate any transition to this optimistic update. We can call it without another transition here bc of the naming, just like a form action. Add optimistic state and replace. We know that the optimistic is triggered right away and, and the regular state is synced to the action, and the optimistic update settles.
 - Tag: Add simple toast like we used to have to with SelectAction. Update theme variable with this doc ref, this is a ref so its not coordinated with the transition.
-- Speaker: Set exploding onSelect, handle this with a timeout. Rather, optimistic exploding, handles its own reset state after transition completes. Optimistic update synced to the transition! Again, no additional transition needed.
+- Speaker: Add optimistic exploding, handles its own reset state after transition completes. No revert state or timeouts. Optimistic update synced to the transition! Again, no additional transition needed.
 - Conference: We can also call async functions in the action, executed at the end, like a logger of what confs are selected. And a random server function. Maybe we can trigger this at some point.
 - Let's move on for now, and start adding some view transitions!
 
 ## View Transitions
 
-- View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
+- DOCS: View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
 - View transitions need a way to mark an animation, and that can be either suspense, a transition or a deferred update.
 - For example, when a transition finishes, react will automatically animate the result of the transition to the new UI.
 
@@ -96,11 +96,11 @@
 - But for many of these interactions we don't want that. So let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
-- View trans have 4 triggers based on how a view trans component behaves: enter DOM, exit DOM, updates happen inside it, and shared element transition.
+- View trans have 4 triggers based on how a view trans component behaves: enter DOM, exit DOM, updates happen inside it, and shared element transition. We can add custom animations for each of these.
 - Add Exit on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this,
 - Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
-- Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.
+- (Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.)
 - How about this item detail.
 - Go to Grid, let's add a view trans to the talk details, enter slide-in.
 - If we want animation, we need to wrap the state update in a transition.
@@ -113,7 +113,7 @@
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
-- Use chrome devtools to slow down the animations! Animation drawer. Showcase.
+- (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
 - React let me declaratively define my view trans, (while handling all the possible edge cases). I'm really bad at animations but I was still able to add all this!
 
 ## Final demo
