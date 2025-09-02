@@ -96,7 +96,7 @@
 - But for many of these interactions we don't want that. So let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
-- View trans have 4 activators based on how the view trans component behaves: enter: VT is added to DOM, exit: VT removed DOM, update: updates occur inside it, name: or it's a shared element transition between two VTs. We can add custom animations for each activator.
+- View trans have 4 activators based on how the view trans component behaves: enter: VT is added to DOM, exit: VT removed DOM, update: updates occur inside it, name: it's a shared element transition between two VTs removed and added in the same transition. We can add custom animations for each activator.
 - Add Exit on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this.
 - Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
