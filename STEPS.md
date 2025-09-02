@@ -114,7 +114,7 @@
 - Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
 - (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
-- React has let me declaratively define my view trans, while doing all the work handling all the possible edge cases. I'm really bad at animations but I was still able to add all this!
+- React has let me declaratively define my view trans, while doing all the work and handling all the possible edge cases. I'm really bad at animations but I was still able to add all this!
 
 ## Final demo
 
