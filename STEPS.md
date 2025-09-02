@@ -36,11 +36,11 @@
 - Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
 - Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - Showcase.
-- All the updates execute once all transitions are done, keeping them in sync, less code and no flickering loading states.
+- At this point, all UX errors are fixed. All the updates execute once all transitions are done, keeping them in sync, less code and no flickering UI.
 
 ## AsyncSelect with useOptimistic
 
-- I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
+- How do we make this better? I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
 - We could add a naive optimistic update, where we set the state immediately, and then revert it if the async operation fails. But let's try useOptimistic instead, which is designed for this exact use case.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as the action runs, and when its done, settles to the passed value. Seamlessly merge with the new value.
@@ -96,7 +96,7 @@
 - But for many of these interactions we don't want that. So let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
-- View trans have 4 triggers based on how a view trans component behaves: enter DOM, exit DOM, updates happen inside it, and shared element transition.
+- View trans have 4 triggers based on how a view trans component behaves: enter DOM, exit DOM, updates happen inside it, and shared element transition. We can add custom animations for each of these.
 - Add Exit on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this,
 - Wrap grid in ViewTransition. Add enter exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
 - But if you do this, it's going to opt-in the whole subtree, so what you typically do add a default none.
