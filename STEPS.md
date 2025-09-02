@@ -36,7 +36,7 @@
 - Wrap it also around the setSelected to coordinate the whole update. This additional startTransition will not necessary in the future.
 - Creating an Action. An action is a function called in a transition, meaning we have a specific term for this type of lower priority behavior.
 - Showcase.
-- At this point, all UX errors are fixed. All the updates execute once all transitions are done, keeping them in sync, less code and no flickering UI.
+- At this point, flickering UI errors are fixed. All the updates execute once all transitions are done, keeping them in sync.
 
 ## AsyncSelect with useOptimistic
 
