@@ -44,7 +44,7 @@
 - How do we make this better? I still have the UX problem of the select values not updating until the async operation is done. The select is not reflecting the user action immediately, it feels "stuck", (and it only select one value. We could use the updater function.)
 - We could add a naive optimistic update, where we set the state immediately, and then revert it if the async operation fails. But let's try useOptimistic instead, which is designed for this exact use case.
 - UseOptimistic let's us manage optimistic updates more easily, and works along side Actions. It takes in state to show when no action is pending, and update function, and the optimistic state and trigger.
-- Within a transition, we can create a temporary optimistic update. This state shows for as long as the action runs, and when its done, settles to the passed value. Seamlessly merge with the new value.
+- Within a transition, we can create a temporary optimistic update. This state shows for as long as the transitions run, and when its done, settles to the passed value. Seamlessly merge with the new value.
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
 - It becomes clearer with a rejecting promise. Comment out toast.
