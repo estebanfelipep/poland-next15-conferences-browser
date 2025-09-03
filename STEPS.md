@@ -25,9 +25,9 @@
 
 - The selects are created by this this AsyncSelect component.
 - If we look at the code, we can see the selects implemented in the most common way people write React code today. There's a select, which has an onSelect event. In that event, we execute some async work, and then set the selected state. Finally, while the async work is in progress, we set a loading state to true. And we have a toast side effect on error.
-- Looking at this code, we're able to see the cause of UX problems, the stuck select and loading flicker. The state is set after the async function, causing the delayed update. Then, when we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state, and the select value is overwritten.
+- Looking at this code, we're able to see the cause of UX problems, the stuck select and loading flicker. The state is set after the async function, causing the delayed update. Then, when we click an item, the code does sets loading to true. But when we click another, because we have a shared loading state, whichever async call finishes first overwrites the next state, leading to this premature loading state. The select value is overwritten by the last call.
 - (We might need request tracking and cancellation, or disable the interaction entirely while its pending to fix this!)
-- The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the loading state as multiple things are clicked, and at the end we show the result and complete the loading state all at once.
+- The fundamental issue here is that the browser does not natively support async events, and coordinating async work across events. What we need is a way to coordinate the state as multiple things are clicked, and at the end complete everything at once.
 
 ## AsyncSelect with useTransition
 
@@ -87,7 +87,7 @@
 
 ## View Transitions
 
-- DOCS: View transitions are coming to react! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
+- DOCS: View transitions are coming to react a a component! I don't have insider info but I'm pretty sure we'll see a lot of this at React Conf next month. And the reason it fits so well into this talk is because we need to know all these concurrent features to make the most out of view transitions.
 - Because view transitions are triggered when elements update a transition, a suspense, or a deferred update.
 - For example, when a transition finishes, react will automatically animate the result of the transition to the new UI.
 
@@ -96,12 +96,18 @@
 - Layout.tsx. Let's start simple and wrap the app with a app viewtrans component to enable the default crossfade. NextJS is following the suspense-enabled router pattern from the React team, so every route navigation is wrapped in a transition. So ViewTransitions works out of the box with our filters, it adds this cross fade.
 - But for many of these interactions we don't want that. So let's remove it from the whole page, and add it for specific parts we want to animate lower in the tree.
 - Let's see the TalksExplorer. The Talks client component has a search, is receiving the talks promise. Suspending with a fallback.
+
+### Talks grid
+
 - As the talks grid streams in, we want to animate the suspense fallback to the content. Suspense triggers ViewTransitions, so we can wrap the Suspense fallback in a ViewTransition.
 - View trans have 4 activators based on how the view trans component behaves: enter: VT is added to DOM, exit: VT removed DOM, update: updates occur inside it, name: it's a shared element transition between two VTs removed and added in the same transition. We can add custom animations for each activator.
 - Customize exit activator on suspense with "slide-down"! Removed from the DOM. This is custom animations that I've added to my css file like this.
 - Wrap grid in ViewTransition. Customize enter and exit on grid. Move key to trigger this exit/enter animation on the grid when the talks change. Animates down and the list goes up.
 - But if you do this, it's going to opt-in the whole subtree to unintended animations, so what you typically do add a default of none, so it doesnt crossfade everything else.
 - (Note the exit, enter, and default props. This means when the fallback exits, and the content enters, it will animate. But since the default is "none" it wont crossfade any other update in the tree below, causing unexpected animations.)
+
+### Talk details
+
 - How about this item detail.
 - Go to Grid, let's add a view trans to the talk details, enter slide-in.
 - If we want animation, we need to wrap the state update in a transition.
@@ -110,9 +116,12 @@
 - However, i see that two different related components are in the view at separate times. To animate between them, we can use a shared element transition.
 - Wrap TalkCard in ViewTransition. We can add a name to these. The names need to be unique and the same. See animation.
 - (For shared element transitions, if the thing you're sharing is not visible in the before/after, react will fall back to a cross fade instead of things flying off screen. So when I scroll down to the bottom, click the last item - it will expand into it. But when I close it and go back to the list (which is at the top) that item is no longer visible on the screen so it just cross fades close. React automatically figures out what the right thing to do is!)
+
+### Search interaction
+
 - Finally, how about the search interaction. I already a ViewTransition on the cards, but theyre not animating. Thats' because there is no transition or deferred update on this search. Let's solve it with useDeferredValue.
 - Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
-- Let's use useDeferredValue here to trigger a viewtransition! Add isStale indicator for the spinner!
+- Let's use useDeferredValue here to trigger a viewtransition! DeferredValue will lag begind. Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
 - (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
 - React has let me declaratively define my view trans, while doing all the work and handling all the possible edge cases. I'm really bad at animations but I was still able to add all this!

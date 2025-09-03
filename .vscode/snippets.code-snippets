@@ -69,5 +69,18 @@
         "body": [
             "name={`talk-\\${expandedTalkId}`}",
         ]
+    },"sameName": {
+        "scope": "typescriptreact",
+        "prefix": "sameName",
+        "body": [
+            "<ViewTransition key={talk.id} name={`talk-${talk.id}`}>",
+        ]
+    },"routerAndSearchParams": {
+        "scope": "typescriptreact",
+        "prefix": "routerAndSearchParams",
+        "body": [
+            "const router = useRouter();",
+            "const searchParams = useSearchParams();"
+        ]
     }
 }
