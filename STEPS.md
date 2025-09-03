@@ -120,7 +120,7 @@
 ### Search interaction
 
 - Finally, how about the search interaction. I already a ViewTransition on the cards, but theyre not animating. Thats' because there is no transition or deferred update on this search. Let's solve it with useDeferredValue.
-- Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search. It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
+- Now, you may know, from react 18, you could use it to avoid blocking input responsiveness by deferring the value until react is able to render it, like in our search, (or in a slider demo like we saw from the Lynx team yesterday) It can also be used with async data fetching to avoid jarring UI updates in something like a combobox.
 - Let's use useDeferredValue here to trigger a viewtransition! DeferredValue will lag begind. Add isStale indicator for the spinner!
 - React can automatically animate the result of the deferred update to the new UI.
 - (Use chrome devtools to slow down the animations! Animation drawer. Showcase.)
