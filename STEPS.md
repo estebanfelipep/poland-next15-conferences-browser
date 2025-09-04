@@ -47,7 +47,8 @@
 - Within a transition, we can create a temporary optimistic update. This state shows for as long as the transitions run, and when its done, settles to the passed value. Seamlessly merge with the new value.
 - Showcase.
 - (React will use the optimistic value until all of the transitions are complete. Which means if you click multiple times, we will use all of their optimistic values until all of the transitions complete in one batch).
-- It becomes clearer with a rejecting promise. Comment out toast.
+- It becomes clearer with a rejecting promise. Comment out toast, showcase.
+- Comment back toast.
 - Notice how our interaction is completely smooth, we have a robust optimistic update that works with the transition, and less code, and no UX problems.
 
 ## Review app
