@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useOptimistic, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useOptimistic, useRef, useState } from 'react';
 import { ConfettiExplosion } from 'react-confetti-explosion';
 import toast from 'react-hot-toast';
 import LoadingBar from 'react-top-loading-bar';
@@ -57,10 +57,11 @@ export default function Filters({ filterOptions, filters }: Props) {
           // This executes at the end of the transition, however theme color uses a ref so it executes immediately
           selectAction={items => {
             updateThemeColor(items, documentRef);
-            if (items.length > 0) {
-              const message = `Applied ${items.length} tag filter${items.length > 1 ? 's' : ''}`;
-              toast.success(message);
-            }
+            startTransition(() => {
+              if (items.length > 0) {
+                toast.success(`Applied ${items.length} tag filter${items.length > 1 ? 's' : ''}`);
+              }
+            });
           }}
           name="tag"
           label="Tag"
