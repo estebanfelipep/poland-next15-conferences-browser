@@ -17,9 +17,11 @@
         "scope": "typescriptreact",
         "prefix": "successToast",
         "body": [
-            "if (items.length > 0) {",
-            "  toast.success(`Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`);",
-            "}"
+            "startTransition(() => {",
+            "  if (items.length > 0) {",
+            "    toast.success(`Applied \\${items.length} tag filter\\${items.length > 1 ? 's' : ''}`);",
+            "  }",
+            "});"
         ]
     },"createQueryStringValue": {
         "scope": "typescriptreact",
@@ -68,6 +70,19 @@
         "prefix": "uniqueName",
         "body": [
             "name={`talk-\\${expandedTalkId}`}",
+        ]
+    },"sameName": {
+        "scope": "typescriptreact",
+        "prefix": "sameName",
+        "body": [
+            "<ViewTransition key={talk.id} name={`talk-${talk.id}`}>",
+        ]
+    },"routerAndSearchParams": {
+        "scope": "typescriptreact",
+        "prefix": "routerAndSearchParams",
+        "body": [
+            "const router = useRouter();",
+            "const searchParams = useSearchParams();"
         ]
     }
 }
