@@ -38,17 +38,19 @@ Seed prisma/seed.ts for initial data:
 npm run prisma.seed
 ```
 
-To view your data in the database, you can run:
-
-```bash
-npm run prisma.studio
-```
-
 When using a real database with for example postgresql or sqlserver, you need to migrate the database schema with:
 
 ```bash
 npm run prisma.migrate
 ```
+
+NB! The following option, used in `talk.ts`, for case insensitivity is not supported nor needed with i.e sqlite:
+
+```ts
+filter.q.toLowerCase(), mode: 'insensitive' }
+```
+
+Remove this option to make it work with sqlite.
 
 ## Learn More
 
